@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration | ABHINAY PRATAP MATHS</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+background:linear-gradient(135deg,#b30000,#ff1a1a);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.form-container{
+background:white;
+padding:30px;
+width:95%;
+max-width:500px;
+border-radius:10px;
+box-shadow:0 8px 25px rgba(0,0,0,0.3);
+animation:fadeIn .6s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+color:#b30000;
+}
+
+input, select{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:14px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#ff004f;
+color:white;
+border:none;
+border-radius:6px;
+font-weight:600;
+cursor:pointer;
+margin-top:10px;
+transition:.3s;
+}
+
+button:hover{
+background:#b30000;
+}
+
+.success-message{
+display:none;
+margin-top:15px;
+background:#d4edda;
+color:#155724;
+padding:10px;
+border-radius:5px;
+text-align:center;
+font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+<h2>Student Registration Form</h2>
+
+<form id="regForm">
+
+<input type="text" placeholder="Full Name" required>
+<input type="tel" placeholder="Mobile Number" required>
+<input type="email" placeholder="Email Address" required>
+
+<select required>
+<option value="">Select Course</option>
+<option>SSC Maths Premium Batch</option>
+<option>Railway Maths Premium Batch</option>
+</select>
+
+<select required>
+<option value="">Select Qualification</option>
+<option>10th Pass</option>
+<option>12th Pass</option>
+<option>Graduate</option>
+<option>Other</option>
+</select>
+
+<input type="text" placeholder="City" required>
+
+<button type="submit">Submit Registration</button>
+
+<div class="success-message" id="successMsg">
+Registration Successful ✅<br>
+We will contact you soon.
+</div>
+
+</form>
+</div>
+
+<script>
+document.getElementById("regForm").addEventListener("submit", function(e){
+e.preventDefault();
+document.getElementById("successMsg").style.display="block";
+this.reset();
+});
+</script>
+
+</body>
+</html>

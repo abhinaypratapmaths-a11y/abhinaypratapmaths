@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Math's Warrior</title>
+
+<style>
+body{
+margin:0;
+font-family:Poppins, sans-serif;
+background:#0f0f0f;
+color:white;
+}
+
+h2{text-align:center;color:#ff0000;}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.box{
+background:#1a1a1a;
+border:2px solid #ff0000;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(255,0,0,0.4);
+}
+
+input{
+width:100%;
+padding:8px;
+margin:6px 0;
+border-radius:6px;
+border:1px solid #ff0000;
+background:#111;
+color:white;
+}
+
+button{
+padding:6px 12px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+margin:4px 2px;
+}
+
+.add{background:#ff0000;color:white;}
+.edit{background:orange;color:white;}
+.delete{background:#800000;color:white;}
+.logout{background:#ff416c;color:white;}
+
+.hidden{display:none;}
+
+.gallery-img{
+width:120px;
+border-radius:8px;
+margin:6px;
+}
+
+.login-box{
+max-width:400px;
+margin:120px auto;
+background:#1a1a1a;
+padding:20px;
+border-radius:12px;
+border:2px solid red;
+box-shadow:0 0 20px rgba(255,0,0,0.5);
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginSection" class="login-box">
+<h2>ADMIN LOGIN</h2>
+<input type="text" id="adminId" placeholder="Enter ID">
+<input type="password" id="adminPass" placeholder="Enter Password">
+<button class="add" onclick="login()">Login</button>
+</div>
+
+<!-- PANEL -->
+<div id="adminPanel" class="container hidden">
+
+<h2>ADMIN DASHBOARD</h2>
+<button class="logout" onclick="logout()">Logout</button>
+
+<!-- STUDENTS -->
+<div class="box">
+<h3>Registered Students</h3>
+<div id="studentList"></div>
+</div>
+
+<!-- TEACHER -->
+<div class="box">
+<h3>Add Teacher</h3>
+<input id="tName" placeholder="Name">
+<input id="tSubject" placeholder="Subject">
+<input id="tMobile" placeholder="Mobile">
+<input id="tEmail" placeholder="Email">
+<input type="file" id="tPhoto">
+<button class="add" onclick="addTeacher()">Add</button>
+<div id="teacherList"></div>
+</div>
+
+<!-- FOUNDER -->
+<div class="box">
+<h3>Add Founder</h3>
+<input id="fName" placeholder="Name">
+<input id="fRole" placeholder="Role">
+<input id="fMobile" placeholder="Mobile">
+<input id="fEmail" placeholder="Email">
+<input type="file" id="fPhoto">
+<button class="add" onclick="addFounder()">Add</button>
+<div id="founderList"></div>
+</div>
+
+<!-- NOTES -->
+<div class="box">
+<h3>Add Notes</h3>
+<input id="nName" placeholder="Notes Name">
+<input type="file" id="nFile">
+<button class="add" onclick="addNotes()">Upload</button>
+<div id="notesList"></div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="box">
+<h3>Add Notification</h3>
+<input id="notiName" placeholder="Title">
+<input id="notiLink" placeholder="Link">
+<button class="add" onclick="addNotification()">Add</button>
+<div id="notificationList"></div>
+</div>
+
+<!-- GALLERY -->
+<div class="box">
+<h3>Gallery (Max 10MB)</h3>
+<input type="file" id="galleryInput" multiple>
+<button class="add" onclick="addGallery()">Upload</button>
+<div id="galleryList"></div>
+</div>
+
+<!-- BATCH SECTIONS -->
+<div class="box">
+<h3>Lakshay Batch</h3>
+<input type="file" id="lakshayInput">
+<button class="add" onclick="uploadBatch('LAKSHAY_BATCH','lakshayInput')">Upload</button>
+<div id="lakshayList"></div>
+</div>
+
+<div class="box">
+<h3>Pratham Batch</h3>
+<input type="file" id="prathamInput">
+<button class="add" onclick="uploadBatch('PRATHAM_BATCH','prathamInput')">Upload</button>
+<div id="prathamList"></div>
+</div>
+
+<div class="box">
+<h3>Maths Special (Premium)</h3>
+<input type="file" id="mathsInput">
+<button class="add" onclick="uploadBatch('MATHS_SPECIAL_BATCH','mathsInput')">Upload</button>
+<div id="mathsList"></div>
+</div>
+
+<div class="box">
+<h3>Physics Special</h3>
+<input type="file" id="physicsInput">
+<button class="add" onclick="uploadBatch('PHYSICS_SPECIAL_BATCH','physicsInput')">Upload</button>
+<div id="physicsList"></div>
+</div>
+
+</div>
+
+<script>
+
+/* LOGIN */
+if(sessionStorage.getItem("isAdmin")==="true"){showPanel();}
+
+function login(){
+if(adminId.value==="admin" && adminPass.value==="1234"){
+sessionStorage.setItem("isAdmin","true");
+showPanel();
+}else{alert("Wrong ID or Password");}
+}
+
+function logout(){
+sessionStorage.removeItem("isAdmin");
+location.reload();
+}
+
+function showPanel(){
+loginSection.classList.add("hidden");
+adminPanel.classList.remove("hidden");
+loadAll();
+}
+
+/* VALIDATE */
+function validateImage(file){
+if(file.size>10*1024*1024){alert("File bigger than 10MB");return false;}
+return true;
+}
+
+/* TEACHER */
+function addTeacher(){
+if(!tName.value||!tSubject.value||!tMobile.value||!tEmail.value||!tPhoto.files[0]){alert("Fill all fields");return;}
+let reader=new FileReader();
+reader.onload=function(){
+let data=JSON.parse(localStorage.getItem("TEACHERS"))||[];
+data.push({name:tName.value});
+localStorage.setItem("TEACHERS",JSON.stringify(data));
+alert("Teacher Added");
+loadAll();
+}
+reader.readAsDataURL(tPhoto.files[0]);
+}
+
+/* FOUNDER */
+function addFounder(){
+if(!fName.value||!fRole.value||!fMobile.value||!fEmail.value||!fPhoto.files[0]){alert("Fill all fields");return;}
+let reader=new FileReader();
+reader.onload=function(){
+let data=JSON.parse(localStorage.getItem("FOUNDERS"))||[];
+data.push({role:fRole.value});
+localStorage.setItem("FOUNDERS",JSON.stringify(data));
+alert("Founder Added");
+loadAll();
+}
+reader.readAsDataURL(fPhoto.files[0]);
+}
+
+/* NOTES */
+function addNotes(){
+if(!nName.value||!nFile.files[0]){alert("Fill all fields");return;}
+let reader=new FileReader();
+reader.onload=function(){
+let data=JSON.parse(localStorage.getItem("NOTES"))||[];
+data.push({name:nName.value});
+localStorage.setItem("NOTES",JSON.stringify(data));
+alert("Notes Uploaded");
+loadAll();
+}
+reader.readAsDataURL(nFile.files[0]);
+}
+
+/* NOTIFICATION */
+function addNotification(){
+if(!notiName.value||!notiLink.value){alert("Fill all fields");return;}
+let data=JSON.parse(localStorage.getItem("NOTIFICATIONS"))||[];
+data.push({name:notiName.value});
+localStorage.setItem("NOTIFICATIONS",JSON.stringify(data));
+alert("Notification Added");
+loadAll();
+}
+
+/* GALLERY */
+function addGallery(){
+let files=galleryInput.files;
+let data=JSON.parse(localStorage.getItem("GALLERY"))||[];
+for(let file of files){
+if(!validateImage(file))return;
+let reader=new FileReader();
+reader.onload=function(){
+data.push(this.result);
+localStorage.setItem("GALLERY",JSON.stringify(data));
+loadAll();
+}
+reader.readAsDataURL(file);
+}
+}
+
+/* BATCH */
+function uploadBatch(key,inputId){
+let file=document.getElementById(inputId).files[0];
+if(!file){alert("Select File");return;}
+if(!validateImage(file))return;
+let reader=new FileReader();
+reader.onload=function(){
+let data=JSON.parse(localStorage.getItem(key))||[];
+data.push(this.result);
+localStorage.setItem(key,JSON.stringify(data));
+alert("Uploaded");
+loadAll();
+}
+reader.readAsDataURL(file);
+}
+
+/* LOAD */
+function loadAll(){
+loadList("TEACHERS","teacherList");
+loadList("FOUNDERS","founderList");
+loadList("NOTES","notesList");
+loadList("NOTIFICATIONS","notificationList");
+loadGallery();
+loadBatch("LAKSHAY_BATCH","lakshayList");
+loadBatch("PRATHAM_BATCH","prathamList");
+loadBatch("MATHS_SPECIAL_BATCH","mathsList");
+loadBatch("PHYSICS_SPECIAL_BATCH","physicsList");
+}
+
+function loadList(key,id){
+let data=JSON.parse(localStorage.getItem(key))||[];
+let div=document.getElementById(id);
+div.innerHTML="";
+data.forEach((item,index)=>{
+div.innerHTML+=`
+<p>${item.name||item.role}
+<button class="delete" onclick="deleteItem('${key}',${index})">Delete</button>
+</p>`;
+});
+}
+
+function loadGallery(){
+let data=JSON.parse(localStorage.getItem("GALLERY"))||[];
+galleryList.innerHTML="";
+data.forEach((img,index)=>{
+galleryList.innerHTML+=`
+<img src="${img}" class="gallery-img">
+<button class="delete" onclick="deleteItem('GALLERY',${index})">Delete</button>
+`;
+});
+}
+
+function loadBatch(key,id){
+let data=JSON.parse(localStorage.getItem(key))||[];
+let div=document.getElementById(id);
+div.innerHTML="";
+data.forEach((img,index)=>{
+div.innerHTML+=`
+<img src="${img}" class="gallery-img">
+<button class="delete" onclick="deleteItem('${key}',${index})">Delete</button>
+`;
+});
+}
+
+function deleteItem(key,index){
+let data=JSON.parse(localStorage.getItem(key))||[];
+data.splice(index,1);
+localStorage.setItem(key,JSON.stringify(data));
+loadAll();
+}
+
+</script>
+</body>
+</html>

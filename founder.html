@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP MATHS</title>
+
+<style>
+body{
+margin:0;
+font-family:Poppins, sans-serif;
+background:linear-gradient(135deg,#000428,#004e92);
+}
+
+/* HEADER */
+.header{
+text-align:center;
+padding:16px;
+font-size:20px;
+font-weight:bold;
+background:#111;
+color:#FFD700;
+letter-spacing:1px;
+text-shadow:0 0 8px rgba(255,215,0,0.6);
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:14px;
+padding:15px;
+}
+
+/* RECTANGULAR CARD */
+.card{
+background:white;
+border-radius:8px;   /* rectangle look */
+padding:12px 10px;
+text-align:center;
+position:relative;
+overflow:hidden;
+transition:0.4s ease;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* TOP STRIP */
+.card::before{
+content:"AP MATHS  THE INDIA MOST TRUSTED MATHS PLATFORMS";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+background:linear-gradient(90deg,#FFD700,#FFA500);
+color:#111;
+font-size:10px;
+font-weight:bold;
+padding:3px 0;
+}
+
+/* HOVER EFFECT */
+.card:hover{
+transform:translateY(-6px) scale(1.02);
+box-shadow:0 12px 25px rgba(255,215,0,0.5);
+}
+
+/* IMAGE WRAPPER */
+.img-wrapper{
+width:72px;
+height:72px;
+margin:10px auto 4px;
+border-radius:50%;
+background:linear-gradient(45deg,#FFD700,#FF416C);
+padding:2px;   /* thin border */
+display:flex;
+justify-content:center;
+align-items:center;
+transition:0.3s;
+}
+
+.img-wrapper img{
+width:74px;
+height:74px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.card:hover .img-wrapper{
+box-shadow:0 0 12px gold;
+transform:scale(1.05);
+}
+
+/* NAME */
+.name{
+font-size:22px;
+font-weight:bold;
+color:#111;
+margin-top:5px;
+}
+
+/* GOLD LINE */
+.name::after{
+content:"";
+display:block;
+width:55px;
+height:5px;
+background:gold;
+margin:5px auto;
+border-radius:10px;
+}
+
+/* ROLE */
+.role{
+font-size:18px;
+color:#FF416C;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+/* INFO */
+.info{
+font-size:12px;
+margin:2px 0;
+color:#333;
+}
+
+/* BUTTONS */
+.btn{
+display:inline-block;
+margin:5px 4px;
+padding:8px 16px;
+font-size:10px;
+border-radius:35px;
+text-decoration:none;
+color:white;
+font-weight:bold;
+transition:0.3s;
+}
+
+.call{background:#1E90FF;}
+.whatsapp{background:#25D366;}
+.email{background:#FF416C;}
+.youtube{background:#FF0000;}
+
+.btn:hover{
+opacity:0.85;
+transform:scale(1.05);
+}
+
+.no-data{
+color:white;
+text-align:center;
+font-size:14px;
+padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">AP MATHS</div>
+<div class="grid" id="founderGrid"></div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("FOUNDERS")) || [];
+let grid = document.getElementById("founderGrid");
+
+if(data.length===0){
+grid.innerHTML="<div class='no-data'>No Member Added Yet</div>";
+}
+
+data.forEach(f=>{
+grid.innerHTML+=`
+<div class="card">
+
+<div class="img-wrapper">
+<img src="${f.photo || 'https://via.placeholder.com/100'}">
+</div>
+
+<div class="name">${f.name || ''}</div>
+<div class="role">${f.subject || ''}</div>
+
+<div class="info">PHONE NUMBER: ${f.mobile || ''}</div>
+<div class="info">EMAIL: ${f.email || ''}</div>
+
+<a href="tel:${f.mobile}" class="btn call">Call</a>
+<a href="https://wa.me/${f.whatsapp || f.mobile}" class="btn whatsapp">WhatsApp</a>
+<a href="mailto:${f.email}" class="btn email">Email</a>
+${f.youtube ? `<a href="${f.youtube}" target="_blank" class="btn youtube">YouTube</a>` : ""}
+
+</div>`;
+});
+</script>
+
+</body>
+</html>

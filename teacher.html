@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP MATHS - Team</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Poppins, sans-serif;
+  background:linear-gradient(135deg,#000428,#004e92);
+  color:white;
+}
+
+/* HEADER */
+.header{
+  text-align:center;
+  padding:16px;
+  font-size:22px;
+  font-weight:bold;
+  background:#111;
+  color:#FFD700;
+  letter-spacing:1px;
+  text-shadow:0 0 8px rgba(255,215,0,0.6);
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;
+  padding:15px;
+}
+
+/* CARD */
+.card{
+  background:white;
+  border-radius:10px;
+  padding:12px 10px;
+  text-align:center;
+  position:relative;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* IMAGE */
+.img-wrapper{
+  width:80px;
+  height:80px;
+  margin:10px auto;
+  border-radius:50%;
+  overflow:hidden;
+  background:linear-gradient(45deg,#FFD700,#FF416C);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.img-wrapper img{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+/* NAME */
+.name{
+  font-size:18px;
+  font-weight:bold;
+  color:#111;
+  margin-top:5px;
+}
+
+/* SUBJECT / ROLE */
+.role{
+  font-size:14px;
+  color:#FF416C;
+  font-weight:bold;
+  margin:2px 0;
+}
+
+/* EXPERIENCE */
+.exp{
+  font-size:12px;
+  color:#333;
+  margin:2px 0;
+}
+
+/* INFO */
+.info{
+  font-size:12px;
+  color:#333;
+  margin:2px 0;
+}
+
+/* BUTTONS */
+.btn{
+  display:inline-block;
+  margin:4px 3px;
+  padding:6px 12px;
+  font-size:10px;
+  border-radius:30px;
+  text-decoration:none;
+  color:white;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+.call{background:#1E90FF;}
+.whatsapp{background:#25D366;}
+.email{background:#FF416C;}
+.youtube{background:#FF0000;}
+
+.btn:hover{
+  opacity:0.85;
+  transform:scale(1.05);
+}
+
+.no-data{
+  color:white;
+  text-align:center;
+  font-size:14px;
+  padding:20px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">AP MATHS TEAM</div>
+<div class="grid" id="teamGrid"></div>
+
+<script>
+// Admin Panel से teachers/founders का data read
+let teamData = [];
+
+// TEACHERS
+let teachers = JSON.parse(localStorage.getItem("TEACHERS")) || [];
+teachers.forEach(t=>{
+  teamData.push({
+    name: t.name,
+    subject: t.subject,
+    exp: t.exp || "",        // experience year, अगर Admin में रखा है
+    mobile: t.mobile,
+    whatsapp: t.whatsapp || t.mobile,
+    email: t.email,
+    youtube: t.youtube,
+    photo: t.photo
+  });
+});
+
+// FOUNDERS
+let founders = JSON.parse(localStorage.getItem("FOUNDERS")) || [];
+founders.forEach(f=>{
+  teamData.push({
+    name: f.name,
+    subject: f.role,
+    exp: f.exp || "",
+    mobile: f.mobile,
+    whatsapp: f.whatsapp || f.mobile,
+    email: f.email,
+    youtube: f.youtube,
+    photo: f.photo
+  });
+});
+
+let grid = document.getElementById("teamGrid");
+
+if(teamData.length===0){
+  grid.innerHTML = "<div class='no-data'>No Member Added Yet</div>";
+} else {
+  grid.innerHTML = "";
+  teamData.forEach(member=>{
+    let card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="img-wrapper">
+        <img src="${member.photo || 'https://via.placeholder.com/100'}">
+      </div>
+      <div class="name">${member.name}</div>
+      <div class="role">${member.subject}</div>
+      <div class="exp">${member.exp ? "Experience: "+member.exp+" Years" : ""}</div>
+      <div class="info">Mobile: ${member.mobile}</div>
+      <div>
+        ${member.whatsapp ? `<a href="https://wa.me/${member.whatsapp}" target="_blank" class="btn whatsapp">WhatsApp</a>` : ""}
+        ${member.email ? `<a href="mailto:${member.email}" class="btn email">Email</a>` : ""}
+        ${member.youtube ? `<a href="${member.youtube}" target="_blank" class="btn youtube">YouTube</a>` : ""}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+</script>
+
+</body>
+</html>
