@@ -32,7 +32,11 @@ position:fixed;top:0;width:100%;
 background:linear-gradient(45deg,#b30000,#ff1a1a);
 color:white;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:15px;z-index:3000;
 }
-.menu-btn{font-size:25px;cursor:pointer;font-weight:bold;}
+.menu-btn{
+font-size:25px;cursor:pointer;font-weight:bold;
+display:flex;align-items:center;justify-content:center;
+}
+.menu-btn::before{content:'';font-size:26px;}
 .header-text{display:flex;flex-direction:column;}
 .header-text h1{font-size:18px;font-weight:900;}
 .header-text span{font-size:12px;color:#FFD700;}
@@ -76,7 +80,9 @@ background:#111;padding-top:50px;transition:.4s;z-index:4000;
 
 /* WHATSAPP AND CALL FLOAT */
 .whatsapp-float{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.3);z-index:6000;}
+.whatsapp-float::before{content:'';font-size:28px;}
 .call-float{position:fixed;bottom:100px;right:20px;background:#ff004f;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.3);z-index:6000;}
+.call-float::before{content:'';font-size:28px;}
 </style>
 </head>
 
@@ -98,7 +104,7 @@ background:#111;padding-top:50px;transition:.4s;z-index:4000;
 
 <div id="mainContent">
 <div class="top-bar">
-  <div class="menu-btn" onclick="toggleMenu()"></div>
+  <div class="menu-btn" onclick="toggleMenu()"></div>
   <div class="header-text">
     <h1>ABHINAY PRATAP MATHS</h1>
     <span>INDIA MOST TRUSTED MATHS PLATFORMS</span>
@@ -170,8 +176,8 @@ background:#111;padding-top:50px;transition:.4s;z-index:4000;
 </div>
 
 <!-- WHATSAPP AND CALL BUTTON -->
-<div class="whatsapp-float" onclick="window.open('https://wa.me/919670078465?text=Hello%20Sir,%20I%20want%20to%20enroll%20in%20the%20course')"></div>
-<div class="call-float" onclick="window.location.href='tel:+919670078465'"></div>
+<div class="whatsapp-float" onclick="window.open('https://wa.me/919670078465?text=Hello%20Sir,%20I%20want%20to%20enroll%20in%20the%20course')"></div>
+<div class="call-float" onclick="window.location.href='tel:+919670078465'"></div>
 
 <script>
 // Splash typing effect
