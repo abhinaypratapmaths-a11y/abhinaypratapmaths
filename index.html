@@ -11,7 +11,12 @@
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:#f4f6ff;overflow-x:hidden;}
+body{background:#f4f6ff;overflow-x:hidden;transition:0.4s;}
+
+body.dark{
+background:#111;
+color:white;
+}
 
 #splash{
 position:fixed;width:100%;height:100vh;
@@ -21,8 +26,8 @@ color:white;z-index:9999;text-align:center;
 }
 
 .line1{font-size:22px;}
-.line2{font-size:32px;font-weight:900;} /* SIZE SMALL */
-.line3{font-size:16px;margin-top:8px;color:yellow;} /* YELLOW LINE */
+.line2{font-size:32px;font-weight:900;}
+.line3{font-size:16px;margin-top:8px;color:yellow;}
 .line4{font-size:18px;margin-top:5px;}
 
 .symbol{
@@ -49,6 +54,7 @@ display:flex;align-items:center;gap:15px;z-index:3000;
 .sidebar{
 position:fixed;left:-260px;top:0;width:260px;height:100%;
 background:#111;transition:.4s;z-index:4000;
+overflow-y:auto;
 }
 
 .sidebar.active{left:0;}
@@ -209,15 +215,40 @@ cursor:pointer;
 <div class="menu-btn" onclick="toggleMenu()">
 <i class="fas fa-bars"></i>
 </div>
-<h2>PRATAP MATHEMATICS</h2>
+<h2>ABHINAY PRATAP MATHEMATICS</h2>
 </div>
 
 <div class="sidebar" id="sidebar">
-<div class="sidebar-title">PRATAP MATHEMATICS</div>
-<a onclick="openPage('index.html')">🏠HOME</a>
-<a onclick="openPage('student.html')">🙋🏻STUDENT REGISTRATION</a>
-<a onclick="alert('Teacher Section')">🧑🏻‍🏫TEACHER SECTION</a>
-<a onclick="alert('Test Series')">Test Series</a>
+<div class="sidebar-title">AP MATHEMATICS</div>
+
+<a onclick="openPage('index.html')">🏠 Home</a>
+
+<a onclick="openPage('student.html')">🎓 Student Section</a>
+
+<a onclick="openPage('teacher.html')">🧑‍🏫 Teacher Section</a>
+
+<a onclick="openPage('notes.html')">📚 Notes</a>
+
+<a onclick="openPage('payment.html')">💳 Payment</a>
+
+<a onclick="openPage('videos.html')">🎥 Video Lecture</a>
+
+<a onclick="openPage('contact.html')">📞 Contact</a>
+
+<a onclick="openPage('information.html')">ℹ Information</a>
+
+<a onclick="openPage('admin.html')">⚙ Admin Panel</a>
+
+<a onclick="window.open('https://youtube.com')">▶ Youtube</a>
+
+<a onclick="window.open('https://instagram.com')">📷 Instagram</a>
+
+<a onclick="window.open('https://facebook.com')">📘 Facebook</a>
+
+<a onclick="toggleDark()">🌙 Dark Mode</a>
+
+<a onclick="alert('Test Series Coming Soon')">📑 Test Series</a>
+
 </div>
 
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
@@ -225,12 +256,12 @@ cursor:pointer;
 <div class="content">
 <div class="course-container">
 
-<!-- SSC -->
 <div class="card">
 <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644">
 <div class="card-content">
 <h3>SANKALP FOUNDATION BATCH</h3>
-<p class="small">BASIC TO ADVANCE LEVEL WITH CONCEPT CLARITY</p>
+<p class="small">✅BASIC TO ADVANCE LEVEL WITH CONCEPT CLARITY</p>
+<p class="small">🏠CLASS 9TH STANDARD UP STATE AND C.B.S.C BOARD</p>
 <div class="buttons">
 <button class="feature-btn" onclick="showFeatures()">Features</button>
 <button class="enroll-btn" onclick="openPage('student.html')">Enroll Now</button>
@@ -238,12 +269,12 @@ cursor:pointer;
 </div>
 </div>
 
-<!-- RAILWAY -->
 <div class="card">
 <img src="https://images.unsplash.com/photo-1474487548417-781cb71495f3">
 <div class="card-content">
 <h3>LAKHSHAY FOUNDATION BATCH</h3>
-<p class="small">BASIC TO ADVANCE LEVEL WITH CONCEPT CLARITY</p>
+<p class="small">✅BASIC TO ADVANCE LEVEL WITH CONCEPT CLARITY</p>
+<p class="small">🏠CLASS 10TH STANDARD UP STATE AND C.B.S.C BOARD</p>
 <div class="buttons">
 <button class="feature-btn" onclick="showFeatures()">Features</button>
 <button class="enroll-btn" onclick="openPage('student.html')">Enroll Now</button>
@@ -251,12 +282,12 @@ cursor:pointer;
 </div>
 </div>
 
-<!-- NEW COURSE -->
 <div class="card">
 <img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
 <div class="card-content">
 <h3>MATHS CHAMPION SELECTION BATCH</h3>
-<p class="small">BASIC TO ADVANCE LEVEL WITH CONCEPT CLARITY</p>
+<p class="small">📑BASIC TO ADVANCE LEVEL WITH CONCEPT CLARITY</p>
+<p class="small">📖COMPLETE SYLLABUS BASED ON NCERT PATTERN</p>
 <div class="buttons">
 <button class="feature-btn" onclick="showFeatures()">Features</button>
 <button class="enroll-btn" onclick="openPage('student.html')">Enroll Now</button>
@@ -297,7 +328,7 @@ cursor:pointer;
 
 const lines=[
 "WELCOME TO",
-"PRATAP MATHEMATICS",
+"AP MATHEMATICS",
 "THE INDIA'S MOST TRUSTED EDUCATION PLATFORM",
 "📖ZERO TO ZENITH"
 ];
@@ -323,18 +354,26 @@ function toggleMenu(){
 document.getElementById("sidebar").classList.toggle("active");
 document.getElementById("overlay").style.display="block";
 }
+
 function closeMenu(){
 document.getElementById("sidebar").classList.remove("active");
 document.getElementById("overlay").style.display="none";
 }
+
 function openPage(page){
 window.location.href=page;
 }
+
 function showFeatures(){
 document.getElementById("featurePopup").style.display="flex";
 }
+
 function closeFeature(){
 document.getElementById("featurePopup").style.display="none";
+}
+
+function toggleDark(){
+document.body.classList.toggle("dark");
 }
 
 </script>
