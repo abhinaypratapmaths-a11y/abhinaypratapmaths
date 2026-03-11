@@ -8,99 +8,104 @@
 
 <style>
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-text-transform:uppercase;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+  text-transform:uppercase;
 }
 
 body{
-background:linear-gradient(135deg,#e0ecff,#ffffff);
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-padding:20px;
+  background:linear-gradient(135deg,#ffe6e6,#fff0f0);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
 }
 
 .container{
-background:white;
-width:100%;
-max-width:700px;
-padding:35px;
-border:4px solid #1e3c72;
-box-shadow:0 12px 30px rgba(0,0,0,.12);
+  background:white;
+  width:100%;
+  max-width:750px;
+  padding:35px;
+  border:4px solid red; /* container border red */
+  box-shadow:0 12px 30px rgba(0,0,0,.15);
+  border-radius:15px;
+  text-align:center;
 }
 
-h2{
-text-align:center;
-color:#1e3c72;
-margin-bottom:25px;
-font-weight:800;
+.container img.logo{
+  width:150px;
+  height:auto;
+  margin-bottom:20px;
+}
+
+h3{
+  color:#b30000;
+  margin-bottom:25px;
+  font-weight:700;
 }
 
 .input-group{
-margin-bottom:18px;
+  margin-bottom:18px;
+  text-align:left;
 }
 
 label{
-display:block;
-font-weight:600;
-margin-bottom:6px;
-color:#1e3c72;
+  display:block;
+  font-weight:600;
+  margin-bottom:6px;
+  color:red;
 }
 
 input, select{
-width:100%;
-padding:11px;
-border:2px solid black;
-outline:none;
-font-size:14px;
+  width:100%;
+  padding:12px;
+  border:2px solid red;
+  outline:none;
+  font-size:14px;
+  border-radius:6px;
+  background:#e6f0ff; /* all boxes blue */
 }
 
 input:focus, select:focus{
-border:2px solid #1e3c72;
+  border-color:#142850;
+  box-shadow:0 0 6px rgba(0,0,255,0.3);
 }
 
-.upi-box{
-background:#f2f5ff;
-padding:10px;
-border:1px solid #1e3c72;
-font-weight:600;
-color:#1e3c72;
-}
-
-.fee-box, #discountInfo{
-background:#e6f0ff;
-padding:10px;
-border:2px solid black;
-font-weight:700;
-color:#1e3c72;
-margin-top:5px;
-display:none;
+.upi-box, .fee-box, #discountInfo{
+  background:#e6f0ff;
+  padding:10px;
+  border:2px solid red;
+  font-weight:600;
+  color:red;
+  border-radius:6px;
+  margin-top:5px;
+  display:none;
 }
 
 button{
-width:100%;
-padding:13px;
-background:#1e3c72;
-color:white;
-border:none;
-font-size:16px;
-font-weight:600;
-cursor:pointer;
-margin-top:10px;
+  width:100%;
+  padding:13px;
+  background:red;
+  color:white;
+  border:none;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:10px;
+  border-radius:6px;
 }
 
 button:hover{
-background:#142850;
+  background:#b30000;
 }
 
 .message{
-margin-top:15px;
-text-align:center;
-font-weight:700;
+  margin-top:15px;
+  text-align:center;
+  font-weight:700;
 }
 
 .success{color:green;}
@@ -111,8 +116,10 @@ font-weight:700;
 <body>
 
 <div class="container">
-<h2>STUDENT REGISTRATION</h2>
-<h3>▶️ ABHINAY PRATAP MATHS</h3>
+<!-- Replace src with your institute logo -->
+<img src="alogo.png" alt="INSTITUTE LOGO" class="logo">
+
+<h3>REGISTRATION FORM</h3>
 
 <form id="regForm">
 
@@ -120,16 +127,16 @@ font-weight:700;
 <label>SELECT COURSE</label>
 <select id="course" onchange="showFee()">
 <option value="">-- SELECT COURSE --</option>
-<option value="4999">LAKSHYA FOUNDATION</option>
-<option value="3999">PRATHAM BATCH</option>
-<option value="2999">MATHS SPECIAL BATCH</option>
+<option value="2199">LAKSHYA FOUNDATION BATCH</option>
+<option value="2199">SANKALP FOUNDATION BATCH</option>
+<option value="4999">MATHS SPECIAL BATCH</option>
 </select>
 <div id="feeDisplay" class="fee-box"></div>
 </div>
 
 <div class="input-group">
 <label>COUPON CODE</label>
-<input type="text" id="coupon" placeholder="PLEASE ENTER COUPON CODE">
+<input type="text" id="coupon" placeholder="APPLY COUPAN FOR DISCOUNT">
 <button type="button" onclick="applyCoupon()">APPLY COUPON</button>
 <div id="discountInfo"></div>
 </div>
@@ -155,29 +162,8 @@ font-weight:700;
 </div>
 
 <div class="input-group">
-<label>CATEGORY</label>
-<select id="category">
-<option value="">-- SELECT CATEGORY --</option>
-<option>GENERAL</option>
-<option>OBC</option>
-<option>SC</option>
-<option>ST</option>
-</select>
-</div>
-
-<div class="input-group">
-<label>ADDRESS</label>
-<input type="text" id="address">
-</div>
-
-<div class="input-group">
 <label>MOBILE</label>
 <input type="number" id="mobile">
-</div>
-
-<div class="input-group">
-<label>EMAIL</label>
-<input type="email" id="email" value="@gmail.com">
 </div>
 
 <div class="input-group">
@@ -186,23 +172,8 @@ font-weight:700;
 </div>
 
 <div class="input-group">
-<label>PIN CODE</label>
-<input type="number" id="pincode">
-</div>
-
-<div class="input-group">
-<label>STATE</label>
-<select id="state">
-<option value="">-- SELECT STATE --</option>
-<option>UTTAR PRADESH</option>
-<option>BIHAR</option>
-<option>MADHYA PRADESH</option>
-<option>RAJASTHAN</option>
-<option>DELHI</option>
-<option>MAHARASHTRA</option>
-<option>GUJARAT</option>
-<option>WEST BENGAL</option>
-</select>
+<label>EMAIL</label>
+<input type="email" id="email" value="@gmail.com">
 </div>
 
 <div class="input-group">
@@ -216,7 +187,7 @@ font-weight:700;
 </div>
 
 <div class="input-group">
-<label>ENTER UTR (MW Mandatory)</label>
+<label>ENTER UTR</label>
 <input type="text" id="utr" placeholder="XXXXXXXX">
 </div>
 
@@ -257,11 +228,11 @@ function applyCoupon(){
         return;
     }
 
-    if(coupon.startsWith("MW") && coupon.length>2){
-        let percent = parseInt(coupon.slice(2));
+    if(coupon.startsWith("ABHINAY") && coupon.length>7){
+        let percent = parseInt(coupon.slice(7));
         if(!isNaN(percent) && percent>0 && percent<=100){
             discountedFee = Math.round(originalFee*(1-percent/100));
-            discountBox.style.display="block";
+            discountBox.style.display = "block";
             discountBox.innerHTML = "DISCOUNTED FEE: ₹ "+discountedFee+" ("+percent+"% OFF)";
             showMessage("COUPON APPLIED ✅","success");
         } else {
@@ -273,38 +244,18 @@ function applyCoupon(){
 }
 
 function register(){
-    let course = document.getElementById("course").value;
-    let name = document.getElementById("name").value.trim();
-    let father = document.getElementById("father").value.trim();
-    let mother = document.getElementById("mother").value.trim();
-    let dob = document.getElementById("dob").value.trim();
-    let category = document.getElementById("category").value.trim();
-    let address = document.getElementById("address").value.trim();
-    let mobile = document.getElementById("mobile").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let whatsapp = document.getElementById("whatsapp").value.trim();
-    let pincode = document.getElementById("pincode").value.trim();
-    let state = document.getElementById("state").value.trim();
-    let aadhar = document.getElementById("aadhar").value.trim();
-    let utr = document.getElementById("utr").value.trim();
-
-    if(course===""||name===""||father===""||mother===""||dob===""||category===""||
-       address===""||mobile===""||email===""||whatsapp===""||pincode===""||
-       state===""||aadhar===""||utr===""){
-        showMessage("PLEASE FILL ALL DETAILS ❌","error");
-        return;
+    let fields = ["course","name","father","mother","dob","mobile","whatsapp","email","aadhar","utr"];
+    for(let i=0;i<fields.length;i++){
+        if(document.getElementById(fields[i]).value.trim()===""){
+            showMessage("PLEASE FILL ALL DETAILS ❌","error");
+            return;
+        }
     }
 
-    if(!utr.startsWith("MW")){
-        showMessage("UTR MUST START WITH MW ❌","error");
-        return;
-    }
-
-    let studentId = "MWSTU"+Date.now(); // unique ID
-
+    let studentId = "APM"+Date.now();
     showMessage("REGISTRATION SUCCESSFUL ✅ YOUR ID: "+studentId,"success");
 
-    // Reset form after 10 seconds
+    // Reset form
     setTimeout(()=>{
         document.getElementById("regForm").reset();
         document.getElementById("feeDisplay").style.display="none";
