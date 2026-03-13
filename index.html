@@ -1,525 +1,1 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AP MATHEMATICS</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-background:#f4f6ff;
-transition:.4s;
-overflow-x:hidden;
-}
-
-body.dark{
-background:#111;
-color:white;
-}
-
-/* SPLASH SCREEN */
-
-#splash{
-position:fixed;
-width:100%;
-height:100vh;
-background:linear-gradient(135deg,#b30000,#ff1a1a);
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-color:white;
-z-index:9999;
-text-align:center;
-}
-
-.splash-logo{
-width:220px;
-height:220px;
-border-radius:50%;
-border:5px solid white;
-margin-bottom:20px;
-animation:zoom 2s infinite alternate;
-}
-
-@keyframes zoom{
-from{transform:scale(1)}
-to{transform:scale(1.1)}
-}
-
-.line1{font-size:22px}
-.line2{font-size:34px;font-weight:900}
-.line3{font-size:16px;margin-top:6px;color:yellow}
-.line4{font-size:18px;margin-top:6px}
-
-#main{display:none}
-
-/* TOP BAR */
-
-.topbar{
-position:fixed;
-top:0;
-width:100%;
-background:linear-gradient(45deg,#b30000,#ff1a1a);
-color:white;
-display:flex;
-align-items:center;
-padding:10px;
-z-index:2000;
-}
-
-.menu{
-font-size:28px;
-cursor:pointer;
-margin-right:10px;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-position:fixed;
-left:-240px;
-top:0;
-width:220px;
-height:100%;
-background:#111;
-transition:.4s;
-z-index:3000;
-}
-
-.sidebar.active{left:0}
-
-.sidebar a{
-display:block;
-color:white;
-text-decoration:none;
-padding:14px 20px;
-border-bottom:1px solid #333;
-}
-
-.sidebar a:hover{background:#ff004f}
-
-.overlay{
-position:fixed;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.5);
-top:0;
-left:0;
-display:none;
-z-index:2500;
-}
-
-/* CONTENT */
-
-.content{
-margin-top:60px;
-padding:20px;
-max-width:1100px;
-margin-left:auto;
-margin-right:auto;
-}
-
-/* BANNER */
-
-.banner{
-width:100%;
-overflow:hidden;
-border-radius:8px;
-margin-bottom:20px;
-}
-
-.banner-track{
-display:flex;
-transition:.5s;
-}
-
-.banner img{
-width:100%;
-height:200px;
-object-fit:cover;
-flex-shrink:0;
-}
-
-/* COURSE CARDS */
-
-.course-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
-
-.card{
-background:white;
-border:2px solid #b30000;
-border-radius:8px;
-overflow:hidden;
-}
-
-.card img{
-width:100%;
-height:200px;
-object-fit:cover;
-}
-
-.card-body{
-padding:15px;
-}
-
-.card h3{
-color:#b30000;
-font-size:20px;
-font-weight:800;
-}
-
-.small{
-font-size:13px;
-color:#007bff;
-margin-top:4px;
-}
-
-.btns{
-display:flex;
-gap:10px;
-margin-top:10px;
-}
-
-.btns button{
-flex:1;
-padding:10px;
-border:none;
-color:white;
-font-weight:600;
-border-radius:4px;
-cursor:pointer;
-}
-
-.feature{background:#333}
-.enroll{background:#ff004f}
-
-/* POPUP */
-
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.6);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:4000;
-}
-
-.popup-box{
-background:yellow;
-padding:25px;
-border-radius:10px;
-max-width:300px;
-}
-
-.close{
-margin-top:10px;
-background:#ff004f;
-border:none;
-color:white;
-padding:6px 12px;
-cursor:pointer;
-}
-
-/* FLOAT BUTTONS */
-
-.whatsapp,.call{
-position:fixed;
-right:20px;
-width:55px;
-height:55px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-color:white;
-font-size:24px;
-cursor:pointer;
-}
-
-.whatsapp{bottom:20px;background:#25D366}
-.call{bottom:90px;background:#ff004f}
-
-</style>
-</head>
-
-<body>
-
-<div id="splash">
-
-<img src="logo.png" class="splash-logo">
-
-<div class="line1" id="t1"></div>
-<div class="line2" id="t2"></div>
-<div class="line3" id="t3"></div>
-<div class="line4" id="t4"></div>
-
-</div>
-
-<div id="main">
-
-<div class="topbar">
-<div class="menu" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
-<h3>AP MATHEMATICS</h3>
-</div>
-
-<div class="sidebar" id="sidebar">
-<a href="#">HOME</a>
-<a href="student.html">STUDENT SECTION</a>
-<a href="#">COURSES</a>
-<a href="#">NOTES</a>
-<a href="#">VIDEOS</a>
-<a href="#">CONTACT</a>
-<a onclick="toggleDark()">DARK MODE</a>
-</div>
-
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
-
-<div class="content">
-
-<div class="banner" id="banner">
-<div class="banner-track" id="track">
-
-<img src="banner1.png">
-<img src="banner2.png">
-<img src="banner3.png">
-<img src="banner4.jpg">
-<img src="banner5.jpg">
-<img src="banner6.jpg">
-</div>
-</div>
-
-<div class="course-grid">
-
-<div class="card">
-<img src="sankalp.jpg">
-<div class="card-body">
-<h3>SANKALP BATCH</h3>
-<p class="small">Class 9 Foundation</p>
-
-<div class="btns">
-<button class="feature" onclick="showFeature('sankalp')">FEATURES</button>
-<button class="enroll" onclick="window.location.href='student.html'">ENROLL</button>
-</div>
-
-</div>
-</div>
-
-<div class="card">
-<img src="lakshya.jpg">
-<div class="card-body">
-<h3>LAKSHYA BATCH</h3>
-<p class="small">Class 10 Board</p>
-
-<div class="btns">
-<button class="feature" onclick="showFeature('lakshya')">FEATURES</button>
-<button class="enroll" onclick="window.location.href='student.html'">ENROLL</button>
-</div>
-
-</div>
-</div>
-
-<div class="card">
-<img src="maths.jpg">
-<div class="card-body">
-<h3>MATHS SPECIAL 2.0</h3>
-<p class="small">Advance Maths</p>
-
-<div class="btns">
-<button class="feature" onclick="showFeature('maths')">FEATURES</button>
-<button class="enroll" onclick="window.location.href='student.html'">ENROLL</button>
-</div>
-
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="popup" id="popup">
-<div class="popup-box">
-
-<h3>COURSE FEATURES</h3>
-
-<ul id="featureList"></ul>
-
-<button class="close" onclick="closePopup()">Close</button>
-
-</div>
-</div>
-
-<div class="whatsapp" onclick="window.open('https://wa.me/919670078465')">
-<i class="fab fa-whatsapp"></i>
-</div>
-
-<div class="call" onclick="window.location.href='tel:9670078465'">
-<i class="fas fa-phone"></i>
-</div>
-
-<script>
-
-const text=[
-"WELCOME TO",
-"AP MATHEMATICS",
-"POWERED BY ABHINAY PRATAP",
-"LEARN MATHS LIKE A WARRIOR"
-]
-
-const ids=["t1","t2","t3","t4"]
-
-let i=0,j=0
-
-function type(){
-
-if(i<text.length){
-
-if(j<text[i].length){
-
-document.getElementById(ids[i]).innerHTML+=text[i][j]
-j++
-setTimeout(type,80)
-
-}else{
-
-i++
-j=0
-setTimeout(type,200)
-
-}
-
-}
-
-}
-
-type()
-
-setTimeout(()=>{
-document.getElementById("splash").style.display="none"
-document.getElementById("main").style.display="block"
-},5000)
-
-function toggleMenu(){
-
-let s=document.getElementById("sidebar")
-let o=document.getElementById("overlay")
-
-s.classList.toggle("active")
-
-if(s.classList.contains("active")){
-o.style.display="block"
-}else{
-o.style.display="none"
-}
-
-}
-
-function closeMenu(){
-
-document.getElementById("sidebar").classList.remove("active")
-document.getElementById("overlay").style.display="none"
-
-}
-
-function toggleDark(){
-document.body.classList.toggle("dark")
-}
-
-let startX=0
-let current=0
-
-const banner=document.getElementById("banner")
-const track=document.getElementById("track")
-const total=track.children.length
-
-banner.addEventListener("touchstart",e=>{
-startX=e.touches[0].clientX
-})
-
-banner.addEventListener("touchend",e=>{
-
-let endX=e.changedTouches[0].clientX
-
-if(startX-endX>50){current++}
-if(endX-startX>50){current--}
-
-if(current<0){current=0}
-if(current>=total){current=total-1}
-
-track.style.transform="translateX(-"+current*100+"%)"
-
-})
-
-const features={
-
-sankalp:[
-"Concept Building",
-"Weekly Tests",
-"DPP Practice",
-"Full Foundation Course"
-],
-
-lakshya:[
-"Board Preparation",
-"NCERT Practice",
-"Mock Tests",
-"Class 10 Maths"
-],
-
-maths:[
-"Advance Quant",
-"PYQ Questions",
-"Practice Sheets",
-"Doubt Session"
-]
-
-}
-
-function showFeature(name){
-
-let list=document.getElementById("featureList")
-list.innerHTML=""
-
-features[name].forEach(f=>{
-
-let li=document.createElement("li")
-li.innerText=f
-list.appendChild(li)
-
-})
-
-document.getElementById("popup").style.display="flex"
-
-}
-
-function closePopup(){
-document.getElementById("popup").style.display="none"
-}
-
-</script>
-
-</body>
-</html>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AP MATHEMATICS</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}body{background:#f4f6ff;transition:.4s;overflow-x:hidden;}body.dark{background:#111;color:white;}/* SPLASH SCREEN */#splash{position:fixed;width:100%;height:100vh;background:linear-gradient(135deg,#b30000,#ff1a1a);display:flex;align-items:center;justify-content:center;flex-direction:column;color:white;z-index:9999;text-align:center;}.splash-logo{width:220px;height:220px;border-radius:50%;border:5px solid white;margin-bottom:20px;animation:zoom 2s infinite alternate;}@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.1)}}.line1{font-size:22px}.line2{font-size:34px;font-weight:900}.line3{font-size:16px;margin-top:6px;color:yellow}.line4{font-size:18px;margin-top:6px}#main{display:none}/* TOP BAR */.topbar{position:fixed;top:0;width:100%;background:linear-gradient(45deg,#b30000,#ff1a1a);color:white;display:flex;align-items:center;padding:10px;z-index:2000;}.menu{font-size:28px;cursor:pointer;margin-right:10px;}/* SIDEBAR */.sidebar{position:fixed;left:-240px;top:0;width:220px;height:100%;background:#111;transition:.4s;z-index:3000;}.sidebar.active{left:0}.sidebar a{display:block;color:white;text-decoration:none;padding:14px 20px;border-bottom:1px solid #333;}.sidebar a:hover{background:#ff004f}.overlay{position:fixed;width:100%;height:100%;background:rgba(0,0,0,.5);top:0;left:0;display:none;z-index:2500;}/* CONTENT */.content{margin-top:60px;padding:20px;max-width:1100px;margin-left:auto;margin-right:auto;}/* BANNER */.banner{width:100%;overflow:hidden;border-radius:8px;margin-bottom:20px;}.banner-track{display:flex;transition:.5s;}.banner img{width:100%;height:200px;object-fit:cover;flex-shrink:0;}/* COURSE CARDS */.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}.card{background:white;border:2px solid #b30000;border-radius:8px;overflow:hidden;}.card img{width:100%;height:200px;object-fit:cover;}.card-body{padding:15px;}.card h3{color:#b30000;font-size:20px;font-weight:800;}.small{font-size:13px;color:#007bff;margin-top:4px;}.btns{display:flex;gap:10px;margin-top:10px;}.btns button{flex:1;padding:10px;border:none;color:white;font-weight:600;border-radius:4px;cursor:pointer;}.feature{background:#333}.enroll{background:#ff004f}/* POPUP */.popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:4000;}.popup-box{background:yellow;padding:25px;border-radius:10px;max-width:300px;}.close{margin-top:10px;background:#ff004f;border:none;color:white;padding:6px 12px;cursor:pointer;}/* FLOAT BUTTONS */.whatsapp,.call{position:fixed;right:20px;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:24px;cursor:pointer;}.whatsapp{bottom:20px;background:#25D366}.call{bottom:90px;background:#ff004f}</style></head><body><div id="splash"><img src="logo.png" class="splash-logo"><div class="line1" id="t1"></div><div class="line2" id="t2"></div><div class="line3" id="t3"></div><div class="line4" id="t4"></div></div><div id="main"><div class="topbar"><div class="menu" onclick="toggleMenu()"><i class="fas fa-bars"></i></div><h3>AP MATHEMATICS</h3></div><div class="sidebar" id="sidebar"><a href="#">HOME</a><a href="student.html">STUDENT SECTION</a><a href="#">COURSES</a><a href="#">NOTES</a><a href="#">VIDEOS</a><a href="#">CONTACT</a><a onclick="toggleDark()">DARK MODE</a></div><div class="overlay" id="overlay" onclick="closeMenu()"></div><div class="content"><div class="banner" id="banner"><div class="banner-track" id="track"><img src="banner1.jpg"><img src="banner2.png"><img src="banner3.png"><img src="banner4.png"></div></div><div class="course-grid"><div class="card"><img src="sankalp.jpg"><div class="card-body"><h3>SANKALP BATCH</h3><p class="small">CLASS 9TH STANDARD BASIC TO ADVANCE LEVEL</p><div class="btns"><button class="feature" onclick="showFeature('sankalp')">FEATURES</button><button class="enroll" onclick="window.location.href='student.html'">ENROLL</button></div></div></div><div class="card"><img src="lakshya.jpg"><div class="card-body"><h3>LAKSHYA BATCH</h3><p class="small">CLASS 10 BOARD STANDARD CONCEPT WITH PRACTICE</p><div class="btns"><button class="feature" onclick="showFeature('lakshya')">FEATURES</button><button class="enroll" onclick="window.location.href='student.html'">ENROLL</button></div></div></div><div class="card"><img src="maths.jpg"><div class="card-body"><h3>MATHS SPECIAL 2.0</h3><p class="small">ARITHMETIC AND ADVANCE MATHS</p><div class="btns"><button class="feature" onclick="showFeature('maths')">FEATURES</button><button class="enroll" onclick="window.location.href='student.html'">ENROLL</button></div></div></div></div></div></div><div class="popup" id="popup"><div class="popup-box"><h3>COURSE FEATURES</h3><ul id="featureList"></ul><button class="close" onclick="closePopup()">Close</button></div></div><div class="whatsapp" onclick="window.open('https://wa.me/919670078465')"><i class="fab fa-whatsapp"></i></div><div class="call" onclick="window.location.href='tel:9670078465'"><i class="fas fa-phone"></i></div><script>const text=["WELCOME TO","AP MATHEMATICS","POWERED BY ABHINAY PRATAP","LEARN MATHS LIKE A WARRIOR"]const ids=["t1","t2","t3","t4"]let i=0,j=0function type(){if(i<text.length){if(j<text[i].length){document.getElementById(ids[i]).innerHTML+=text[i][j]j++setTimeout(type,80)}else{i++j=0setTimeout(type,200)}}}type()setTimeout(()=>{document.getElementById("splash").style.display="none"document.getElementById("main").style.display="block"},5000)function toggleMenu(){let s=document.getElementById("sidebar")let o=document.getElementById("overlay")s.classList.toggle("active")if(s.classList.contains("active")){o.style.display="block"}else{o.style.display="none"}}function closeMenu(){document.getElementById("sidebar").classList.remove("active")document.getElementById("overlay").style.display="none"}function toggleDark(){document.body.classList.toggle("dark")}let startX=0let current=0const banner=document.getElementById("banner")const track=document.getElementById("track")const total=track.children.lengthbanner.addEventListener("touchstart",e=>{startX=e.touches[0].clientX})banner.addEventListener("touchend",e=>{let endX=e.changedTouches[0].clientXif(startX-endX>50){current++}if(endX-startX>50){current--}if(current<0){current=0}if(current>=total){current=total-1}track.style.transform="translateX(-"+current*100+"%)"})const features={sankalp:["Concept Building","Weekly Tests","DPP Practice","Full Foundation Course"],lakshya:["Board Preparation","NCERT Practice","Mock Tests","Class 10 Maths"],maths:["Advance Quant","PYQ Questions","Practice Sheets","Doubt Session"]}function showFeature(name){let list=document.getElementById("featureList")list.innerHTML=""features[name].forEach(f=>{let li=document.createElement("li")li.innerText=flist.appendChild(li)})document.getElementById("popup").style.display="flex"}function closePopup(){document.getElementById("popup").style.display="none"}</script></body></html>
