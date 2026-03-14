@@ -1,273 +1,257 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUDENT REGISTRATION</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFFICIAL ADMISSION PORTAL | 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d32f2f;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --success: #10b981;
+        }
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-  text-transform:uppercase;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; }
 
-body{
-  background:linear-gradient(135deg,#ffe6e6,#fff0f0);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  padding:20px;
-}
+        body {
+            background: #f1f5f9;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+        }
 
-.container{
-  background:white;
-  width:100%;
-  max-width:750px;
-  padding:35px;
-  border:4px solid red; /* container border red */
-  box-shadow:0 12px 30px rgba(0,0,0,.15);
-  border-radius:15px;
-  text-align:center;
-}
+        .container {
+            background: white; width: 100%; max-width: 850px;
+            border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+            overflow: hidden; border: 1px solid #e2e8f0;
+        }
 
-.container img.logo{
-  width:150px;
-  height:auto;
-  margin-bottom:20px;
-}
+        .header { 
+            background: var(--dark); color: white; padding: 35px 20px; 
+            text-align: center; border-bottom: 6px solid var(--primary); 
+        }
 
-h3{
-  color:#b30000;
-  margin-bottom:25px;
-  font-weight:700;
-}
+        .header img { width: 100px; height: auto; margin-bottom: 15px; border-radius: 12px; }
+        .header h1 { font-size: 24px; letter-spacing: 2px; font-weight: 800; }
 
-.input-group{
-  margin-bottom:18px;
-  text-align:left;
-}
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 40px; }
+        .full { grid-column: span 2; }
 
-label{
-  display:block;
-  font-weight:600;
-  margin-bottom:6px;
-  color:red;
-}
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        label { font-size: 11px; font-weight: 800; color: #64748b; letter-spacing: 0.5px; }
 
-input, select{
-  width:100%;
-  padding:12px;
-  border:2px solid red;
-  outline:none;
-  font-size:14px;
-  border-radius:6px;
-  background:#e6f0ff; /* all boxes blue */
-}
+        input, select, textarea {
+            padding: 14px 16px; border-radius: 12px; border: 2px solid #f1f5f9;
+            background: #f8fafc; font-size: 14px; font-weight: 600; transition: all 0.3s ease;
+        }
 
-input:focus, select:focus{
-  border-color:#142850;
-  box-shadow:0 0 6px rgba(0,0,255,0.3);
-}
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--primary); outline: none; background: white;
+            box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.1);
+        }
 
-.upi-box, .fee-box, #discountInfo{
-  background:#e6f0ff;
-  padding:10px;
-  border:2px solid red;
-  font-weight:600;
-  color:red;
-  border-radius:6px;
-  margin-top:5px;
-  display:none;
-}
+        .fee-status { 
+            background: #fff1f1; padding: 20px; border-radius: 15px; 
+            margin-bottom: 10px; border: 2px dashed var(--primary); 
+        }
 
-button{
-  width:100%;
-  padding:13px;
-  background:red;
-  color:white;
-  border:none;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-  margin-top:10px;
-  border-radius:6px;
-}
+        /* Payment Modal */
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9);
+            z-index: 100; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);
+        }
 
-button:hover{
-  background:#b30000;
-}
+        .modal-content {
+            background: white; padding: 40px; border-radius: 24px; max-width: 420px; width: 100%;
+            text-align: center; animation: slideUp 0.4s ease-out;
+        }
 
-.message{
-  margin-top:15px;
-  text-align:center;
-  font-weight:700;
-}
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-.success{color:green;}
-.error{color:red;}
-</style>
+        .qr-box { 
+            width: 220px; height: 220px; background: white; margin: 25px auto; 
+            border: 1px solid #eee; padding: 10px; border-radius: 15px;
+        }
+        .qr-box img { width: 100%; height: 100%; }
+
+        .btn-pay {
+            width: 100%; padding: 18px; background: var(--primary); color: white;
+            border: none; border-radius: 15px; font-size: 16px; font-weight: 800;
+            cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 10px 15px -3px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn-pay:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        .btn-success { background: var(--success); box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3); }
+
+        /* Success Page */
+        #successCard { display: none; padding: 60px 40px; text-align: center; }
+        .receipt-box {
+            text-align: left; background: #f8fafc; padding: 30px; border-radius: 20px;
+            margin-top: 25px; border: 1px solid #e2e8f0; line-height: 1.8;
+        }
+        .receipt-box p { border-bottom: 1px solid #edf2f7; padding: 8px 0; font-size: 13px; }
+
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .full { grid-column: span 1; } }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
-<!-- Replace src with your institute logo -->
-<img src="alogo.png" alt="INSTITUTE LOGO" class="logo">
+<div class="container" id="mainContainer">
+    <div class="header">
+        <img src="alogo.png" alt="INSTITUTE LOGO">
+        <h1>ADMISSION PORTAL 2026</h1>
+    </div>
 
-<h3>REGISTRATION FORM</h3>
+    <form id="admissionForm" class="form-grid">
+        <div class="field full">
+            <label>CHOOSE COURSE</label>
+            <select id="course" onchange="updateFee()">
+                <option value="">-- SELECT YOUR BATCH --</option>
+                <option value="2199">LAKSHYA BATCH (₹2199)</option>
+                <option value="2199">SANKALP BATCH (₹2199)</option>
+                <option value="4999">MATHS SPECIAL (₹4999)</option>
+            </select>
+        </div>
 
-<form id="regForm">
+        <div class="field full">
+            <label>COUPON CODE</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="coupon" placeholder="ENTER CODE (E.G. MW50)" style="flex: 1;">
+                <button type="button" onclick="applyCoupon()" style="padding: 0 25px; border-radius: 12px; cursor: pointer; background: var(--dark); color: white; border: none; font-weight: 700;">APPLY</button>
+            </div>
+        </div>
 
-<div class="input-group">
-<label>SELECT COURSE</label>
-<select id="course" onchange="showFee()">
-<option value="">-- SELECT COURSE --</option>
-<option value="2199">LAKSHYA FOUNDATION BATCH</option>
-<option value="2199">SANKALP FOUNDATION BATCH</option>
-<option value="4999">MATHS SPECIAL BATCH</option>
-</select>
-<div id="feeDisplay" class="fee-box"></div>
+        <div class="field full fee-status" id="feeDisplay" style="display:none">
+            <div style="display:flex; justify-content: space-between; font-weight: 800; font-size: 18px;">
+                <span>PAYABLE AMOUNT:</span>
+                <span id="finalPrice" style="color: var(--primary);">₹0</span>
+            </div>
+        </div>
+
+        <div class="field"><label>STUDENT FULL NAME</label><input type="text" id="sName" placeholder="AS PER AADHAR"></div>
+        <div class="field"><label>FATHER'S NAME</label><input type="text" id="fName"></div>
+        <div class="field"><label>MOTHER'S NAME</label><input type="text" id="mName"></div>
+        <div class="field"><label>DATE OF BIRTH</label><input type="date" id="dob"></div>
+        
+        <div class="field full"><label>FULL PERMANENT ADDRESS</label><textarea id="address" rows="2" placeholder="VILLAGE, POST, DISTRICT, PINCODE"></textarea></div>
+        
+        <div class="field"><label>MOBILE NUMBER</label><input type="number" id="mobile"></div>
+        <div class="field"><label>WHATSAPP NUMBER</label><input type="number" id="whatsapp"></div>
+        <div class="field"><label>EMAIL ID</label><input type="email" id="email" placeholder="EXAMPLE@GMAIL.COM"></div>
+        <div class="field"><label>AADHAR NUMBER</label><input type="number" id="aadhar" placeholder="12 DIGIT NUMBER"></div>
+
+        <button type="button" class="btn-pay full" onclick="openPayment()">PROCEED TO PAY NOW</button>
+    </form>
 </div>
 
-<div class="input-group">
-<label>COUPON CODE</label>
-<input type="text" id="coupon" placeholder="APPLY COUPAN FOR DISCOUNT">
-<button type="button" onclick="applyCoupon()">APPLY COUPON</button>
-<div id="discountInfo"></div>
+<div class="modal" id="payModal">
+    <div class="modal-content">
+        <h2 style="color: var(--dark);">SECURE PAYMENT</h2>
+        <div class="qr-box">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=7705042892@axl" alt="QR CODE">
+        </div>
+        <p style="font-weight: 800; color: var(--primary); font-size: 18px;">7705042892@axl</p>
+        <p style="font-size: 11px; margin-top: 10px; color: #64748b; text-transform: none;">Pay the exact amount shown in the form. After payment, enter your Transaction ID (UTR) below.</p>
+        
+        <input type="text" id="utr" placeholder="ENTER 12-DIGIT UTR NO." style="margin-top: 20px; width: 100%; border: 2px solid var(--dark); text-align: center;">
+        
+        <button type="button" class="btn-pay btn-success" onclick="verifyAndSubmit()">SUBMIT TRANSACTION</button>
+        <button type="button" onclick="closeModal()" style="margin-top: 15px; border: none; background: none; cursor: pointer; color: #64748b; font-weight: 700; font-size: 12px;">Go Back & Edit</button>
+    </div>
 </div>
 
-<div class="input-group">
-<label>NAME</label>
-<input type="text" id="name">
-</div>
-
-<div class="input-group">
-<label>FATHER NAME</label>
-<input type="text" id="father">
-</div>
-
-<div class="input-group">
-<label>MOTHER NAME</label>
-<input type="text" id="mother">
-</div>
-
-<div class="input-group">
-<label>DOB</label>
-<input type="date" id="dob">
-</div>
-
-<div class="input-group">
-<label>MOBILE</label>
-<input type="number" id="mobile">
-</div>
-
-<div class="input-group">
-<label>WHATSAPP</label>
-<input type="number" id="whatsapp">
-</div>
-
-<div class="input-group">
-<label>EMAIL</label>
-<input type="email" id="email" value="@gmail.com">
-</div>
-
-<div class="input-group">
-<label>AADHAR</label>
-<input type="number" id="aadhar">
-</div>
-
-<div class="input-group">
-<label>PAY ON UPI ID</label>
-<div class="upi-box">7705042892@axl</div>
-</div>
-
-<div class="input-group">
-<label>ENTER UTR</label>
-<input type="text" id="utr" placeholder="XXXXXXXX">
-</div>
-
-<button type="button" onclick="register()">REGISTER NOW</button>
-
-<div id="message" class="message"></div>
-
-</form>
+<div class="container" id="successCard">
+    <div style="color: var(--success); font-size: 60px; margin-bottom: 10px;">✔</div>
+    <h2 style="color: var(--dark); font-weight: 800;">ADMISSION CONFIRMED!</h2>
+    <p style="color: #64748b; text-transform: none;">Thank you! Your registration has been successfully processed.</p>
+    
+    <div class="receipt-box" id="receiptData">
+        </div>
+    
+    <div style="display: flex; gap: 15px; margin-top: 25px;">
+        <button class="btn-pay" onclick="window.print()" style="background: var(--dark); flex: 1;">DOWNLOAD RECEIPT</button>
+        <button class="btn-pay" onclick="location.reload()" style="background: #e2e8f0; color: #1e293b; flex: 1; box-shadow: none;">CLOSE</button>
+    </div>
 </div>
 
 <script>
-let originalFee = 0;
-let discountedFee = 0;
+    let basePrice = 0;
+    let discountAmt = 0;
 
-function showFee(){
-    let course = document.getElementById("course");
-    let feeBox = document.getElementById("feeDisplay");
-    if(course.value !== ""){
-        originalFee = parseInt(course.value);
-        discountedFee = originalFee;
-        feeBox.style.display = "block";
-        feeBox.innerHTML = "COURSE FEE: ₹ "+originalFee;
-        document.getElementById("discountInfo").style.display="none";
-    } else {
-        feeBox.style.display="none";
-        document.getElementById("discountInfo").style.display="none";
-        originalFee=0;
-        discountedFee=0;
-    }
-}
-
-function applyCoupon(){
-    let coupon = document.getElementById("coupon").value.toUpperCase();
-    let discountBox = document.getElementById("discountInfo");
-
-    if(!originalFee){
-        alert("PLEASE SELECT COURSE FIRST");
-        return;
+    function updateFee() {
+        let val = document.getElementById("course").value;
+        if(val) {
+            basePrice = parseInt(val);
+            document.getElementById("feeDisplay").style.display = "block";
+            calculateTotal();
+        }
     }
 
-    if(coupon.startsWith("ABHINAY") && coupon.length>7){
-        let percent = parseInt(coupon.slice(7));
-        if(!isNaN(percent) && percent>0 && percent<=100){
-            discountedFee = Math.round(originalFee*(1-percent/100));
-            discountBox.style.display = "block";
-            discountBox.innerHTML = "DISCOUNTED FEE: ₹ "+discountedFee+" ("+percent+"% OFF)";
-            showMessage("COUPON APPLIED ✅","success");
+    function applyCoupon() {
+        let code = document.getElementById("coupon").value.toUpperCase();
+        if(!basePrice) return alert("PLEASE SELECT A COURSE FIRST!");
+        
+        if(code.startsWith("MW")) {
+            let pct = parseInt(code.replace("MW", ""));
+            if(pct > 0 && pct <= 100) {
+                discountAmt = Math.round(basePrice * (pct/100));
+                alert("SUCCESS! " + pct + "% DISCOUNT APPLIED");
+            }
         } else {
-            showMessage("INVALID COUPON ❌","error");
+            alert("INVALID OR EXPIRED COUPON CODE");
+            discountAmt = 0;
         }
-    } else {
-        showMessage("INVALID COUPON ❌","error");
-    }
-}
-
-function register(){
-    let fields = ["course","name","father","mother","dob","mobile","whatsapp","email","aadhar","utr"];
-    for(let i=0;i<fields.length;i++){
-        if(document.getElementById(fields[i]).value.trim()===""){
-            showMessage("PLEASE FILL ALL DETAILS ❌","error");
-            return;
-        }
+        calculateTotal();
     }
 
-    let studentId = "APM"+Date.now();
-    showMessage("REGISTRATION SUCCESSFUL ✅ YOUR ID: "+studentId,"success");
+    function calculateTotal() {
+        document.getElementById("finalPrice").innerText = "₹" + (basePrice - discountAmt);
+    }
 
-    // Reset form
-    setTimeout(()=>{
-        document.getElementById("regForm").reset();
-        document.getElementById("feeDisplay").style.display="none";
-        document.getElementById("discountInfo").style.display="none";
-    },10000);
-}
+    function openPayment() {
+        // Validation check for all fields
+        const fields = ["course", "sName", "fName", "mName", "address", "mobile", "whatsapp", "email", "dob", "aadhar"];
+        for(let f of fields) {
+            if(!document.getElementById(f).value.trim()) {
+                alert("MANDATORY FIELD MISSING: " + f.replace(/[a-z]/, (c) => c.toUpperCase()) );
+                document.getElementById(f).focus();
+                return;
+            }
+        }
+        document.getElementById("payModal").style.display = "flex";
+    }
 
-function showMessage(msg,type){
-    let box = document.getElementById("message");
-    box.innerHTML = msg;
-    box.className = "message "+type;
-}
+    function closeModal() { document.getElementById("payModal").style.display = "none"; }
+
+    function verifyAndSubmit() {
+        let utr = document.getElementById("utr").value.trim();
+        if(utr.length < 10) return alert("INVALID UTR! ENTER THE 12-DIGIT TRANSACTION ID.");
+
+        // UI Transition
+        document.getElementById("mainContainer").style.display = "none";
+        document.getElementById("payModal").style.display = "none";
+        document.getElementById("successCard").style.display = "block";
+
+        // Generate Final Receipt
+        let uid = "APM-" + Math.floor(1000 + Math.random() * 9000) + "-" + Date.now().toString().slice(-4);
+        let data = `
+            <div style="text-align:center; border-bottom: 2px solid #eee; margin-bottom: 15px; padding-bottom: 10px;">
+                <h3 style="color:var(--primary)">OFFICIAL RECEIPT</h3>
+            </div>
+            <p><strong>REGISTRATION ID:</strong> <span style="color:var(--primary)">${uid}</span></p>
+            <p><strong>STUDENT NAME:</strong> ${document.getElementById("sName").value}</p>
+            <p><strong>FATHER'S NAME:</strong> ${document.getElementById("fName").value}</p>
+            <p><strong>MOTHER'S NAME:</strong> ${document.getElementById("mName").value}</p>
+            <p><strong>DATE OF BIRTH:</strong> ${document.getElementById("dob").value}</p>
+            <p><strong>MOBILE NO:</strong> ${document.getElementById("mobile").value}</p>
+            <p><strong>ADDRESS:</strong> ${document.getElementById("address").value}</p>
+            <p><strong>UTR NUMBER:</strong> ${utr}</p>
+            <p><strong>FINAL FEE PAID:</strong> ₹${basePrice - discountAmt}</p>
+            <p style="margin-top:15px; font-size:11px; color:#94a3b8; text-align:center;">ISSUED ON: ${new Date().toLocaleString()}</p>
+        `;
+        document.getElementById("receiptData").innerHTML = data;
+    }
 </script>
 
 </body>
