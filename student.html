@@ -31,7 +31,16 @@
             text-align: center; border-bottom: 6px solid var(--primary); 
         }
 
-        .header img { width: 100px; height: auto; margin-bottom: 15px; border-radius: 12px; }
+        /* LOGO KO CIRCLE KARNE KE LIYE CSS */
+        .header img { 
+            width: 100px; 
+            height: 100px; 
+            margin-bottom: 15px; 
+            border-radius: 50%; /* Circle shape */
+            border: 3px solid white; 
+            object-fit: cover;
+        }
+
         .header h1 { font-size: 24px; letter-spacing: 2px; font-weight: 800; }
 
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 40px; }
@@ -149,10 +158,10 @@
     <div class="modal-content">
         <h2 style="color: var(--dark);">SECURE PAYMENT</h2>
         <div class="qr-box">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=7705042892@axl" alt="QR CODE">
+            <img id="dynamicQR" src="" alt="QR CODE">
         </div>
-        <p style="font-weight: 800; color: var(--primary); font-size: 18px;">7705042892@axl</p>
-        <p style="font-size: 11px; margin-top: 10px; color: #64748b; text-transform: none;">Pay the exact amount shown in the form. After payment, enter your Transaction ID (UTR) below.</p>
+        <p id="qrAmountShow" style="font-weight: 800; color: var(--primary); font-size: 22px;">₹0</p>
+        <p style="font-weight: 600; font-size: 12px; color: var(--dark);">UPI ID: 7705042892@axl</p>
         
         <input type="text" id="utr" placeholder="ENTER 12-DIGIT UTR NO." style="margin-top: 20px; width: 100%; border: 2px solid var(--dark); text-align: center;">
         
@@ -166,11 +175,10 @@
     <h2 style="color: var(--dark); font-weight: 800;">ADMISSION CONFIRMED!</h2>
     <p style="color: #64748b; text-transform: none;">Thank you! Your registration has been successfully processed.</p>
     
-    <div class="receipt-box" id="receiptData">
-        </div>
+    <div class="receipt-box" id="receiptData"></div>
     
     <div style="display: flex; gap: 15px; margin-top: 25px;">
-        <button class="btn-pay" onclick="window.print()" style="background: var(--dark); flex: 1;">DOWNLOAD RECEIPT</button>
+        <button class="btn-pay" onclick="downloadReceipt()" style="background: var(--dark); flex: 1;">DOWNLOAD RECEIPT</button>
         <button class="btn-pay" onclick="location.reload()" style="background: #e2e8f0; color: #1e293b; flex: 1; box-shadow: none;">CLOSE</button>
     </div>
 </div>
@@ -178,6 +186,7 @@
 <script>
     let basePrice = 0;
     let discountAmt = 0;
+    let finalReceiptHTML = ""; // Receipt data store karne ke liye
 
     function updateFee() {
         let val = document.getElementById("course").value;
@@ -206,11 +215,16 @@
     }
 
     function calculateTotal() {
-        document.getElementById("finalPrice").innerText = "₹" + (basePrice - discountAmt);
+        let final = basePrice - discountAmt;
+        document.getElementById("finalPrice").innerText = "₹" + final;
+        let upiID = "7705042892@axl";
+        let upiName = "ADMISSION%20PORTAL";
+        let upiLink = `upi://pay?pa=${upiID}&pn=${upiName}&am=${final}&cu=INR`;
+        document.getElementById("dynamicQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiLink)}`;
+        document.getElementById("qrAmountShow").innerText = "AMOUNT: ₹" + final;
     }
 
     function openPayment() {
-        // Validation check for all fields
         const fields = ["course", "sName", "fName", "mName", "address", "mobile", "whatsapp", "email", "dob", "aadhar"];
         for(let f of fields) {
             if(!document.getElementById(f).value.trim()) {
@@ -228,29 +242,47 @@
         let utr = document.getElementById("utr").value.trim();
         if(utr.length < 10) return alert("INVALID UTR! ENTER THE 12-DIGIT TRANSACTION ID.");
 
-        // UI Transition
         document.getElementById("mainContainer").style.display = "none";
         document.getElementById("payModal").style.display = "none";
         document.getElementById("successCard").style.display = "block";
 
-        // Generate Final Receipt
         let uid = "APM-" + Math.floor(1000 + Math.random() * 9000) + "-" + Date.now().toString().slice(-4);
-        let data = `
-            <div style="text-align:center; border-bottom: 2px solid #eee; margin-bottom: 15px; padding-bottom: 10px;">
-                <h3 style="color:var(--primary)">OFFICIAL RECEIPT</h3>
+        
+        // Receipt ka Content
+        finalReceiptHTML = `
+            <div style="font-family:sans-serif; padding:20px; border:2px solid #333; max-width:500px; margin:auto; text-transform:uppercase;">
+                <h2 style="text-align:center; color:#d32f2f;">OFFICIAL ADMISSION RECEIPT</h2>
+                <hr>
+                <p><strong>REGISTRATION ID:</strong> ${uid}</p>
+                <p><strong>STUDENT NAME:</strong> ${document.getElementById("sName").value}</p>
+                <p><strong>FATHER'S NAME:</strong> ${document.getElementById("fName").value}</p>
+                <p><strong>MOTHER'S NAME:</strong> ${document.getElementById("mName").value}</p>
+                <p><strong>DATE OF BIRTH:</strong> ${document.getElementById("dob").value}</p>
+                <p><strong>MOBILE NO:</strong> ${document.getElementById("mobile").value}</p>
+                <p><strong>ADDRESS:</strong> ${document.getElementById("address").value}</p>
+                <p><strong>UTR NO:</strong> ${utr}</p>
+                <p><strong>FEE PAID:</strong> ₹${basePrice - discountAmt}</p>
+                <hr>
+                <p style="text-align:center; font-size:12px;">ISSUED ON: ${new Date().toLocaleString()}</p>
             </div>
-            <p><strong>REGISTRATION ID:</strong> <span style="color:var(--primary)">${uid}</span></p>
-            <p><strong>STUDENT NAME:</strong> ${document.getElementById("sName").value}</p>
-            <p><strong>FATHER'S NAME:</strong> ${document.getElementById("fName").value}</p>
-            <p><strong>MOTHER'S NAME:</strong> ${document.getElementById("mName").value}</p>
-            <p><strong>DATE OF BIRTH:</strong> ${document.getElementById("dob").value}</p>
-            <p><strong>MOBILE NO:</strong> ${document.getElementById("mobile").value}</p>
-            <p><strong>ADDRESS:</strong> ${document.getElementById("address").value}</p>
-            <p><strong>UTR NUMBER:</strong> ${utr}</p>
-            <p><strong>FINAL FEE PAID:</strong> ₹${basePrice - discountAmt}</p>
-            <p style="margin-top:15px; font-size:11px; color:#94a3b8; text-align:center;">ISSUED ON: ${new Date().toLocaleString()}</p>
         `;
-        document.getElementById("receiptData").innerHTML = data;
+        document.getElementById("receiptData").innerHTML = finalReceiptHTML;
+    }
+
+    // LOCAL STORAGE DOWNLOAD FUNCTION
+    function downloadReceipt() {
+        let studentName = document.getElementById("sName").value || "Student";
+        let fileName = `Receipt_${studentName}.html`;
+        
+        // File Content Create Karna
+        let blob = new Blob([finalReceiptHTML], { type: "text/html" });
+        let link = document.createElement("a");
+        
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName; // Ye file Chrome/Browser download me jayegi
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 </script>
 
