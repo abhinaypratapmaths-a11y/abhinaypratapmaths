@@ -80,7 +80,8 @@
 
 <div class="container" id="mainContainer">
     <div class="header">
-        <img src="alogo.png" alt="LOGO"> <h1>AP MATHEMATICS</h1>
+        <img src="alogo.png" alt="LOGO"> 
+        <h1>AP MATHEMATICS</h1>
         <p>POWERED BY ABHINAY PRATAP MATHS</p>
     </div>
 
@@ -91,14 +92,14 @@
                 <option value="">-- SELECT YOUR BATCH --</option>
                 <option value="2199">LAKSHYA BATCH (₹2199)</option>
                 <option value="2199">SANKALP BATCH (₹2199)</option>
-                <option value="4999">MATHS SPECIAL (₹4999)</option>
+                <option value="4999" data-type="special">MATHS SPECIAL (₹4999)</option>
             </select>
         </div>
 
         <div class="field full">
-            <label>COUPON CODE (OPTIONAL)</label>
+            <label>COUPON CODE (MW + PERCENTAGE OR HBD50)</label>
             <div style="display: flex; gap: 8px;">
-                <input type="text" id="coupon" placeholder="ENTER CODE" style="flex: 1;">
+                <input type="text" id="coupon" placeholder="MW10, MW50, HBD50" style="flex: 1;">
                 <button type="button" onclick="applyCoupon()" style="padding: 0 15px; border-radius: 10px; cursor: pointer; background: var(--dark); color: white; border: none; font-weight: 700; font-size: 12px;">APPLY</button>
             </div>
         </div>
@@ -125,7 +126,6 @@
                 <option value="MADHYA PRADESH">MADHYA PRADESH</option>
                 <option value="RAJASTHAN">RAJASTHAN</option>
                 <option value="DELHI">DELHI</option>
-                <option value="HARYANA">HARYANA</option>
             </select>
         </div>
         <div class="field full"><label>FULL PERMANENT ADDRESS <span>*</span></label><textarea id="address" rows="2"></textarea></div>
@@ -139,7 +139,7 @@
         <h2 style="color: var(--dark); font-size: 18px;">SECURE PAYMENT</h2>
         <div class="qr-box"><img id="dynamicQR" src="" alt="QR"></div>
         <p id="qrAmountShow" style="font-weight: 800; color: var(--primary); font-size: 22px;">₹0</p>
-        <p style="font-size: 10px; margin-bottom: 10px; color: #64748b;">START UTR WITH 'MW' + 12 DIGITS</p>
+        <p style="font-size: 10px; margin-bottom: 10px; color: #64748b;">MANDATORY: START UTR WITH 'MW' + 12 DIGITS</p>
         <input type="text" id="utr" placeholder="E.G. MW123456789012" style="width: 100%; text-align: center; border: 2px solid var(--dark); text-transform: uppercase;">
         <button type="button" class="btn-pay" style="background:var(--success); margin-top:15px;" onclick="verifyAndSubmit()">CONFIRM REGISTRATION</button>
         <button type="button" onclick="closeModal()" style="margin-top:10px; border:none; background:none; cursor:pointer; font-size:11px; font-weight: bold;">GO BACK</button>
@@ -147,10 +147,10 @@
 </div>
 
 <div class="container" id="successCard">
-    <div style="color: var(--success); font-size: 40px;">✔</div>
+    <div style="color: var(--success); font-size: 40px; margin-top: 20px;">✔</div>
     <h2 style="font-weight: 800; font-size: 20px;">ADMISSION SUCCESSFUL</h2>
     <div id="receiptData" class="receipt-container"></div>
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
+    <div style="display: flex; gap: 10px; margin: 20px 30px;">
         <button class="btn-pay" onclick="downloadReceipt()" style="background: var(--dark); flex: 1;">DOWNLOAD RECEIPT</button>
         <button class="btn-pay" onclick="location.reload()" style="background: #e2e8f0; color: #1e293b; flex: 1; box-shadow: none;">NEW ENTRY</button>
     </div>
@@ -169,10 +169,29 @@
 
     function applyCoupon() {
         let code = document.getElementById("coupon").value.trim().toUpperCase();
-        if(!basePrice) return alert("CHOOSE COURSE FIRST!");
-        if(code === "MW500") {
-            discountAmt = 500;
-            alert("DISCOUNT APPLIED: ₹500 OFF");
+        let courseSelect = document.getElementById("course");
+        let isSpecial = courseSelect.options[courseSelect.selectedIndex].getAttribute('data-type') === 'special';
+
+        if(!basePrice) return alert("SELECT COURSE FIRST!");
+
+        // Math Special Batch specific Coupon
+        if(code === "HBD50") {
+            if(isSpecial) {
+                discountAmt = Math.round(basePrice * 0.50);
+                alert("HBD50 APPLIED: 50% OFF ON MATH SPECIAL!");
+            } else {
+                alert("HBD50 IS ONLY FOR MATH SPECIAL BATCH!");
+            }
+        } 
+        // Dynamic MW Coupon (MW + Number = Percentage)
+        else if(code.startsWith("MW")) {
+            let num = parseInt(code.replace("MW", ""));
+            if(!isNaN(num) && num > 0 && num <= 100) {
+                discountAmt = Math.round(basePrice * (num / 100));
+                alert("SUCCESS: " + num + "% DISCOUNT APPLIED!");
+            } else {
+                alert("INVALID PERCENTAGE!");
+            }
         } else {
             alert("INVALID COUPON!");
             discountAmt = 0;
@@ -192,7 +211,7 @@
         const req = ["course", "sName", "fName", "mName", "dob", "aadhar", "mobile", "village", "state", "address"];
         for(let id of req) {
             if(!document.getElementById(id).value.trim()) {
-                alert("MANDATORY FIELD MISSING!");
+                alert("PLEASE FILL ALL MANDATORY FIELDS!");
                 document.getElementById(id).focus();
                 return;
             }
@@ -213,27 +232,27 @@
             let time = new Date().toLocaleString('en-IN');
 
             finalReceiptHTML = `
-                <div style="padding:25px; border:4px solid #0f172a; font-family:sans-serif; text-transform:uppercase; background:#fff;">
-                    <div style="text-align:center; border-bottom:2px solid #d32f2f; padding-bottom:10px; margin-bottom:15px;">
-                        <h1 style="margin:0; font-size:24px; color:#0f172a;">AP MATHEMATICS</h1>
-                        <p style="margin:2px 0; font-size:10px; font-weight:800; color:#d32f2f;">POWERED BY ABHINAY PRATAP MATHS</p>
+                <div style="padding:30px; border:4px solid #0f172a; font-family:sans-serif; text-transform:uppercase; background:#fff;">
+                    <div style="display:flex; align-items:center; gap:20px; border-bottom:3px solid #d32f2f; padding-bottom:15px; margin-bottom:20px;">
+                        <img src="alogo.png" style="width:75px; height:75px; border-radius:50%; border:2px solid #0f172a; object-fit:cover;">
+                        <div style="text-align:left;">
+                            <h1 style="margin:0; font-size:22px; color:#0f172a;">AP MATHEMATICS</h1>
+                            <p style="margin:2px 0; font-size:10px; font-weight:800; color:#d32f2f;">POWERED BY ABHINAY PRATAP MATHS</p>
+                        </div>
                     </div>
-                    <table style="width:100%; font-size:12px; border-collapse:collapse; line-height:1.8;">
+                    <table style="width:100%; font-size:11px; border-collapse:collapse; line-height:2.2;">
                         <tr><td><b>REGISTRATION ID:</b></td><td style="text-align:right;">${regID}</td></tr>
                         <tr><td><b>STUDENT NAME:</b></td><td style="text-align:right;">${document.getElementById("sName").value}</td></tr>
                         <tr><td><b>FATHER'S NAME:</b></td><td style="text-align:right;">${document.getElementById("fName").value}</td></tr>
                         <tr><td><b>MOTHER'S NAME:</b></td><td style="text-align:right;">${document.getElementById("mName").value}</td></tr>
                         <tr><td><b>DATE OF BIRTH:</b></td><td style="text-align:right;">${document.getElementById("dob").value}</td></tr>
                         <tr><td><b>AADHAR NO:</b></td><td style="text-align:right;">${document.getElementById("aadhar").value}</td></tr>
-                        <tr><td><b>VILLAGE/TOWN:</b></td><td style="text-align:right;">${document.getElementById("village").value}</td></tr>
+                        <tr><td><b>VILLAGE:</b></td><td style="text-align:right;">${document.getElementById("village").value}</td></tr>
                         <tr><td><b>STATE:</b></td><td style="text-align:right;">${document.getElementById("state").value}</td></tr>
-                        <tr style="background:#f1f5f9; color:#d32f2f;"><td><b>AMOUNT PAID:</b></td><td style="text-align:right;"><b>₹${basePrice - discountAmt}</b></td></tr>
+                        <tr style="background:#f1f5f9; color:#d32f2f;"><td><b>TOTAL PAID:</b></td><td style="text-align:right;"><b>₹${basePrice - discountAmt}</b></td></tr>
                         <tr><td><b>UTR NUMBER:</b></td><td style="text-align:right;">${utr}</td></tr>
                         <tr><td><b>DATE & TIME:</b></td><td style="text-align:right;">${time}</td></tr>
                     </table>
-                    <div style="margin-top:20px; text-align:center; font-size:9px; border-top:1px dashed #ccc; padding-top:10px;">
-                        <p>THIS IS AN OFFICIAL COMPUTER GENERATED RECEIPT.</p>
-                    </div>
                 </div>
             `;
             document.getElementById("receiptData").innerHTML = finalReceiptHTML;
