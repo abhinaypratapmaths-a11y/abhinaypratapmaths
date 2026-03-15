@@ -109,9 +109,21 @@
         </div>
 
         <div class="field full fee-status" id="feeDisplay" style="display:none">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-weight:800; color:#1e293b;">FINAL PAYABLE FEE:</span>
-                <span id="finalPrice" style="font-size:24px; font-weight:900; color:var(--primary);">₹0</span>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:#475569;">
+                    <span>COURSE BASE PRICE:</span> <span id="dispBase">₹0</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:#10b981;">
+                    <span>DISCOUNT:</span> <span id="dispDiscount">-₹0</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:#475569;">
+                    <span>GST (5%):</span> <span id="dispGST">₹0</span>
+                </div>
+                <hr style="border:0; border-top:1px solid #e2e8f0; margin:5px 0;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:800; color:#1e293b;">FINAL PAYABLE FEE:</span>
+                    <span id="finalPrice" style="font-size:24px; font-weight:900; color:var(--primary);">₹0</span>
+                </div>
             </div>
         </div>
 
@@ -135,10 +147,10 @@
         <h2 style="font-weight:800; color:var(--dark);">UPI PAYMENT</h2>
         <div class="qr-box"><img id="dynamicQR" src="" alt="QR"></div>
         <p id="qrAmountShow" style="font-weight:900; color:var(--primary); font-size:28px;">₹0</p>
-        <p style="font-size:11px; color:#64748b; margin-bottom:15px;">VERIFY UTR AFTER COURSE FEE PAYMENT</p>
+        <p style="font-size:11px; color:#64748b; margin-bottom:15px;">©SCAN THIS QR AND PAY NOW COURSE FEE AMOUNT!! ANY ISSUES CONTACT ON +91 9670078465</p>
         <input type="text" id="utr" placeholder="FILL UTR NUMBER AND PROCEED" style="width:100%; text-align:center; border:2px solid var(--dark); margin-bottom:15px;">
         <button type="button" class="btn-pay" style="background:var(--success);" onclick="verifyAndSubmit()">VERIFY & ENROLL</button>
-        <button type="button" onclick="closeModal()" style="margin-top:15px; border:none; background:none; cursor:pointer; color:#64748b; font-weight:700;">CANCEL</button>
+        <button type="button" onclick="closeModal()" style="margin-top:15px; border:none; background:none; cursor:pointer; color:#64748b; font-weight:700;">❌ CANCEL PAYMENT</button>
     </div>
 </div>
 
@@ -147,7 +159,7 @@
         <span style="color:white; font-size:35px;">✔</span>
     </div>
     <h2 style="font-weight:800; font-size:24px;">ADMISSION SUCCESSFUL!</h2>
-    <div id="receiptData" class="receipt-container"></div>
+    <div id="receiptData" class="receipt-container"></div><p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">COMPUTER GENERATED SECURE ADMISSION RECEIPT</p>
     <div style="display:flex; gap:15px; margin-top:30px;">
         <button class="btn-pay" onclick="downloadReceipt()" style="background:var(--dark); flex:1;">DOWNLOAD OFFICIAL RECEIPT</button>
         <button class="btn-pay" onclick="location.reload()" style="background:#e2e8f0; color:#1e293b; flex:1; box-shadow:none;">CLOSE</button>
@@ -155,7 +167,7 @@
 </div>
 
 <script>
-    let basePrice = 0, discountAmt = 0;
+    let basePrice = 0, discountAmt = 0, totalGst = 0, finalPayable = 0;
 
     function updateFee() {
         if(document.getElementById("course").value) {
@@ -178,10 +190,17 @@
     }
 
     function calculateTotal() {
-        let final = basePrice - discountAmt;
-        document.getElementById("finalPrice").innerText = "₹" + final;
-        document.getElementById("dynamicQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?pa=7705042892@axl&pn=AP%20MATHEMATICS&am='+final+'&cu=INR')}`;
-        document.getElementById("qrAmountShow").innerText = "₹" + final;
+        let afterDiscount = basePrice - discountAmt;
+        totalGst = Math.round(afterDiscount * 0.05); // Total 5% GST
+        finalPayable = afterDiscount + totalGst;
+
+        document.getElementById("dispBase").innerText = "₹" + basePrice;
+        document.getElementById("dispDiscount").innerText = "-₹" + discountAmt;
+        document.getElementById("dispGST").innerText = "₹" + totalGst;
+        document.getElementById("finalPrice").innerText = "₹" + finalPayable;
+        
+        document.getElementById("dynamicQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?pa=7705042892@axl&pn=AP%20MATHEMATICS&am='+finalPayable+'&cu=INR')}`;
+        document.getElementById("qrAmountShow").innerText = "₹" + finalPayable;
     }
 
     function openPayment() {
@@ -205,13 +224,13 @@
     function renderReceipt(utr) {
         let studentID = "MW-" + Math.floor(1000 + Math.random() * 9000) + "-APM";
         let enrollmentNo = "APM" + Date.now().toString().slice(-7);
-        let time = new Date().toLocaleString('en-IN', { dateStyle: 'full', timeStyle: 'short' });
-        
-        // Course Name Selection
         let courseElement = document.getElementById("course");
         let selectedCourseName = courseElement.options[courseElement.selectedIndex].text;
 
-        let verifyData = `VERIFIED: ${document.getElementById("sName").value} | ID: ${studentID} | COURSE: ${selectedCourseName}`;
+        let cgst = (totalGst / 2).toFixed(2);
+        let sgst = (totalGst / 2).toFixed(2);
+
+        let verifyData = `VERIFIED: ${document.getElementById("sName").value} | ID: ${studentID} | PAID: ${finalPayable}`;
         let verifyQR = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verifyData)}`;
 
         let html = `
@@ -241,26 +260,27 @@
                         <p style="font-size:18px; font-weight:900; letter-spacing:1px;">${selectedCourseName}</p>
                     </div>
 
-                    <table style="width:100%; font-size:12px; line-height:2.2; border-collapse:collapse;">
+                    <table style="width:100%; font-size:12px; line-height:2.0; border-collapse:collapse;">
                         <tr><td style="color:#64748b; font-weight:bold;">FULL NAME</td><td align="right" style="font-weight:800;">${document.getElementById("sName").value}</td></tr>
                         <tr><td style="color:#64748b; font-weight:bold;">FATHER'S NAME</td><td align="right">${document.getElementById("fName").value}</td></tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">MOTHER'S NAME</td><td align="right">${document.getElementById("mName").value}</td></tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">STUDENT MOBILE</td><td align="right">${document.getElementById("mobile").value}</td></tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">AADHAR NUMBER</td><td align="right">${document.getElementById("aadhar").value}</td></tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">COURSE BASE FEE</td><td align="right">₹${basePrice}</td></tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">DISCOUNT APPLIED</td><td align="right" style="color:#d32f2f;">-₹${discountAmt}</td></tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">CGST (2.5%)</td><td align="right">₹${cgst}</td></tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">SGST (2.5%)</td><td align="right">₹${sgst}</td></tr>
                         
                         <tr style="border-top:2px solid #0f172a; border-bottom:2px solid #0f172a; background:#f1f5f9;">
-                            <td style="font-weight:900; padding:10px; font-size:14px; color:#d32f2f;">FEE PAID</td>
-                            <td align="right" style="font-weight:900; font-size:20px; color:#d32f2f; padding:10px;">₹${basePrice - discountAmt}</td>
+                            <td style="font-weight:900; padding:10px; font-size:14px; color:#d32f2f;">TOTAL PAID (INCL. GST)</td>
+                            <td align="right" style="font-weight:900; font-size:20px; color:#d32f2f; padding:10px;">₹${finalPayable}</td>
                         </tr>
                         <tr><td style="color:#64748b; font-weight:bold;">TRANSACTION ID</td><td align="right" style="font-weight:800; color:#10b981;">${utr}</td></tr>
                     </table>
 
-                    <div style="margin-top:35px; text-align:center; padding:15px; background:#f8fafc; border-radius:15px;">
+                    <div style="margin-top:30px; text-align:center; padding:15px; background:#f8fafc; border-radius:15px;">
                         <img src="${verifyQR}" style="width:110px; height:110px; border:3px solid #fff; border-radius:10px; margin-bottom:8px;">
                         <p style="font-size:9px; font-weight:800; color:#0f172a;">SCAN TO VERIFY DETAILS & BATCH</p>
                     </div>
 
-                    <div style="margin-top:50px; display:flex; justify-content:space-between; align-items:flex-end;">
+                    <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:flex-end;">
                         <div style="text-align:center;">
                             <div style="width:150px; border-bottom:2px solid #0f172a; margin-bottom:5px;"></div>
                             <p style="font-size:11px; font-weight:900;">BHOLU CHAUBEY</p>
@@ -273,10 +293,10 @@
                         </div>
                     </div>
 
-                    <div style="margin-top:40px; border-top:1px dashed #cbd5e1; padding-top:15px; font-size:10px; text-align:center; color:#64748b;">
-                        <p>HELPLINE NO: +91 9670078465 |OFFICIAL EMAIL: ABHINAYCHAUBEY83@GMAIL.COM | WEBSITE: WWW.APMATHS.ONLINE</p>
+                    <div style="margin-top:30px; border-top:1px dashed #cbd5e1; padding-top:15px; font-size:10px; text-align:center; color:#64748b;">
+                        <p>HELPLINE NO: +91 9670078465 | WEBSITE: WWW.APMATHS.ONLINE</p>
                         <p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">COMPUTER GENERATED SECURE ADMISSION RECEIPT</p>
-                        <p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">@AP MATHEMATICS 2026 BY ABHINAY PRATAP CHAUBEY</p>
+                        <p style="margin-top:5px; font-weight:bold; color:#0f172a; letter-spacing:1px;">@AP MATHEMATICS 2026 BY ABHINAY PRATAP CHAUBEY</p>
                     </div>
                 </div>
             </div>
