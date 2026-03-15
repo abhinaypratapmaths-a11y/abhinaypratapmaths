@@ -90,13 +90,13 @@
     </div>
     <form id="admissionForm" class="form-grid">
         <div class="field full">
-            <label>SELECT BATCH <span>*</span></label>
+            <label>OUR LIVE BATCH <span>*</span></label>
             <select id="course" onchange="updateFee()">
-                <option value="">-- CHOOSE COURSE --</option>
-                <option value="499">REGISTRATION FEE (₹499)</option>
-                <option value="2199">LAKSHYA BATCH (₹2199)</option>
-                <option value="2199">SANKALP BATCH (₹2199)</option>
-                <option value="4999" data-type="special">MATHS SPECIAL 2026 (₹4999)</option>
+                <option value="">-- SELECT OUR COURSE --</option>
+                <option value="500">REGISTRATION FEE</option>
+                <option value="2199">LAKSHYA FOUNDATION BATCH </option>
+                <option value="2199">SANKALP FOUNDATION BATCH </option>
+                <option value="3000" data-type="special">MATHS SPECIAL 2026 </option>
             </select>
         </div>
         
@@ -135,8 +135,8 @@
         <h2 style="font-weight:800; color:var(--dark);">UPI PAYMENT</h2>
         <div class="qr-box"><img id="dynamicQR" src="" alt="QR"></div>
         <p id="qrAmountShow" style="font-weight:900; color:var(--primary); font-size:28px;">₹0</p>
-        <p style="font-size:11px; color:#64748b; margin-bottom:15px;">START UTR WITH 'MW' + 12 DIGITS</p>
-        <input type="text" id="utr" placeholder="ENTER 12-DIGIT UTR" style="width:100%; text-align:center; border:2px solid var(--dark); margin-bottom:15px;">
+        <p style="font-size:11px; color:#64748b; margin-bottom:15px;">VERIFY UTR AFTER COURSE FEE PAYMENT</p>
+        <input type="text" id="utr" placeholder="FILL UTR NUMBER AND PROCEED" style="width:100%; text-align:center; border:2px solid var(--dark); margin-bottom:15px;">
         <button type="button" class="btn-pay" style="background:var(--success);" onclick="verifyAndSubmit()">VERIFY & ENROLL</button>
         <button type="button" onclick="closeModal()" style="margin-top:15px; border:none; background:none; cursor:pointer; color:#64748b; font-weight:700;">CANCEL</button>
     </div>
@@ -199,7 +199,7 @@
             document.getElementById("payModal").style.display = "none";
             document.getElementById("successCard").style.display = "block";
             renderReceipt(utr);
-        } else alert("INVALID UTR! MUST START WITH MW + 12 DIGITS.");
+        } else alert("INVALID UTR! AP MATHEMATICS 2026 .");
     }
 
     function renderReceipt(utr) {
@@ -222,7 +222,7 @@
                     <div style="text-align:center; border-bottom:4px solid #d32f2f; padding-bottom:15px; margin-bottom:20px;">
                         <h1 style="margin:0; font-size:32px; color:#0f172a; font-weight:900;">AP MATHEMATICS</h1>
                         <p style="margin:5px 0; font-size:12px; font-weight:bold; color:#d32f2f;">POWERED BY ABHINAY PRATAP MATHS</p>
-                        <p style="margin:8px 0 0 0; font-size:10px; color:#64748b; font-weight:bold;">📍 NEAR PRAKASH CHOWK, RAVINDRA NAGAR, KUSHINAGAR (UP)</p>
+                        <p style="margin:8px 0 0 0; font-size:10px; color:#64748b; font-weight:bold;"> NEAR PRAKASH CHOWK, RAVINDRA NAGAR, KUSHINAGAR (UP)</p>
                     </div>
 
                     <div style="display:flex; justify-content:space-between; margin-bottom:25px; align-items:center; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;">
@@ -274,8 +274,9 @@
                     </div>
 
                     <div style="margin-top:40px; border-top:1px dashed #cbd5e1; padding-top:15px; font-size:10px; text-align:center; color:#64748b;">
-                        <p>📞 +91 9670078465 | 📧 ABHINAYCHAUBEY83@GMAIL.COM | 🌐 WWW.APMATHS.ONLINE</p>
+                        <p>HELPLINE NO: +91 9670078465 |OFFICIAL EMAIL: ABHINAYCHAUBEY83@GMAIL.COM | WEBSITE: WWW.APMATHS.ONLINE</p>
                         <p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">COMPUTER GENERATED SECURE ADMISSION RECEIPT</p>
+                        <p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">@AP MATHEMATICS 2026 BY ABHINAY PRATAP CHAUBEY</p>
                     </div>
                 </div>
             </div>
