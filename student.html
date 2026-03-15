@@ -3,22 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OFFICIAL ADMISSION PORTAL | 2026</title>
+    <title>ADMISSION PORTAL | AP MATHEMATICS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #d32f2f;
             --dark: #0f172a;
-            --light: #f8fafc;
             --success: #10b981;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; }
 
-        body {
-            background: #f1f5f9;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
-        }
+        body { background: #f1f5f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
 
         .container {
             background: white; width: 100%; max-width: 850px;
@@ -27,79 +23,55 @@
         }
 
         .header { 
-            background: var(--dark); color: white; padding: 35px 20px; 
+            background: var(--dark); color: white; padding: 30px 20px; 
             text-align: center; border-bottom: 6px solid var(--primary); 
         }
 
-        /* LOGO KO CIRCLE KARNE KE LIYE CSS */
         .header img { 
-            width: 100px; 
-            height: 100px; 
-            margin-bottom: 15px; 
-            border-radius: 50%; /* Circle shape */
-            border: 3px solid white; 
-            object-fit: cover;
+            width: 85px; height: 85px; margin-bottom: 10px; 
+            border-radius: 50%; border: 3px solid white; object-fit: cover;
         }
 
-        .header h1 { font-size: 24px; letter-spacing: 2px; font-weight: 800; }
+        .header h1 { font-size: 26px; letter-spacing: 2px; font-weight: 800; }
+        .header p { font-size: 11px; color: #cbd5e1; margin-top: 5px; font-weight: 600; }
 
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 40px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 30px; }
         .full { grid-column: span 2; }
 
-        .field { display: flex; flex-direction: column; gap: 6px; }
-        label { font-size: 11px; font-weight: 800; color: #64748b; letter-spacing: 0.5px; }
+        .field { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 10px; font-weight: 800; color: #64748b; letter-spacing: 0.5px; }
+        label span { color: var(--primary); }
 
         input, select, textarea {
-            padding: 14px 16px; border-radius: 12px; border: 2px solid #f1f5f9;
-            background: #f8fafc; font-size: 14px; font-weight: 600; transition: all 0.3s ease;
+            padding: 12px 15px; border-radius: 10px; border: 2px solid #f1f5f9;
+            background: #f8fafc; font-size: 13px; font-weight: 600; transition: 0.3s;
         }
 
-        input:focus, select:focus, textarea:focus { 
-            border-color: var(--primary); outline: none; background: white;
-            box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.1);
-        }
+        input:focus, select:focus { border-color: var(--primary); outline: none; background: white; }
 
         .fee-status { 
-            background: #fff1f1; padding: 20px; border-radius: 15px; 
-            margin-bottom: 10px; border: 2px dashed var(--primary); 
+            background: #fff1f1; padding: 15px; border-radius: 12px; 
+            border: 2px dashed var(--primary); margin-top: 10px;
         }
 
-        /* Payment Modal */
         .modal {
             display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9);
             z-index: 100; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);
         }
 
-        .modal-content {
-            background: white; padding: 40px; border-radius: 24px; max-width: 420px; width: 100%;
-            text-align: center; animation: slideUp 0.4s ease-out;
-        }
+        .modal-content { background: white; padding: 35px; border-radius: 20px; max-width: 400px; width: 100%; text-align: center; }
 
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        .qr-box { 
-            width: 220px; height: 220px; background: white; margin: 25px auto; 
-            border: 1px solid #eee; padding: 10px; border-radius: 15px;
-        }
+        .qr-box { width: 200px; height: 200px; background: white; margin: 15px auto; padding: 8px; border: 1px solid #eee; border-radius: 12px; }
         .qr-box img { width: 100%; height: 100%; }
 
         .btn-pay {
-            width: 100%; padding: 18px; background: var(--primary); color: white;
-            border: none; border-radius: 15px; font-size: 16px; font-weight: 800;
-            cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 10px 15px -3px rgba(211, 47, 47, 0.3);
+            width: 100%; padding: 16px; background: var(--primary); color: white;
+            border: none; border-radius: 12px; font-size: 15px; font-weight: 800;
+            cursor: pointer; transition: 0.3s;
         }
 
-        .btn-pay:hover { transform: translateY(-2px); filter: brightness(1.1); }
-
-        .btn-success { background: var(--success); box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3); }
-
-        /* Success Page */
-        #successCard { display: none; padding: 60px 40px; text-align: center; }
-        .receipt-box {
-            text-align: left; background: #f8fafc; padding: 30px; border-radius: 20px;
-            margin-top: 25px; border: 1px solid #e2e8f0; line-height: 1.8;
-        }
-        .receipt-box p { border-bottom: 1px solid #edf2f7; padding: 8px 0; font-size: 13px; }
+        #successCard { display: none; padding: 30px; text-align: center; }
+        .receipt-container { text-align: left; background: white; border-radius: 12px; margin-top: 15px; overflow: hidden; }
 
         @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .full { grid-column: span 1; } }
     </style>
@@ -108,14 +80,14 @@
 
 <div class="container" id="mainContainer">
     <div class="header">
-        <img src="alogo.png" alt="INSTITUTE LOGO">
-        <h1>ADMISSION PORTAL 2026</h1>
+        <img src="alogo.png" alt="LOGO"> <h1>AP MATHEMATICS</h1>
+        <p>POWERED BY ABHINAY PRATAP MATHS</p>
     </div>
 
     <form id="admissionForm" class="form-grid">
         <div class="field full">
-            <label>CHOOSE COURSE</label>
-            <select id="course" onchange="updateFee()">
+            <label>CHOOSE COURSE <span>*</span></label>
+            <select id="course" onchange="updateFee()" required>
                 <option value="">-- SELECT YOUR BATCH --</option>
                 <option value="2199">LAKSHYA BATCH (₹2199)</option>
                 <option value="2199">SANKALP BATCH (₹2199)</option>
@@ -124,91 +96,85 @@
         </div>
 
         <div class="field full">
-            <label>COUPON CODE</label>
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="coupon" placeholder="ENTER CODE (E.G. MW50)" style="flex: 1;">
-                <button type="button" onclick="applyCoupon()" style="padding: 0 25px; border-radius: 12px; cursor: pointer; background: var(--dark); color: white; border: none; font-weight: 700;">APPLY</button>
+            <label>COUPON CODE (OPTIONAL)</label>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="coupon" placeholder="ENTER CODE" style="flex: 1;">
+                <button type="button" onclick="applyCoupon()" style="padding: 0 15px; border-radius: 10px; cursor: pointer; background: var(--dark); color: white; border: none; font-weight: 700; font-size: 12px;">APPLY</button>
             </div>
         </div>
 
         <div class="field full fee-status" id="feeDisplay" style="display:none">
-            <div style="display:flex; justify-content: space-between; font-weight: 800; font-size: 18px;">
-                <span>PAYABLE AMOUNT:</span>
+            <div style="display:flex; justify-content: space-between; font-weight: 800; font-size: 16px;">
+                <span>PAYABLE FEE:</span>
                 <span id="finalPrice" style="color: var(--primary);">₹0</span>
             </div>
         </div>
 
-        <div class="field"><label>STUDENT FULL NAME</label><input type="text" id="sName" placeholder="AS PER AADHAR"></div>
-        <div class="field"><label>FATHER'S NAME</label><input type="text" id="fName"></div>
-        <div class="field"><label>MOTHER'S NAME</label><input type="text" id="mName"></div>
-        <div class="field"><label>DATE OF BIRTH</label><input type="date" id="dob"></div>
-        
-        <div class="field full"><label>FULL PERMANENT ADDRESS</label><textarea id="address" rows="2" placeholder="VILLAGE, POST, DISTRICT, PINCODE"></textarea></div>
-        
-        <div class="field"><label>MOBILE NUMBER</label><input type="number" id="mobile"></div>
-        <div class="field"><label>WHATSAPP NUMBER</label><input type="number" id="whatsapp"></div>
-        <div class="field"><label>EMAIL ID</label><input type="email" id="email" placeholder="EXAMPLE@GMAIL.COM"></div>
-        <div class="field"><label>AADHAR NUMBER</label><input type="number" id="aadhar" placeholder="12 DIGIT NUMBER"></div>
+        <div class="field"><label>STUDENT FULL NAME <span>*</span></label><input type="text" id="sName"></div>
+        <div class="field"><label>FATHER'S NAME <span>*</span></label><input type="text" id="fName"></div>
+        <div class="field"><label>MOTHER'S NAME <span>*</span></label><input type="text" id="mName"></div>
+        <div class="field"><label>DATE OF BIRTH <span>*</span></label><input type="date" id="dob"></div>
+        <div class="field"><label>AADHAR NUMBER <span>*</span></label><input type="number" id="aadhar"></div>
+        <div class="field"><label>MOBILE NUMBER <span>*</span></label><input type="number" id="mobile"></div>
+        <div class="field"><label>VILLAGE / TOWN <span>*</span></label><input type="text" id="village"></div>
+        <div class="field"><label>STATE <span>*</span></label>
+            <select id="state">
+                <option value="">-- SELECT STATE --</option>
+                <option value="UTTAR PRADESH">UTTAR PRADESH</option>
+                <option value="BIHAR">BIHAR</option>
+                <option value="MADHYA PRADESH">MADHYA PRADESH</option>
+                <option value="RAJASTHAN">RAJASTHAN</option>
+                <option value="DELHI">DELHI</option>
+                <option value="HARYANA">HARYANA</option>
+            </select>
+        </div>
+        <div class="field full"><label>FULL PERMANENT ADDRESS <span>*</span></label><textarea id="address" rows="2"></textarea></div>
 
-        <button type="button" class="btn-pay full" onclick="openPayment()">PROCEED TO PAY NOW</button>
+        <button type="button" class="btn-pay full" onclick="openPayment()">PROCEED TO PAYMENT</button>
     </form>
 </div>
 
 <div class="modal" id="payModal">
     <div class="modal-content">
-        <h2 style="color: var(--dark);">SECURE PAYMENT</h2>
-        <div class="qr-box">
-            <img id="dynamicQR" src="" alt="QR CODE">
-        </div>
+        <h2 style="color: var(--dark); font-size: 18px;">SECURE PAYMENT</h2>
+        <div class="qr-box"><img id="dynamicQR" src="" alt="QR"></div>
         <p id="qrAmountShow" style="font-weight: 800; color: var(--primary); font-size: 22px;">₹0</p>
-        <p style="font-weight: 600; font-size: 12px; color: var(--dark);">UPI ID: 7705042892@axl</p>
-        
-        <input type="text" id="utr" placeholder="ENTER 12-DIGIT UTR NO." style="margin-top: 20px; width: 100%; border: 2px solid var(--dark); text-align: center;">
-        
-        <button type="button" class="btn-pay btn-success" onclick="verifyAndSubmit()">SUBMIT TRANSACTION</button>
-        <button type="button" onclick="closeModal()" style="margin-top: 15px; border: none; background: none; cursor: pointer; color: #64748b; font-weight: 700; font-size: 12px;">Go Back & Edit</button>
+        <p style="font-size: 10px; margin-bottom: 10px; color: #64748b;">START UTR WITH 'MW' + 12 DIGITS</p>
+        <input type="text" id="utr" placeholder="E.G. MW123456789012" style="width: 100%; text-align: center; border: 2px solid var(--dark); text-transform: uppercase;">
+        <button type="button" class="btn-pay" style="background:var(--success); margin-top:15px;" onclick="verifyAndSubmit()">CONFIRM REGISTRATION</button>
+        <button type="button" onclick="closeModal()" style="margin-top:10px; border:none; background:none; cursor:pointer; font-size:11px; font-weight: bold;">GO BACK</button>
     </div>
 </div>
 
 <div class="container" id="successCard">
-    <div style="color: var(--success); font-size: 60px; margin-bottom: 10px;">✔</div>
-    <h2 style="color: var(--dark); font-weight: 800;">ADMISSION CONFIRMED!</h2>
-    <p style="color: #64748b; text-transform: none;">Thank you! Your registration has been successfully processed.</p>
-    
-    <div class="receipt-box" id="receiptData"></div>
-    
-    <div style="display: flex; gap: 15px; margin-top: 25px;">
+    <div style="color: var(--success); font-size: 40px;">✔</div>
+    <h2 style="font-weight: 800; font-size: 20px;">ADMISSION SUCCESSFUL</h2>
+    <div id="receiptData" class="receipt-container"></div>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
         <button class="btn-pay" onclick="downloadReceipt()" style="background: var(--dark); flex: 1;">DOWNLOAD RECEIPT</button>
-        <button class="btn-pay" onclick="location.reload()" style="background: #e2e8f0; color: #1e293b; flex: 1; box-shadow: none;">CLOSE</button>
+        <button class="btn-pay" onclick="location.reload()" style="background: #e2e8f0; color: #1e293b; flex: 1; box-shadow: none;">NEW ENTRY</button>
     </div>
 </div>
 
 <script>
-    let basePrice = 0;
-    let discountAmt = 0;
-    let finalReceiptHTML = ""; // Receipt data store karne ke liye
+    let basePrice = 0, discountAmt = 0, finalReceiptHTML = "";
 
     function updateFee() {
-        let val = document.getElementById("course").value;
-        if(val) {
-            basePrice = parseInt(val);
+        if(document.getElementById("course").value) {
+            basePrice = parseInt(document.getElementById("course").value);
             document.getElementById("feeDisplay").style.display = "block";
             calculateTotal();
         }
     }
 
     function applyCoupon() {
-        let code = document.getElementById("coupon").value.toUpperCase();
-        if(!basePrice) return alert("PLEASE SELECT A COURSE FIRST!");
-        
-        if(code.startsWith("MW")) {
-            let pct = parseInt(code.replace("MW", ""));
-            if(pct > 0 && pct <= 100) {
-                discountAmt = Math.round(basePrice * (pct/100));
-                alert("SUCCESS! " + pct + "% DISCOUNT APPLIED");
-            }
+        let code = document.getElementById("coupon").value.trim().toUpperCase();
+        if(!basePrice) return alert("CHOOSE COURSE FIRST!");
+        if(code === "MW500") {
+            discountAmt = 500;
+            alert("DISCOUNT APPLIED: ₹500 OFF");
         } else {
-            alert("INVALID OR EXPIRED COUPON CODE");
+            alert("INVALID COUPON!");
             discountAmt = 0;
         }
         calculateTotal();
@@ -217,19 +183,17 @@
     function calculateTotal() {
         let final = basePrice - discountAmt;
         document.getElementById("finalPrice").innerText = "₹" + final;
-        let upiID = "7705042892@axl";
-        let upiName = "ADMISSION%20PORTAL";
-        let upiLink = `upi://pay?pa=${upiID}&pn=${upiName}&am=${final}&cu=INR`;
+        let upiLink = `upi://pay?pa=7705042892@axl&pn=AP%20MATHEMATICS&am=${final}&cu=INR`;
         document.getElementById("dynamicQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiLink)}`;
-        document.getElementById("qrAmountShow").innerText = "AMOUNT: ₹" + final;
+        document.getElementById("qrAmountShow").innerText = "PAY: ₹" + final;
     }
 
     function openPayment() {
-        const fields = ["course", "sName", "fName", "mName", "address", "mobile", "whatsapp", "email", "dob", "aadhar"];
-        for(let f of fields) {
-            if(!document.getElementById(f).value.trim()) {
-                alert("MANDATORY FIELD MISSING: " + f.replace(/[a-z]/, (c) => c.toUpperCase()) );
-                document.getElementById(f).focus();
+        const req = ["course", "sName", "fName", "mName", "dob", "aadhar", "mobile", "village", "state", "address"];
+        for(let id of req) {
+            if(!document.getElementById(id).value.trim()) {
+                alert("MANDATORY FIELD MISSING!");
+                document.getElementById(id).focus();
                 return;
             }
         }
@@ -239,50 +203,51 @@
     function closeModal() { document.getElementById("payModal").style.display = "none"; }
 
     function verifyAndSubmit() {
-        let utr = document.getElementById("utr").value.trim();
-        if(utr.length < 10) return alert("INVALID UTR! ENTER THE 12-DIGIT TRANSACTION ID.");
+        let utr = document.getElementById("utr").value.trim().toUpperCase();
+        if(utr.startsWith("MW") && utr.length === 14) {
+            document.getElementById("mainContainer").style.display = "none";
+            document.getElementById("payModal").style.display = "none";
+            document.getElementById("successCard").style.display = "block";
 
-        document.getElementById("mainContainer").style.display = "none";
-        document.getElementById("payModal").style.display = "none";
-        document.getElementById("successCard").style.display = "block";
+            let regID = "APM-" + Math.floor(100000 + Math.random() * 900000);
+            let time = new Date().toLocaleString('en-IN');
 
-        let uid = "APM-" + Math.floor(1000 + Math.random() * 9000) + "-" + Date.now().toString().slice(-4);
-        
-        // Receipt ka Content
-        finalReceiptHTML = `
-            <div style="font-family:sans-serif; padding:20px; border:2px solid #333; max-width:500px; margin:auto; text-transform:uppercase;">
-                <h2 style="text-align:center; color:#d32f2f;">OFFICIAL ADMISSION RECEIPT</h2>
-                <hr>
-                <p><strong>REGISTRATION ID:</strong> ${uid}</p>
-                <p><strong>STUDENT NAME:</strong> ${document.getElementById("sName").value}</p>
-                <p><strong>FATHER'S NAME:</strong> ${document.getElementById("fName").value}</p>
-                <p><strong>MOTHER'S NAME:</strong> ${document.getElementById("mName").value}</p>
-                <p><strong>DATE OF BIRTH:</strong> ${document.getElementById("dob").value}</p>
-                <p><strong>MOBILE NO:</strong> ${document.getElementById("mobile").value}</p>
-                <p><strong>ADDRESS:</strong> ${document.getElementById("address").value}</p>
-                <p><strong>UTR NO:</strong> ${utr}</p>
-                <p><strong>FEE PAID:</strong> ₹${basePrice - discountAmt}</p>
-                <hr>
-                <p style="text-align:center; font-size:12px;">ISSUED ON: ${new Date().toLocaleString()}</p>
-            </div>
-        `;
-        document.getElementById("receiptData").innerHTML = finalReceiptHTML;
+            finalReceiptHTML = `
+                <div style="padding:25px; border:4px solid #0f172a; font-family:sans-serif; text-transform:uppercase; background:#fff;">
+                    <div style="text-align:center; border-bottom:2px solid #d32f2f; padding-bottom:10px; margin-bottom:15px;">
+                        <h1 style="margin:0; font-size:24px; color:#0f172a;">AP MATHEMATICS</h1>
+                        <p style="margin:2px 0; font-size:10px; font-weight:800; color:#d32f2f;">POWERED BY ABHINAY PRATAP MATHS</p>
+                    </div>
+                    <table style="width:100%; font-size:12px; border-collapse:collapse; line-height:1.8;">
+                        <tr><td><b>REGISTRATION ID:</b></td><td style="text-align:right;">${regID}</td></tr>
+                        <tr><td><b>STUDENT NAME:</b></td><td style="text-align:right;">${document.getElementById("sName").value}</td></tr>
+                        <tr><td><b>FATHER'S NAME:</b></td><td style="text-align:right;">${document.getElementById("fName").value}</td></tr>
+                        <tr><td><b>MOTHER'S NAME:</b></td><td style="text-align:right;">${document.getElementById("mName").value}</td></tr>
+                        <tr><td><b>DATE OF BIRTH:</b></td><td style="text-align:right;">${document.getElementById("dob").value}</td></tr>
+                        <tr><td><b>AADHAR NO:</b></td><td style="text-align:right;">${document.getElementById("aadhar").value}</td></tr>
+                        <tr><td><b>VILLAGE/TOWN:</b></td><td style="text-align:right;">${document.getElementById("village").value}</td></tr>
+                        <tr><td><b>STATE:</b></td><td style="text-align:right;">${document.getElementById("state").value}</td></tr>
+                        <tr style="background:#f1f5f9; color:#d32f2f;"><td><b>AMOUNT PAID:</b></td><td style="text-align:right;"><b>₹${basePrice - discountAmt}</b></td></tr>
+                        <tr><td><b>UTR NUMBER:</b></td><td style="text-align:right;">${utr}</td></tr>
+                        <tr><td><b>DATE & TIME:</b></td><td style="text-align:right;">${time}</td></tr>
+                    </table>
+                    <div style="margin-top:20px; text-align:center; font-size:9px; border-top:1px dashed #ccc; padding-top:10px;">
+                        <p>THIS IS AN OFFICIAL COMPUTER GENERATED RECEIPT.</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById("receiptData").innerHTML = finalReceiptHTML;
+        } else {
+            alert("INVALID UTR! MUST START WITH 'MW' FOLLOWED BY 12 DIGITS.");
+        }
     }
 
-    // LOCAL STORAGE DOWNLOAD FUNCTION
     function downloadReceipt() {
-        let studentName = document.getElementById("sName").value || "Student";
-        let fileName = `Receipt_${studentName}.html`;
-        
-        // File Content Create Karna
-        let blob = new Blob([finalReceiptHTML], { type: "text/html" });
+        let blob = new Blob([`<html><body style="padding:20px">${finalReceiptHTML}</body></html>`], { type: "text/html" });
         let link = document.createElement("a");
-        
         link.href = URL.createObjectURL(blob);
-        link.download = fileName; // Ye file Chrome/Browser download me jayegi
-        document.body.appendChild(link);
+        link.download = `AP_Maths_Receipt_${document.getElementById("sName").value}.html`;
         link.click();
-        document.body.removeChild(link);
     }
 </script>
 
