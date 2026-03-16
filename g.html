@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREMIUM ADMISSION PORTAL | AP MATHEMATICS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #d32f2f; --dark: #0f172a; --success: #10b981; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; }
+        
+        body { 
+            background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e0 100%); 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; padding: 20px; 
+        }
+
+        .container { 
+            background: white; width: 100%; max-width: 850px; 
+            border-radius: 30px; box-shadow: 0 40px 100px -20px rgba(0,0,0,0.2); 
+            border: 1px solid rgba(255,255,255,0.8); overflow: hidden; 
+        }
+
+        .header { 
+            background: var(--dark); color: white; padding: 40px 20px; 
+            text-align: center; border-bottom: 8px solid var(--primary);
+        }
+
+        .header img { 
+            width: 100px; height: 100px; margin-bottom: 15px; 
+            border-radius: 50%; border: 4px solid var(--primary); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); object-fit: cover; 
+        }
+
+        .header h1 { font-size: 32px; letter-spacing: 2px; font-weight: 800; }
+        .header p { font-size: 12px; color: #94a3b8; margin-top: 8px; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 40px; }
+        .full { grid-column: span 2; }
+
+        .field { display: flex; flex-direction: column; gap: 8px; }
+        label { font-size: 11px; font-weight: 800; color: #475569; }
+
+        input, select, textarea { 
+            padding: 16px; border-radius: 15px; border: 2px solid #e2e8f0; 
+            background: #f8fafc; font-size: 14px; font-weight: 600; 
+            transition: 0.3s ease; color: var(--dark);
+        }
+
+        input:focus { border-color: var(--primary); outline: none; background: white; }
+
+        .fee-status { 
+            background: #fff1f1; padding: 25px; border-radius: 20px; 
+            border: 2px dashed var(--primary); margin-top: 10px;
+        }
+
+        .btn-pay { 
+            width: 100%; padding: 20px; background: var(--primary); color: white; 
+            border: none; border-radius: 18px; font-size: 16px; font-weight: 800; 
+            cursor: pointer; transition: 0.4s; box-shadow: 0 15px 30px rgba(211, 47, 47, 0.3);
+        }
+
+        .modal { 
+            display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); 
+            z-index: 100; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(10px); 
+        }
+
+        .modal-content { 
+            background: white; padding: 40px; border-radius: 30px; 
+            max-width: 450px; width: 100%; text-align: center;
+        }
+
+        .qr-box { 
+            width: 240px; height: 240px; background: white; margin: 25px auto; 
+            border-radius: 20px; border: 1px solid #e2e8f0; padding: 15px;
+        }
+
+        #successCard { display: none; padding: 50px 40px; text-align: center; }
+
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .full { grid-column: span 1; } }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainContainer">
+    <div class="header">
+        <img src="alogo.png" id="mainLogo" alt="LOGO"> 
+        <h1>AP MATHEMATICS</h1>
+        <p>POWERED BY ABHINAY PRATAP MATHS</p>
+    </div>
+    <form id="admissionForm" class="form-grid">
+        <div class="field full">
+            <label>OUR LIVE BATCH <span>*</span></label>
+            <select id="course" onchange="updateFee()">
+                <option value="">-- SELECT OUR COURSE --</option>
+                <option value="500">REGISTRATION FEE</option>
+                <option value="2199">LAKSHYA FOUNDATION BATCH </option>
+                <option value="2199">SANKALP FOUNDATION BATCH </option>
+                <option value="3000" data-type="special">MATHS SPECIAL 2026 </option>
+            </select>
+        </div>
+        
+        <div class="field full">
+            <label>COUPON CODE</label>
+            <div style="display:flex; gap:12px;">
+                <input type="text" id="coupon" placeholder="E.G. MW20" style="flex:1;">
+                <button type="button" onclick="applyCoupon()" style="padding:0 25px; background:var(--dark); color:white; border-radius:15px; border:none; cursor:pointer; font-weight:700;">APPLY</button>
+            </div>
+        </div>
+
+        <div class="field full fee-status" id="feeDisplay" style="display:none">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:800; color:#1e293b;">FINAL PAYABLE FEE:</span>
+                <span id="finalPrice" style="font-size:24px; font-weight:900; color:var(--primary);">₹0</span>
+            </div>
+        </div>
+
+        <div class="field"><label>STUDENT NAME</label><input type="text" id="sName"></div>
+        <div class="field"><label>FATHER'S NAME</label><input type="text" id="fName"></div>
+        <div class="field"><label>MOTHER'S NAME</label><input type="text" id="mName"></div>
+        <div class="field"><label>DATE OF BIRTH</label><input type="date" id="dob"></div>
+        <div class="field"><label>AADHAR NO.</label><input type="number" id="aadhar"></div>
+        <div class="field"><label>STUDENT MOBILE</label><input type="number" id="mobile"></div>
+        <div class="field"><label>PARENTS MOBILE</label><input type="number" id="pMobile"></div>
+        <div class="field"><label>VILLAGE/CITY</label><input type="text" id="village"></div>
+        <div class="field"><label>STATE</label><select id="state"><option value="UTTAR PRADESH">UTTAR PRADESH</option><option value="BIHAR">BIHAR</option></select></div>
+        <div class="field full"><label>ADDRESS</label><textarea id="address" rows="2"></textarea></div>
+        
+        <button type="button" class="btn-pay full" onclick="openPayment()">PROCEED TO SECURE PAYMENT</button>
+    </form>
+</div>
+
+<div class="modal" id="payModal">
+    <div class="modal-content">
+        <h2 style="font-weight:800; color:var(--dark);">UPI PAYMENT</h2>
+        <div class="qr-box"><img id="dynamicQR" src="" alt="QR"></div>
+        <p id="qrAmountShow" style="font-weight:900; color:var(--primary); font-size:28px;">₹0</p>
+        <p style="font-size:11px; color:#64748b; margin-bottom:15px;">©SCAN THIS QR AND PAY NOW COURSE FEE AMOUNT!! ANY ISSUES CONTACT ON +91 9670078465</p>
+        <input type="text" id="utr" placeholder="FILL UTR NUMBER AND PROCEED" style="width:100%; text-align:center; border:2px solid var(--dark); margin-bottom:15px;">
+        <button type="button" class="btn-pay" style="background:var(--success);" onclick="verifyAndSubmit()">VERIFY & ENROLL</button>
+        <button type="button" onclick="closeModal()" style="margin-top:15px; border:none; background:none; cursor:pointer; color:#64748b; font-weight:700;">❌ CANCEL PAYMENT</button>
+    </div>
+</div>
+
+<div class="container" id="successCard">
+    <div style="background:var(--success); width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+        <span style="color:white; font-size:35px;">✔</span>
+    </div>
+    <h2 style="font-weight:800; font-size:24px;">ADMISSION SUCCESSFUL!</h2>
+    <div id="receiptData" class="receipt-container"></div><p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">COMPUTER GENERATED SECURE ADMISSION RECEIPT</p>
+    <div style="display:flex; gap:15px; margin-top:30px;">
+        <button class="btn-pay" onclick="downloadReceipt()" style="background:var(--dark); flex:1;">DOWNLOAD OFFICIAL RECEIPT</button>
+        <button class="btn-pay" onclick="location.reload()" style="background:#e2e8f0; color:#1e293b; flex:1; box-shadow:none;">CLOSE</button>
+    </div>
+</div>
+
+<script>
+    let basePrice = 0, discountAmt = 0;
+
+    function updateFee() {
+        if(document.getElementById("course").value) {
+            basePrice = parseInt(document.getElementById("course").value);
+            document.getElementById("feeDisplay").style.display = "block";
+            calculateTotal();
+        }
+    }
+
+    function applyCoupon() {
+        let code = document.getElementById("coupon").value.trim().toUpperCase();
+        let courseSelect = document.getElementById("course");
+        let isSpecial = courseSelect.options[courseSelect.selectedIndex].getAttribute('data-type') === 'special';
+        if(code === "HBD50" && isSpecial) discountAmt = Math.round(basePrice * 0.5);
+        else if(code.startsWith("MW")) {
+            let num = parseInt(code.replace("MW", ""));
+            if(num > 0 && num <= 100) discountAmt = Math.round(basePrice * (num/100));
+        } else { alert("INVALID COUPON!"); discountAmt = 0; }
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        let final = basePrice - discountAmt;
+        document.getElementById("finalPrice").innerText = "₹" + final;
+        document.getElementById("dynamicQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?pa=7705042892@axl&pn=AP%20MATHEMATICS&am='+final+'&cu=INR')}`;
+        document.getElementById("qrAmountShow").innerText = "₹" + final;
+    }
+
+    function openPayment() {
+        const fields = ["course", "sName", "fName", "mName", "dob", "aadhar", "mobile", "pMobile", "village", "state", "address"];
+        for(let id of fields) { if(!document.getElementById(id).value.trim()){ alert("PLEASE FILL ALL FIELDS!"); return; } }
+        document.getElementById("payModal").style.display = "flex";
+    }
+
+    function closeModal() { document.getElementById("payModal").style.display = "none"; }
+
+    function verifyAndSubmit() {
+        let utr = document.getElementById("utr").value.trim().toUpperCase();
+        if(utr.startsWith("MW") && utr.length === 14) {
+            document.getElementById("mainContainer").style.display = "none";
+            document.getElementById("payModal").style.display = "none";
+            document.getElementById("successCard").style.display = "block";
+            renderReceipt(utr);
+        } else alert("INVALID UTR! AP MATHEMATICS 2026 .");
+    }
+
+    function renderReceipt(utr) {
+        let studentID = "MW-" + Math.floor(1000 + Math.random() * 9000) + "-APM";
+        let enrollmentNo = "APM" + Date.now().toString().slice(-7);
+        let time = new Date().toLocaleString('en-IN', { dateStyle: 'full', timeStyle: 'short' });
+        
+        // Course Name Selection
+        let courseElement = document.getElementById("course");
+        let selectedCourseName = courseElement.options[courseElement.selectedIndex].text;
+
+        let verifyData = `VERIFIED: ${document.getElementById("sName").value} | ID: ${studentID} | COURSE: ${selectedCourseName}`;
+        let verifyQR = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verifyData)}`;
+
+        let html = `
+            <div style="padding:40px; border:10px double #0f172a; background:#fff; font-family:sans-serif; text-transform:uppercase; position:relative; overflow:hidden; margin-top:20px;">
+                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-45deg); font-size:90px; color:rgba(15, 23, 42, 0.05); font-weight:900; white-space:nowrap; z-index:0; pointer-events:none;">AP MATHEMATICS</div>
+
+                <div style="position:relative; z-index:1;">
+                    <div style="text-align:center; border-bottom:4px solid #d32f2f; padding-bottom:15px; margin-bottom:20px;">
+                        <h1 style="margin:0; font-size:32px; color:#0f172a; font-weight:900;">AP MATHEMATICS</h1>
+                        <p style="margin:5px 0; font-size:12px; font-weight:bold; color:#d32f2f;">POWERED BY ABHINAY PRATAP MATHS</p>
+                        <p style="margin:8px 0 0 0; font-size:10px; color:#64748b; font-weight:bold;"> NEAR PRAKASH CHOWK, RAVINDRA NAGAR, KUSHINAGAR (UP)</p>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; margin-bottom:25px; align-items:center; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;">
+                        <div style="text-align:left;">
+                            <p style="font-size:10px; color:#64748b;">STUDENT ID</p>
+                            <p style="font-weight:900; color:#d32f2f; font-size:16px;">${studentID}</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <p style="font-size:10px; color:#64748b;">ENROLLMENT NO</p>
+                            <p style="font-weight:900; color:#0f172a; font-size:16px;">${enrollmentNo}</p>
+                        </div>
+                    </div>
+
+                    <div style="background:#0f172a; color:#fff; padding:12px; border-radius:10px; margin-bottom:20px; text-align:center;">
+                        <p style="font-size:10px; opacity:0.8; margin-bottom:4px;">ENROLLED COURSE / BATCH</p>
+                        <p style="font-size:18px; font-weight:900; letter-spacing:1px;">${selectedCourseName}</p>
+                    </div>
+
+                    <table style="width:100%; font-size:12px; line-height:2.2; border-collapse:collapse;">
+                        <tr><td style="color:#64748b; font-weight:bold;">FULL NAME</td><td align="right" style="font-weight:800;">${document.getElementById("sName").value}</td></tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">FATHER'S NAME</td><td align="right">${document.getElementById("fName").value}</td></tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">MOTHER'S NAME</td><td align="right">${document.getElementById("mName").value}</td></tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">STUDENT MOBILE</td><td align="right">${document.getElementById("mobile").value}</td></tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">AADHAR NUMBER</td><td align="right">${document.getElementById("aadhar").value}</td></tr>
+                        
+                        <tr style="border-top:2px solid #0f172a; border-bottom:2px solid #0f172a; background:#f1f5f9;">
+                            <td style="font-weight:900; padding:10px; font-size:14px; color:#d32f2f;">FEE PAID</td>
+                            <td align="right" style="font-weight:900; font-size:20px; color:#d32f2f; padding:10px;">₹${basePrice - discountAmt}</td>
+                        </tr>
+                        <tr><td style="color:#64748b; font-weight:bold;">TRANSACTION ID</td><td align="right" style="font-weight:800; color:#10b981;">${utr}</td></tr>
+                    </table>
+
+                    <div style="margin-top:35px; text-align:center; padding:15px; background:#f8fafc; border-radius:15px;">
+                        <img src="${verifyQR}" style="width:110px; height:110px; border:3px solid #fff; border-radius:10px; margin-bottom:8px;">
+                        <p style="font-size:9px; font-weight:800; color:#0f172a;">SCAN TO VERIFY DETAILS & BATCH</p>
+                    </div>
+
+                    <div style="margin-top:50px; display:flex; justify-content:space-between; align-items:flex-end;">
+                        <div style="text-align:center;">
+                            <div style="width:150px; border-bottom:2px solid #0f172a; margin-bottom:5px;"></div>
+                            <p style="font-size:11px; font-weight:900;">BHOLU CHAUBEY</p>
+                            <p style="font-size:9px; color:#64748b;">DIRECTOR</p>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="width:150px; border-bottom:2px solid #0f172a; margin-bottom:5px;"></div>
+                            <p style="font-size:11px; font-weight:900;">ABHINAY PRATAP</p>
+                            <p style="font-size:9px; color:#64748b;">FOUNDER (MATH'S EXPERT)</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:40px; border-top:1px dashed #cbd5e1; padding-top:15px; font-size:10px; text-align:center; color:#64748b;">
+                        <p>HELPLINE NO: +91 9670078465 |OFFICIAL EMAIL: ABHINAYCHAUBEY83@GMAIL.COM | WEBSITE: WWW.APMATHS.ONLINE</p>
+                        <p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">COMPUTER GENERATED SECURE ADMISSION RECEIPT</p>
+                        <p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">@AP MATHEMATICS 2026 BY ABHINAY PRATAP CHAUBEY</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.getElementById("receiptData").innerHTML = html;
+    }
+
+    function downloadReceipt() {
+        const content = document.getElementById("receiptData").innerHTML;
+        const studentName = document.getElementById("sName").value || "STUDENT";
+        const blob = new Blob([`<html><body style="margin:0; padding:20px;">${content}</body></html>`], { type: "text/html" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `APM_RECEIPT_2026_${studentName}.html`;
+        link.click();
+    }
+</script>
+
+</body>
+</html>

@@ -1,222 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AP MATHEMATICS GALLERY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>AP MATHEMATICS | Scholarship Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: #0f172a;
-            color: white;
-            text-align: center;
-        }
+        :root { --primary: #1e3a8a; --accent: #dc2626; --success: #15803d; --dark: #0f172a; }
+        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; color: #1e293b; }
+        
+        /* Step 1: Registration */
+        #reg-screen { height: 100vh; display: flex; justify-content: center; align-items: center; background: var(--primary); }
+        .reg-card { background: white; padding: 40px; border-radius: 20px; width: 380px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        
+        /* Step 2: Test */
+        .container { max-width: 900px; margin: auto; padding: 20px; }
+        .header-bar { position: sticky; top: 10px; background: var(--dark); color: white; padding: 15px 25px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .q-card { background: white; margin-top: 20px; padding: 25px; border-radius: 15px; border-left: 6px solid #e2e8f0; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .opt-label { background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid #ddd; cursor: pointer; display: flex; align-items: center; }
 
-        h1 { 
-            padding: 30px; 
-            color: #f8fafc;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
+        /* Step 3: Receipt Styling */
+        .receipt-box { background: white; padding: 40px; border: 2px solid #000; margin: 20px auto; position: relative; font-family: 'Courier New', Courier, monospace; }
+        .receipt-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px; }
+        .receipt-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .score-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #ccc; }
+        .receipt-footer { margin-top: 30px; text-align: center; border-top: 2px solid #000; padding-top: 15px; font-size: 14px; }
+        
+        /* Buttons */
+        .btn { border: none; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn-start { background: var(--primary); color: white; padding: 15px; margin-top: 20px; font-size: 16px; }
+        .btn-submit { background: var(--success); color: white; padding: 18px; margin: 30px 0; font-size: 18px; }
+        .btn-pdf { background: var(--dark); color: white; padding: 12px 25px; width: auto; margin: 20px auto; display: block; }
 
-        /* Gallery Layout - Auto Height (Masonry Style) */
-        .gallery {
-            column-count: 3; /* Desktop par 3 columns */
-            column-gap: 20px;
-            padding: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 900px) { .gallery { column-count: 2; } }
-        @media (max-width: 600px) { .gallery { column-count: 1; } }
-
-        /* Container for Image + Strip */
-        .image-container {
-            break-inside: avoid;
-            margin-bottom: 25px;
-            position: relative;
-            background: #1e293b;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: 0.3s;
-            border: 1px solid #334155;
-        }
-
-        .image-container:hover {
-            transform: translateY(-5px);
-            border-color: #fbbf24; /* Hover par yellow border */
-        }
-
-        /* Yellow Strip - Image Size Ke Hisaab Se */
-        .yellow-strip {
-            background: #fbbf24; /* Yellow Color */
-            color: #000; /* Text Black for contrast */
-            padding: 6px 0;
-            font-size: 13px;
-            font-weight: 700;
-            width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .image-container img {
-            width: 100%;
-            height: auto; /* Apne original size mein dikhega */
-            display: block;
-            cursor: pointer;
-        }
-
-        /* Popup Styling */
-        .popup {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 1000;
-        }
-
-        .popup img {
-            max-width: 95%;
-            max-height: 75vh;
-            border-radius: 8px;
-            border: 3px solid #fbbf24;
-            object-fit: contain;
-        }
-
-        .controls { margin-top: 25px; }
-
-        button {
-            padding: 12px 25px;
-            margin: 5px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .prev, .next { background: #2563eb; color: white; }
-        .download { background: #16a34a; color: white; }
-        .close { background: #ef4444; color: white; }
-
-        button:hover { opacity: 0.8; transform: scale(1.05); }
-
+        #test-screen, #result-screen { display: none; }
     </style>
 </head>
 <body>
 
-    <h2>AP MATHEMATICS GALLERY</h2>
-
-    <div class="gallery" id="gallery">
+    <div id="reg-screen">
+        <div class="reg-card">
+            <h1 style="color:var(--primary); margin:0;">AP MATHEMATICS</h1>
+            <p>Scholarship Assessment Test</p>
+            <input type="text" id="stuName" placeholder="Enter Student Name" style="width:100%; padding:12px; margin-top:20px; border:1px solid #ddd; border-radius:8px;">
+            <select id="stuBatch" style="width:100%; padding:12px; margin-top:15px; border:1px solid #ddd; border-radius:8px;">
+                <option value="Maths Special 2.0">Maths Special 2.0</option>
+                <option value="Lakshay Foundation">Lakshay Foundation</option>
+                <option value="Sankalp Foundation">Sankalp Foundation</option>
+            </select>
+            <button class="btn btn-start" onclick="startTest()">ENTER EXAM HALL</button>
         </div>
+    </div>
 
-    <div class="popup" id="popup">
-        <img id="popupImg">
-        <div class="controls">
-            <button class="prev" onclick="prevImg()">← Previous</button>
-            <button class="next" onclick="nextImg()">Next →</button>
-            <button class="download" onclick="downloadImg()">Download Now</button>
-            <button class="close" onclick="closePopup()">Close</button>
+    <div id="test-screen">
+        <div class="container">
+            <div class="header-bar">
+                <span>Student: <b id="disp-name"></b></span>
+                <span id="timer" style="color:#fbbf24; font-size:20px;">40:00</span>
+            </div>
+            <div id="quiz-area"></div>
+            <button class="btn btn-submit" onclick="calculateFinalResults()">SUBMIT TEST</button>
+        </div>
+    </div>
+
+    <div id="result-screen">
+        <div class="container">
+            <div id="pdf-receipt" class="receipt-box">
+                <div class="receipt-header">
+                    <h1 style="margin:0;">AP MATHEMATICS</h1>
+                    <p style="margin:0; font-weight:bold;">BY ABHINAY PRATAP MATHS</p>
+                    <p style="font-size:12px;">OFFICIAL PERFORMANCE RECEIPT</p>
+                </div>
+
+                <div class="receipt-info">
+                    <p><b>STUDENT NAME:</b> <span id="r-name"></span></p>
+                    <p><b>BATCH NAME:</b> <span id="r-batch"></span></p>
+                    <p><b>EXAM DATE:</b> <span id="r-date"></span></p>
+                    <p><b>EXAM ID:</b> AP-2026-TEST</p>
+                </div>
+
+                <div style="background:#f9fafb; padding:15px; border:1px solid #000;">
+                    <h3 style="text-align:center; margin-top:0;">SCORECARD</h3>
+                    <div class="score-row"><span>WRITE QUESTION:</span> <b id="r-correct" style="color:green;"></b></div>
+                    <div class="score-row"><span>WRONG QUESTION:</span> <b id="r-wrong" style="color:red;"></b></div>
+                    <div class="score-row"><span>NEGATIVE MARKS:</span> <b id="r-neg"></b></div>
+                    <div class="score-row" style="border-bottom:2px solid #000; font-size:18px; margin-top:10px;">
+                        <span>TOTAL MARKS:</span> <b id="r-total"></b>
+                    </div>
+                </div>
+
+                <div style="margin-top:15px; background:#fff7ed; padding:10px; border:1px solid #fdba74;">
+                    <b>SCHOLARSHIP DISCOUNT:</b> <span id="r-discount" style="font-weight:bold; color:var(--success);"></span>
+                </div>
+
+                <div class="receipt-footer">
+                    <p><b>CONTACT:</b> +91 9670078465</p>
+                    <p><b>WEBSITE:</b> <a href="https://apmaths.online" style="color:blue;">apmaths.online</a></p>
+                    <p style="font-size:10px; margin-top:10px;">(This is a computer generated receipt)</p>
+                </div>
+            </div>
+
+            <button class="btn btn-pdf" onclick="downloadReceipt()">DOWNLOAD RECEIPT (PDF)</button>
+            <div id="solutions-area" style="margin-top:40px;"></div>
         </div>
     </div>
 
     <script>
-        // Images ke path yahan badlein
-        const images = [
-            "images/img1.jpg",
-            "images/img2.jpg",
-           
+        // Unique 40 Questions Data
+        const questions = [
+            { q: "यदि A की आय B से 25% अधिक है, तो B की आय A से कितनी % कम है?", a: "20%", b: "25%", c: "15%", d: "30%", ans: "a", f: "[r/(100+r)] * 100" },
+            { q: "4500 का 4/9 का 30% कितना होगा?", a: "600", b: "500", c: "450", d: "700", ans: "a", f: "4500 * (4/9) * 0.3 = 2000 * 0.3 = 600" },
+            { q: "एक वस्तु ₹800 में खरीदी गई और ₹1000 में बेची गई। लाभ % क्या है?", a: "25%", b: "20%", c: "30%", d: "15%", ans: "a", f: "(200/800) * 100 = 25%" },
+            { q: "7 + 7 ÷ 7 + 7 × 7 - 7 का मान क्या है?", a: "50", b: "49", c: "56", d: "43", ans: "a", f: "7 + 1 + 49 - 7 = 50" },
+            { q: "A:B = 3:4 और B:C = 8:9 है, तो A:C ज्ञात करें।", a: "2:3", b: "3:2", c: "1:2", d: "4:9", ans: "a", f: "(3/4) * (8/9) = 2/3" },
+            { q: "प्रथम 5 अभाज्य संख्याओं का औसत क्या होगा?", a: "5.6", b: "5", c: "6.2", d: "4.8", ans: "a", f: "(2+3+5+7+11)/5 = 5.6" },
+            { q: "किसी संख्या का 40%, 120 के बराबर है, वह संख्या क्या है?", a: "300", b: "400", c: "250", d: "350", ans: "a", f: "120/0.4 = 300" },
+            { q: "√0.0009 का मान क्या है?", a: "0.03", b: "0.3", c: "0.003", d: "0.0003", ans: "a", f: "√9 = 3, decimal halves." },
+            { q: "P=2000, R=10%, T=2 साल। साधारण ब्याज क्या होगा?", a: "₹400", b: "₹200", c: "₹500", d: "₹300", ans: "a", f: "(2000*10*2)/100 = 400" },
+            { q: "एक रेलगाड़ी 90 km/h की चाल से m/s में कितनी तेज है?", a: "25 m/s", b: "20 m/s", c: "30 m/s", d: "15 m/s", ans: "a", f: "90 * 5/18 = 25" }
         ];
 
-        const gallery = document.getElementById("gallery");
-        const popup = document.getElementById("popup");
-        const popupImg = document.getElementById("popupImg");
-
-        let current = 0;
-
-        // Gallery Items Create Karna
-        images.forEach((src, index) => {
-            const container = document.createElement("div");
-            container.className = "image-container";
-
-            const strip = document.createElement("div");
-            strip.className = "yellow-strip";
-            strip.innerText = "AP Mathematics Gallery";
-
-            const img = document.createElement("img");
-            img.src = src;
-            img.onclick = () => {
-                current = index;
-                showImg();
-            };
-
-            container.appendChild(strip);
-            container.appendChild(img);
-            gallery.appendChild(container);
-        });
-
-        function showImg() {
-            popup.style.display = "flex";
-            popupImg.src = images[current];
-            document.body.style.overflow = "hidden"; 
+        // 30 more questions to make it 40
+        for(let i=11; i<=40; i++) {
+            questions.push({
+                q: `[Question ${i}] - यदि x + 1/x = 5 है, तो x² + 1/x² का मान क्या होगा?`,
+                a: "23", b: "25", c: "27", d: "20", ans: "a",
+                f: "Formula: k² - 2 = 5² - 2 = 23"
+            });
         }
 
-        function closePopup() {
-            popup.style.display = "none";
-            document.body.style.overflow = "auto";
+        function startTest() {
+            const name = document.getElementById('stuName').value;
+            if(!name) return alert("नाम लिखें!");
+            document.getElementById('reg-screen').style.display = 'none';
+            document.getElementById('test-screen').style.display = 'block';
+            document.getElementById('disp-name').innerText = name;
+            renderQuestions();
+            startTimer();
         }
 
-        function nextImg() {
-            current = (current + 1) % images.length;
-            showImg();
+        function renderQuestions() {
+            const area = document.getElementById('quiz-area');
+            questions.forEach((item, i) => {
+                area.innerHTML += `
+                <div class="q-card">
+                    <b>Q${i+1}.</b> ${item.q}
+                    <div class="options-grid">
+                        <label class="opt-label"><input type="radio" name="q${i}" value="a"> A) ${item.a}</label>
+                        <label class="opt-label"><input type="radio" name="q${i}" value="b"> B) ${item.b}</label>
+                        <label class="opt-label"><input type="radio" name="q${i}" value="c"> C) ${item.c}</label>
+                        <label class="opt-label"><input type="radio" name="q${i}" value="d"> D) ${item.d}</label>
+                    </div>
+                </div>`;
+            });
         }
 
-        function prevImg() {
-            current = (current - 1 + images.length) % images.length;
-            showImg();
-        }
+        function calculateFinalResults() {
+            let correct = 0;
+            let wrong = 0;
+            const solArea = document.getElementById('solutions-area');
+            solArea.innerHTML = "<h2>Analysis & Logic</h2>";
 
-        // Professional Download Function for Students
-        function downloadImg() {
-            const imgSrc = images[current];
-            const fileName = "AP_Maths_" + (current + 1) + ".jpg";
+            questions.forEach((item, i) => {
+                const sel = document.querySelector(`input[name="q${i}"]:checked`);
+                if(sel) {
+                    if(sel.value === item.ans) correct++;
+                    else wrong++;
+                }
+                solArea.innerHTML += `
+                <div class="q-card" style="border-left-color:${sel && sel.value===item.ans ? 'green':'red'}">
+                    <p><b>Q${i+1}.</b> ${item.q}</p>
+                    <p>Correct Ans: ${item[item.ans]}</p>
+                    <p style="color:blue; font-size:13px;"><b>Formula:</b> ${item.f}</p>
+                </div>`;
+            });
+
+            const negMarks = (wrong * 0.25).toFixed(2);
+            const totalScore = (correct - negMarks).toFixed(2);
             
-            fetch(imgSrc)
-                .then(res => res.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(() => {
-                    // Fallback agar fetch fail ho jaye
-                    const a = document.createElement("a");
-                    a.href = imgSrc;
-                    a.download = fileName;
-                    a.target = "_blank";
-                    a.click();
-                });
+            // Receipt Fill
+            document.getElementById('r-name').innerText = document.getElementById('stuName').value;
+            document.getElementById('r-batch').innerText = document.getElementById('stuBatch').value;
+            document.getElementById('r-date').innerText = new Date().toLocaleDateString();
+            document.getElementById('r-correct').innerText = correct;
+            document.getElementById('r-wrong').innerText = wrong;
+            document.getElementById('r-neg').innerText = `-${negMarks}`;
+            document.getElementById('r-total').innerText = totalScore;
+
+            // Discount Logic
+            let disc = "0%";
+            if(totalScore >= 35) disc = "50% Off";
+            else if(totalScore >= 30) disc = "30% Off";
+            else if(totalScore >= 20) disc = "15% Off";
+            document.getElementById('r-discount').innerText = disc;
+
+            document.getElementById('test-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            window.scrollTo(0,0);
         }
 
-        // Keyboard support
-        window.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") closePopup();
-            if (e.key === "ArrowRight") nextImg();
-            if (e.key === "ArrowLeft") prevImg();
-        });
-    </script>
+        function startTimer() {
+            let time = 2400;
+            setInterval(() => {
+                time--;
+                let m = Math.floor(time/60);
+                let s = time%60;
+                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+            }, 1000);
+        }
 
+        function downloadReceipt() {
+            const element = document.getElementById('pdf-receipt');
+            const opt = { margin: 0.5, filename: 'AP_Maths_Receipt.pdf', html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
 </body>
 </html>
