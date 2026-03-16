@@ -3,36 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AP MATHEMATICS | Scholarship Test</title>
+    <title>AP MATHEMATICS | Scholarship Test 2026</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #1e3a8a; --accent: #dc2626; --success: #15803d; --dark: #0f172a; }
         body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; color: #1e293b; }
         
-        /* Step 1: Registration */
+        /* Registration */
         #reg-screen { height: 100vh; display: flex; justify-content: center; align-items: center; background: var(--primary); }
         .reg-card { background: white; padding: 40px; border-radius: 20px; width: 380px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
         
-        /* Step 2: Test */
+        /* Test Environment */
         .container { max-width: 900px; margin: auto; padding: 20px; }
         .header-bar { position: sticky; top: 10px; background: var(--dark); color: white; padding: 15px 25px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
         .q-card { background: white; margin-top: 20px; padding: 25px; border-radius: 15px; border-left: 6px solid #e2e8f0; }
         .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
         .opt-label { background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid #ddd; cursor: pointer; display: flex; align-items: center; }
 
-        /* Step 3: Receipt Styling */
-        .receipt-box { background: white; padding: 40px; border: 2px solid #000; margin: 20px auto; position: relative; font-family: 'Courier New', Courier, monospace; }
+        /* Perfect A4 Receipt Styling */
+        .receipt-box { 
+            background: white; 
+            padding: 50px; 
+            border: 2px solid #000; 
+            margin: 20px auto; 
+            width: 794px; /* A4 Width in px */
+            min-height: 1000px;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace; 
+            position: relative;
+        }
         .receipt-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px; }
-        .receipt-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .score-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #ccc; }
-        .receipt-footer { margin-top: 30px; text-align: center; border-top: 2px solid #000; padding-top: 15px; font-size: 14px; }
+        .receipt-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .score-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #ccc; }
+        
+        /* Signature Area */
+        .signature-section { margin-top: 80px; display: flex; justify-content: flex-end; }
+        .sig-box { width: 300px; border-top: 2px solid #000; padding-top: 10px; text-align: center; }
+
+        .receipt-footer { margin-top: 50px; text-align: center; border-top: 2px solid #000; padding-top: 15px; font-size: 14px; }
         
         /* Buttons */
         .btn { border: none; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
         .btn-start { background: var(--primary); color: white; padding: 15px; margin-top: 20px; font-size: 16px; }
         .btn-submit { background: var(--success); color: white; padding: 18px; margin: 30px 0; font-size: 18px; }
-        .btn-pdf { background: var(--dark); color: white; padding: 12px 25px; width: auto; margin: 20px auto; display: block; }
+        .btn-pdf { background: var(--dark); color: white; padding: 15px 30px; width: auto; margin: 20px auto; display: block; }
 
         #test-screen, #result-screen { display: none; }
     </style>
@@ -42,14 +57,14 @@
     <div id="reg-screen">
         <div class="reg-card">
             <h1 style="color:var(--primary); margin:0;">AP MATHEMATICS</h1>
-            <p>Scholarship Assessment Test</p>
-            <input type="text" id="stuName" placeholder="Enter Student Name" style="width:100%; padding:12px; margin-top:20px; border:1px solid #ddd; border-radius:8px;">
+            <p>BY ABHINAY PRATAP MATHS</p>
+            <input type="text" id="stuName" placeholder="Student Full Name" style="width:100%; padding:12px; margin-top:20px; border:1px solid #ddd; border-radius:8px;">
             <select id="stuBatch" style="width:100%; padding:12px; margin-top:15px; border:1px solid #ddd; border-radius:8px;">
                 <option value="Maths Special 2.0">Maths Special 2.0</option>
                 <option value="Lakshay Foundation">Lakshay Foundation</option>
                 <option value="Sankalp Foundation">Sankalp Foundation</option>
             </select>
-            <button class="btn btn-start" onclick="startTest()">ENTER EXAM HALL</button>
+            <button class="btn btn-start" onclick="startTest()">START ASSESSMENT</button>
         </div>
     </div>
 
@@ -57,10 +72,10 @@
         <div class="container">
             <div class="header-bar">
                 <span>Student: <b id="disp-name"></b></span>
-                <span id="timer" style="color:#fbbf24; font-size:20px;">40:00</span>
+                <span id="timer" style="color:#fbbf24; font-size:22px; font-weight:bold;">25:00</span>
             </div>
             <div id="quiz-area"></div>
-            <button class="btn btn-submit" onclick="calculateFinalResults()">SUBMIT TEST</button>
+            <button class="btn btn-submit" onclick="processFinalResults()">SUBMIT TEST</button>
         </div>
     </div>
 
@@ -69,78 +84,89 @@
             <div id="pdf-receipt" class="receipt-box">
                 <div class="receipt-header">
                     <h1 style="margin:0;">AP MATHEMATICS</h1>
-                    <p style="margin:0; font-weight:bold;">BY ABHINAY PRATAP MATHS</p>
-                    <p style="font-size:12px;">OFFICIAL PERFORMANCE RECEIPT</p>
+                    <p style="margin:0; font-weight:bold; font-size:20px;">BY ABHINAY PRATAP MATHS</p>
+                    <p style="font-size:14px; margin-top:5px;">OFFICIAL PERFORMANCE RECEIPT</p>
                 </div>
 
                 <div class="receipt-info">
                     <p><b>STUDENT NAME:</b> <span id="r-name"></span></p>
                     <p><b>BATCH NAME:</b> <span id="r-batch"></span></p>
                     <p><b>EXAM DATE:</b> <span id="r-date"></span></p>
-                    <p><b>EXAM ID:</b> AP-2026-TEST</p>
+                    <p><b>EXAM ID:</b> AP-MAR-2026</p>
                 </div>
 
-                <div style="background:#f9fafb; padding:15px; border:1px solid #000;">
-                    <h3 style="text-align:center; margin-top:0;">SCORECARD</h3>
+                <div style="background:#f9fafb; padding:25px; border:1px solid #000;">
+                    <h2 style="text-align:center; margin-top:0; border-bottom:1px solid #000; padding-bottom:10px;">SCORECARD</h2>
                     <div class="score-row"><span>WRITE QUESTION:</span> <b id="r-correct" style="color:green;"></b></div>
                     <div class="score-row"><span>WRONG QUESTION:</span> <b id="r-wrong" style="color:red;"></b></div>
                     <div class="score-row"><span>NEGATIVE MARKS:</span> <b id="r-neg"></b></div>
-                    <div class="score-row" style="border-bottom:2px solid #000; font-size:18px; margin-top:10px;">
+                    <div class="score-row" style="border-bottom:2px solid #000; font-size:24px; margin-top:15px; padding-top:10px;">
                         <span>TOTAL MARKS:</span> <b id="r-total"></b>
                     </div>
                 </div>
 
-                <div style="margin-top:15px; background:#fff7ed; padding:10px; border:1px solid #fdba74;">
-                    <b>SCHOLARSHIP DISCOUNT:</b> <span id="r-discount" style="font-weight:bold; color:var(--success);"></span>
+                <div style="margin-top:25px; background:#fff7ed; padding:15px; border:1px solid #fdba74; text-align: center;">
+                    <b>APPLIED DISCOUNT:</b> <span id="r-discount" style="font-weight:bold; color:var(--success); font-size: 20px;"></span>
+                </div>
+
+                <div class="signature-section">
+                    <div class="sig-box">
+                        <p style="margin:0; font-weight:bold; font-size: 18px;">ABHINAY PRATAP</p>
+                        <p style="margin:0; font-size:14px;">(MATH'S EXPERT)</p>
+                    </div>
                 </div>
 
                 <div class="receipt-footer">
-                    <p><b>CONTACT:</b> +91 9670078465</p>
-                    <p><b>WEBSITE:</b> <a href="https://apmaths.online" style="color:blue;">apmaths.online</a></p>
-                    <p style="font-size:10px; margin-top:10px;">(This is a computer generated receipt)</p>
+                    <p><b>CONTACT:</b> +91 9670078465 | <b>WEBSITE:</b> apmaths.online</p>
+                    <p style="font-size:11px; margin-top:10px; font-style: italic;">(This is an electronically verified original document)</p>
                 </div>
             </div>
 
-            <button class="btn btn-pdf" onclick="downloadReceipt()">DOWNLOAD RECEIPT (PDF)</button>
-            <div id="solutions-area" style="margin-top:40px;"></div>
+            <button class="btn btn-pdf" onclick="downloadReceiptPDF()">DOWNLOAD OFFICIAL PDF</button>
+            <div id="sol-area" style="margin-top:50px;"></div>
         </div>
     </div>
 
     <script>
-        // Unique 40 Questions Data
         const questions = [
-            { q: "यदि A की आय B से 25% अधिक है, तो B की आय A से कितनी % कम है?", a: "20%", b: "25%", c: "15%", d: "30%", ans: "a", f: "[r/(100+r)] * 100" },
-            { q: "4500 का 4/9 का 30% कितना होगा?", a: "600", b: "500", c: "450", d: "700", ans: "a", f: "4500 * (4/9) * 0.3 = 2000 * 0.3 = 600" },
-            { q: "एक वस्तु ₹800 में खरीदी गई और ₹1000 में बेची गई। लाभ % क्या है?", a: "25%", b: "20%", c: "30%", d: "15%", ans: "a", f: "(200/800) * 100 = 25%" },
-            { q: "7 + 7 ÷ 7 + 7 × 7 - 7 का मान क्या है?", a: "50", b: "49", c: "56", d: "43", ans: "a", f: "7 + 1 + 49 - 7 = 50" },
-            { q: "A:B = 3:4 और B:C = 8:9 है, तो A:C ज्ञात करें।", a: "2:3", b: "3:2", c: "1:2", d: "4:9", ans: "a", f: "(3/4) * (8/9) = 2/3" },
-            { q: "प्रथम 5 अभाज्य संख्याओं का औसत क्या होगा?", a: "5.6", b: "5", c: "6.2", d: "4.8", ans: "a", f: "(2+3+5+7+11)/5 = 5.6" },
-            { q: "किसी संख्या का 40%, 120 के बराबर है, वह संख्या क्या है?", a: "300", b: "400", c: "250", d: "350", ans: "a", f: "120/0.4 = 300" },
-            { q: "√0.0009 का मान क्या है?", a: "0.03", b: "0.3", c: "0.003", d: "0.0003", ans: "a", f: "√9 = 3, decimal halves." },
-            { q: "P=2000, R=10%, T=2 साल। साधारण ब्याज क्या होगा?", a: "₹400", b: "₹200", c: "₹500", d: "₹300", ans: "a", f: "(2000*10*2)/100 = 400" },
-            { q: "एक रेलगाड़ी 90 km/h की चाल से m/s में कितनी तेज है?", a: "25 m/s", b: "20 m/s", c: "30 m/s", d: "15 m/s", ans: "a", f: "90 * 5/18 = 25" }
+            { q: "40 का 30% + 60 का 20% कितना होगा?", a: "24", b: "20", c: "12", d: "10", ans: "a", f: "12 + 12 = 24" },
+            { q: "यदि A:B = 2:3 और B:C = 4:5 है, तो A:B:C क्या होगा?", a: "8:12:15", b: "2:4:5", c: "8:10:15", d: "6:12:15", ans: "a", f: "B को 12 बनायें" },
+            { q: "एक वस्तु ₹500 में खरीदकर ₹625 में बेची गई। लाभ % क्या है?", a: "25%", b: "20%", c: "15%", d: "30%", ans: "a", f: "(125/500)*100 = 25%" },
+            { q: "72 ÷ 9 of 2 + 8 का मान क्या है?", a: "12", b: "16", c: "4", d: "10", ans: "a", f: "72 ÷ 18 + 8 = 12" },
+            { q: "प्रथम 10 प्राकृतिक संख्याओं का औसत क्या होगा?", a: "5.5", b: "5", c: "6", d: "4.5", ans: "a", f: "(11/2) = 5.5" },
+            { q: "किसी संख्या का 2/5 भाग 40 है, वह संख्या क्या है?", a: "100", b: "80", c: "120", d: "150", ans: "a", f: "(40*5)/2 = 100" },
+            { q: "0.4 को प्रतिशत में बदलें।", a: "40%", b: "4%", c: "0.4%", d: "400%", ans: "a", f: "0.4 * 100 = 40%" },
+            { q: "P=5000, R=10%, T=2 साल। साधारण ब्याज क्या है?", a: "₹1000", b: "₹500", c: "₹1500", d: "₹800", ans: "a", f: "SI=(5000*10*2)/100=1000" },
+            { q: "एक वर्ग का क्षेत्रफल 144 sqm है, उसका परिमाप क्या होगा?", a: "48m", b: "36m", c: "24m", d: "60m", ans: "a", f: "भुजा=12, परिमाप=48" },
+            { q: "25, 30 और 45 का ल.स. (LCM) क्या होगा?", a: "450", b: "225", c: "900", d: "150", ans: "a", f: "450" },
+            { q: "यदि 5x - 10 = 20 है, तो x का मान क्या है?", a: "6", b: "5", c: "4", d: "8", ans: "a", f: "5x=30, x=6" },
+            { q: "एक साइकिल 18km/h की चाल से चल रही है। m/s में चाल क्या है?", a: "5 m/s", b: "10 m/s", c: "15 m/s", d: "2 m/s", ans: "a", f: "18 * 5/18 = 5" },
+            { q: "√0.0064 का मान क्या होगा?", a: "0.08", b: "0.8", c: "0.008", d: "8", ans: "a", f: "0.08" },
+            { q: "चीनी के मूल्य में 25% वृद्धि हुई। खपत में कितनी % कमी करें कि खर्च न बढ़े?", a: "20%", b: "25%", c: "15%", d: "10%", ans: "a", f: "[25/125]*100 = 20%" },
+            { q: "दो संख्याओं का म.स. 15 और ल.स. 300 है। एक संख्या 60 है, दूसरी क्या है?", a: "75", b: "80", c: "90", d: "100", ans: "a", f: "(15*300)/60 = 75" },
+            { q: "10 वस्तुओं का CP 8 वस्तुओं के SP के बराबर है। लाभ % क्या है?", a: "25%", b: "20%", c: "15%", d: "30%", ans: "a", f: "2/8 * 100 = 25%" },
+            { q: "वृत्त की परिधि 88cm है, त्रिज्या क्या होगी?", a: "14cm", b: "7cm", c: "21cm", d: "28cm", ans: "a", f: "2*22/7*r=88 -> r=14" },
+            { q: "एक आयत की लंबाई 20m और चौड़ाई 15m है। क्षेत्रफल क्या है?", a: "300 sqm", b: "250 sqm", c: "350 sqm", d: "400 sqm", ans: "a", f: "20*15=300" },
+            { q: "12, 14, 16, 18, 20 का औसत क्या होगा?", a: "16", b: "15", c: "17", d: "14", ans: "a", f: "बीच की संख्या 16" },
+            { q: "A एक काम को 10 दिन में और B 15 दिन में करता है। दोनों मिलकर?", a: "6 दिन", b: "5 दिन", c: "8 दिन", d: "7 दिन", ans: "a", f: "150/25 = 6" },
+            { q: "किसी त्रिभुज के तीनों कोणों का योग कितना होता है?", a: "180°", b: "360°", c: "90°", d: "270°", ans: "a", f: "180 डिग्री" },
+            { q: "x + 1/x = 4 है, तो x² + 1/x² का मान क्या होगा?", a: "14", b: "16", c: "18", d: "12", ans: "a", f: "4*4-2 = 14" },
+            { q: "6 कुर्सी का मूल्य ₹2400 है, 3 कुर्सी का मूल्य क्या होगा?", a: "₹1200", b: "₹1000", c: "₹1500", d: "₹1800", ans: "a", f: "2400/2 = 1200" },
+            { q: "(-8) * (-5) + (-10)", a: "30", b: "50", c: "40", d: "-30", ans: "a", f: "40 - 10 = 30" },
+            { q: "साइकिल के पहिये का व्यास 70cm है, एक चक्कर में कितनी दूरी तय करेगा?", a: "220cm", b: "440cm", c: "110cm", d: "154cm", ans: "a", f: "pi*d = 22/7*70 = 220" }
         ];
-
-        // 30 more questions to make it 40
-        for(let i=11; i<=40; i++) {
-            questions.push({
-                q: `[Question ${i}] - यदि x + 1/x = 5 है, तो x² + 1/x² का मान क्या होगा?`,
-                a: "23", b: "25", c: "27", d: "20", ans: "a",
-                f: "Formula: k² - 2 = 5² - 2 = 23"
-            });
-        }
 
         function startTest() {
             const name = document.getElementById('stuName').value;
-            if(!name) return alert("नाम लिखें!");
+            if(!name) return alert("कृपया अपना नाम दर्ज करें!");
             document.getElementById('reg-screen').style.display = 'none';
             document.getElementById('test-screen').style.display = 'block';
             document.getElementById('disp-name').innerText = name;
-            renderQuestions();
-            startTimer();
+            renderAllQuestions();
+            startCountdown();
         }
 
-        function renderQuestions() {
+        function renderAllQuestions() {
             const area = document.getElementById('quiz-area');
             questions.forEach((item, i) => {
                 area.innerHTML += `
@@ -156,63 +182,58 @@
             });
         }
 
-        function calculateFinalResults() {
-            let correct = 0;
-            let wrong = 0;
-            const solArea = document.getElementById('solutions-area');
+        function startCountdown() {
+            let time = 1500;
+            const tDisplay = document.getElementById('timer');
+            const timer = setInterval(() => {
+                if(time <= 0) { clearInterval(timer); processFinalResults(); }
+                time--;
+                let m = Math.floor(time/60); let s = time%60;
+                tDisplay.innerText = `${m}:${s < 10 ? '0'+s : s}`;
+            }, 1000);
+        }
+
+        function processFinalResults() {
+            let correct = 0; let wrong = 0;
+            const solArea = document.getElementById('sol-area');
             solArea.innerHTML = "<h2>Analysis & Logic</h2>";
 
             questions.forEach((item, i) => {
                 const sel = document.querySelector(`input[name="q${i}"]:checked`);
-                if(sel) {
-                    if(sel.value === item.ans) correct++;
-                    else wrong++;
-                }
-                solArea.innerHTML += `
-                <div class="q-card" style="border-left-color:${sel && sel.value===item.ans ? 'green':'red'}">
-                    <p><b>Q${i+1}.</b> ${item.q}</p>
-                    <p>Correct Ans: ${item[item.ans]}</p>
-                    <p style="color:blue; font-size:13px;"><b>Formula:</b> ${item.f}</p>
-                </div>`;
+                if(sel) { if(sel.value === item.ans) correct++; else wrong++; }
+                solArea.innerHTML += `<div class="q-card" style="border-left-color:${sel && sel.value===item.ans?'green':'red'}"><p><b>Q${i+1}.</b> ${item.q}</p><p>Correct: ${item[item.ans]}</p><p style="color:blue;font-size:13px;">Logic: ${item.f}</p></div>`;
             });
 
-            const negMarks = (wrong * 0.25).toFixed(2);
-            const totalScore = (correct - negMarks).toFixed(2);
+            const negPoints = (wrong * 0.25).toFixed(2);
+            const finalScore = (correct - negPoints).toFixed(2);
             
-            // Receipt Fill
             document.getElementById('r-name').innerText = document.getElementById('stuName').value;
             document.getElementById('r-batch').innerText = document.getElementById('stuBatch').value;
             document.getElementById('r-date').innerText = new Date().toLocaleDateString();
             document.getElementById('r-correct').innerText = correct;
             document.getElementById('r-wrong').innerText = wrong;
-            document.getElementById('r-neg').innerText = `-${negMarks}`;
-            document.getElementById('r-total').innerText = totalScore;
+            document.getElementById('r-neg').innerText = `-${negPoints}`;
+            document.getElementById('r-total').innerText = finalScore;
 
-            // Discount Logic
-            let disc = "0%";
-            if(totalScore >= 35) disc = "50% Off";
-            else if(totalScore >= 30) disc = "30% Off";
-            else if(totalScore >= 20) disc = "15% Off";
-            document.getElementById('r-discount').innerText = disc;
+            let scholarship = "0%";
+            if(finalScore >= 22) scholarship = "50% Discount";
+            else if(finalScore >= 18) scholarship = "30% Discount";
+            else if(finalScore >= 12) scholarship = "15% Discount";
+            document.getElementById('r-discount').innerText = scholarship;
 
             document.getElementById('test-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
             window.scrollTo(0,0);
         }
 
-        function startTimer() {
-            let time = 2400;
-            setInterval(() => {
-                time--;
-                let m = Math.floor(time/60);
-                let s = time%60;
-                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
-            }, 1000);
-        }
-
-        function downloadReceipt() {
+        function downloadReceiptPDF() {
             const element = document.getElementById('pdf-receipt');
-            const opt = { margin: 0.5, filename: 'AP_Maths_Receipt.pdf', html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+            const opt = { 
+                margin: 0, 
+                filename: 'AP_Maths_Official_Result.pdf', 
+                html2canvas: { scale: 3, useCORS: true }, 
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
+            };
             html2pdf().set(opt).from(element).save();
         }
     </script>
