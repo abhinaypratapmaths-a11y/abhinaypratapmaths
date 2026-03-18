@@ -11,85 +11,72 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        :root { --primary: #00ffd5; --bg: #050810; --card-bg: rgba(17, 24, 39, 0.95); }
+        :root { --primary: #00ffd5; --bg: #050810; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; }
         
         body { background: var(--bg); color: white; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
 
         .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 255, 213, 0.2);
-            padding: 35px; border-radius: 30px;
-            width: 100%; max-width: 450px; text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(0, 255, 213, 0.1);
-            margin-bottom: 40px;
+            background: #111827; border: 1px solid rgba(0, 255, 213, 0.2);
+            padding: 30px; border-radius: 25px; width: 100%; max-width: 420px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 30px;
         }
 
-        .header h1 { font-size: 26px; color: var(--primary); font-weight: 800; }
-        label { font-size: 10px; font-weight: 800; color: var(--primary); display: block; text-align: left; margin: 15px 0 5px 5px; }
+        .header h1 { font-size: 22px; color: var(--primary); margin-bottom: 5px; }
+        label { font-size: 10px; color: var(--primary); display: block; text-align: left; margin: 15px 0 5px 5px; font-weight: 800; }
 
         input {
-            width: 100%; padding: 16px; border-radius: 12px; border: 1.5px solid #1f2937;
-            background: #0f172a; color: white; font-size: 14px; outline: none; transition: 0.3s;
+            width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #374151;
+            background: #0f172a; color: white; font-size: 14px; outline: none;
         }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 213, 0.2); }
 
         .chip-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-        .chip { padding: 12px 5px; background: #1e293b; border: 1px solid #334155; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 11px; }
-        .chip.active { background: var(--primary); color: #000; border-color: var(--primary); }
+        .chip { padding: 10px 2px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 800; }
+        .chip.active { background: var(--primary); color: #000; }
 
-        .btn { width: 100%; padding: 18px; border-radius: 12px; border: none; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 20px; }
+        .btn { width: 100%; padding: 16px; border-radius: 10px; border: none; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 20px; }
         .btn-pay { background: var(--primary); color: #000; }
 
-        #qrcode { background: white; padding: 15px; border-radius: 15px; display: none; margin: 25px auto; width: fit-content; border: 4px solid var(--primary); }
+        #qrcode { background: white; padding: 10px; border-radius: 10px; display: none; margin: 20px auto; width: fit-content; }
 
-        /* RECEIPT STYLING - FIXED A4 */
+        /* RECEIPT AREA - Optimized for PDF */
+        #preview-container { display: none; width: 100%; margin-top: 30px; }
+
         #official-receipt { 
-            width: 794px; height: 1123px;
+            width: 800px; /* Fixed width for high-quality capture */
             background: #ffffff !important; color: #000 !important; 
-            padding: 60px; position: relative; border: 12px double #000; margin: 0 auto;
-            display: flex; flex-direction: column; overflow: hidden;
+            padding: 50px; position: relative; border: 15px double #000; margin: 0 auto;
         }
 
-        .watermark {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg);
-            font-size: 100px; font-weight: 900; color: rgba(0,0,0,0.03); white-space: nowrap; pointer-events: none; z-index: 1;
-        }
-
-        /* Security Corners */
-        .corner-seal { position: absolute; width: 40px; height: 40px; border: 2px solid #ddd; opacity: 0.5; }
-        .top-left { top: 20px; left: 20px; border-right: 0; border-bottom: 0; }
-        .top-right { top: 20px; right: 20px; border-left: 0; border-bottom: 0; }
-        .bot-left { bottom: 20px; left: 20px; border-right: 0; border-top: 0; }
-        .bot-right { bottom: 20px; right: 20px; border-left: 0; border-top: 0; }
-
-        .receipt-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; }
-        .official-logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #000; margin-bottom: 10px; }
+        .receipt-content { position: relative; z-index: 5; background: white !important; }
+        .official-logo { width: 90px; height: 90px; border-radius: 50%; border: 2px solid #000; margin-bottom: 10px; }
 
         .donor-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-        .donor-table td { padding: 15px; border-bottom: 1px solid #eee; font-size: 16px; }
+        .donor-table td { padding: 15px; border-bottom: 1px solid #eee; font-size: 16px; color: #000 !important; }
 
-        .footer-line { margin-top: auto; border-top: 2px solid #000; padding-top: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .footer-line { 
+            margin-top: 60px; border-top: 2px solid #000; padding-top: 20px; 
+            display: flex; justify-content: space-between; align-items: flex-end; 
+        }
+
+        .digital-sig { font-family: 'Dancing Script', cursive; font-size: 32px; color: #000 !important; text-transform: none; }
         #verify-qr-img { background: #fff; padding: 5px; border: 1px solid #000; }
-        .digital-sig { font-family: 'Dancing Script', cursive; font-size: 32px; color: #111; text-transform: none; }
-
-        #preview-container { display: none; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <div class="header">
-        <img src="r.png" onerror="this.src='https://via.placeholder.com/70'" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px;">
+        <img src="r.png" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px;">
         <h1>AP MATHEMATICS</h1>
         <p style="font-size: 10px; color: #94a3b8;">SECURE DONATION GATEWAY</p>
     </div>
 
-    <label>FULL NAME</label>
-    <input type="text" id="donorName" placeholder="ENTER DONOR FULL NAME">
+    <label>DONOR FULL NAME</label>
+    <input type="text" id="donorName" placeholder="ENTER NAME">
 
     <label>MOBILE NUMBER</label>
-    <input type="text" id="donorMobile" placeholder="ENTER 10 DIGIT MOBILE" maxlength="10">
+    <input type="text" id="donorMobile" placeholder="10 DIGIT NUMBER" maxlength="10">
 
     <label>SELECT AMOUNT</label>
     <div class="chip-box">
@@ -105,57 +92,53 @@
     <div id="qrcode"></div>
 
     <div id="verifySection" style="display:none; border-top: 1px solid #1f2937; margin-top: 20px;">
-        <label>ENTER UTR NUMBER (AFTER PAYMENT)</label>
-        <input type="text" id="utrNo" placeholder="E.G. AP123456789012" maxlength="14">
-        <button class="btn" style="background:white; color:#000;" onclick="verifyAndShowPreview()">VERIFY & DOWNLOAD</button>
+        <label>ENTER UTR NUMBER</label>
+        <input type="text" id="utrNo" placeholder="ENTER UTR AND VERIFY PAYMENT" maxlength="14">
+        <button class="btn" style="background:white; color:#000;" onclick="verifyAndShowPreview()">VERIFY & PREVIEW</button>
     </div>
 </div>
 
 <div id="preview-container">
     <div id="official-receipt">
-        <div class="corner-seal top-left"></div><div class="corner-seal top-right"></div>
-        <div class="corner-seal bot-left"></div><div class="corner-seal bot-right"></div>
-        <div class="watermark">AP MATHEMATICS</div>
-        
         <div class="receipt-content">
             <div style="text-align: center; border-bottom: 4px solid #000; padding-bottom: 20px;">
-                <img src="r.png" class="official-logo" onerror="this.src='https://via.placeholder.com/90'">
-                <h1 style="font-size: 44px; font-weight: 900; margin: 0;">AP MATHEMATICS</h1>
-                <p style="font-size: 16px; font-weight: 800; color: #333;">BY ABHINAY PRATAP MATHS</p>
-                <div style="background: #000; color: #fff; display: inline-block; padding: 5px 20px; margin-top: 15px; font-size: 12px; font-weight: 900;">OFFICIAL DONATION RECEIPT (SEC 80G)</div>
-                <p style="font-size: 10px; margin-top: 10px;">PAN: AABTA0000P | REG NO: AP/TRUST/2026/089</p>
+                <img src="r.png" class="official-logo">
+                <h1 style="font-size: 40px; font-weight: 900; color: #000 !important;">AP MATHEMATICS</h1>
+                <p style="font-size: 16px; font-weight: 800; color: #333 !important;">BY ABHINAY PRATAP MATHS</p>
+                <div style="background: #000 !important; color: #fff !important; display: inline-block; padding: 5px 20px; margin-top: 15px; font-size: 12px; font-weight: 900;">OFFICIAL DONATION RECEIPT (SEC 80G)</div>
+                <p style="font-size: 11px; margin-top: 10px; color: #000 !important;">PAN: AABTA0000P | REG NO: AP/TRUST/2026/089</p>
             </div>
 
             <table class="donor-table">
-                <tr><td style="color: #64748b; font-weight: 600;">RECEIPT ID</td><td style="text-align: right; font-weight: 800;" id="pdfID"></td></tr>
-                <tr><td style="color: #64748b; font-weight: 600;">DATE & TIME</td><td style="text-align: right; font-weight: 800;" id="pdfDate"></td></tr>
-                <tr><td style="color: #64748b; font-weight: 600;">DONOR NAME</td><td style="text-align: right; font-weight: 900; font-size: 20px;" id="pdfName"></td></tr>
-                <tr><td style="color: #64748b; font-weight: 600;">MOBILE NO</td><td style="text-align: right; font-weight: 800;" id="pdfMobile"></td></tr>
-                <tr><td style="color: #64748b; font-weight: 600;">UTR / TRANS. ID</td><td style="text-align: right; font-weight: 800; color: #d32f2f;" id="pdfUTR"></td></tr>
-                <tr style="background: #f8fafc;"><td style="font-weight: 900; font-size: 18px;">TOTAL AMOUNT</td><td style="text-align: right; font-weight: 900; font-size: 28px; color: #10b981;">₹<span id="pdfAmt"></span>.00</td></tr>
+                <tr><td style="font-weight: 600;">RECEIPT ID</td><td style="text-align: right; font-weight: 800;" id="pdfID"></td></tr>
+                <tr><td style="font-weight: 600;">DATE & TIME</td><td style="text-align: right; font-weight: 800;" id="pdfDate"></td></tr>
+                <tr><td style="font-weight: 600;">DONOR NAME</td><td style="text-align: right; font-weight: 900; font-size: 22px;" id="pdfName"></td></tr>
+                <tr><td style="font-weight: 600;">MOBILE NO</td><td style="text-align: right; font-weight: 800;" id="pdfMobile"></td></tr>
+                <tr><td style="font-weight: 600;">UTR / TRANS. ID</td><td style="text-align: right; font-weight: 800; color: #d32f2f !important;" id="pdfUTR"></td></tr>
+                <tr style="background: #f8fafc !important;"><td style="font-weight: 900; font-size: 18px;">TOTAL AMOUNT</td><td style="text-align: right; font-weight: 900; font-size: 32px; color: #10b981 !important;">₹<span id="pdfAmt"></span>.00</td></tr>
             </table>
 
-            <div style="margin-top: 40px; padding: 25px; border-left: 6px solid #00ffd5; background: #f9fafb; font-size: 14px; text-transform: none; line-height: 1.6;">
-                <strong>MESSAGE FROM ABHINAY PRATAP:</strong><br>
-                "Thank you for your valuable contribution. Your donation will be directly used for the education and welfare of underprivileged students. We appreciate your support!"
+            <div style="margin-top: 40px; padding: 25px; border-left: 6px solid #00ffd5; background: #f9fafb !important; font-size: 14px; text-transform: none; line-height: 1.6; color: #000 !important;">
+                <strong>DIRECTOR'S MESSAGE:</strong><br>
+                "Thank you for your valuable contribution. Your donation will be used for the welfare of underprivileged students. We appreciate your support for AP Mathematics Trust!"
             </div>
 
             <div class="footer-line">
                 <div style="width: 60%;">
                     <p class="digital-sig">Abhinay Pratap</p>
-                    <p style="font-size: 16px; font-weight: 900; border-top: 2px solid #000; display: inline-block; margin-top: 5px; padding-top: 5px;">AP MATHEMATICS BY ABHINAY PRATAP MATHS</p>
-                    <p style="font-size: 10px; color: #64748b; font-weight: 800;">FOUNDER & MANAGING TRUSTEE</p>
-                    <p style="font-size: 10px; color: #475569; margin-top: 10px;">HELPLINE: +91 9670078465 | WWW.APMATHS.ONLINE</p>
+                    <p style="font-size: 18px; font-weight: 900; border-top: 2px solid #000; display: inline-block; margin-top: 5px; padding-top: 5px; color: #000 !important;">ABHINAY PRATAP CHAUBEY</p>
+                    <p style="font-size: 11px; font-weight: 800; color: #000 !important;">FOUNDER & MANAGING TRUSTEE</p>
                 </div>
                 <div style="text-align: center;">
                     <div id="verify-qr-img"></div>
-                    <p style="font-size: 9px; font-weight: 900; margin-top: 5px;">VERIFY RECEIPT</p>
+                    <p style="font-size: 10px; font-weight: 900; margin-top: 5px; color: #000 !important;">SCAN TO VERIFY</p>
                 </div>
             </div>
-            <p style="text-align: center; font-size: 9px; color: #94a3b8; margin-top: auto; padding-bottom: 10px;">THIS IS A DIGITALLY VERIFIED DOCUMENT. NO PHYSICAL SIGNATURE REQUIRED.</p>
+            <p style="text-align: center; font-size: 10px; color: #999 !important; margin-top: 50px;">THIS IS A DIGITALLY VERIFIED SECURE DOCUMENT.</p>
         </div>
     </div>
-    <button class="btn" style="background: #000; color: #fff; width: 794px; border-radius: 0 0 20px 20px; margin: 0 auto 50px; display: block;" onclick="downloadRealPDF()">📥 DOWNLOAD SECURE PDF RECEIPT</button>
+    
+    <button class="btn" style="background: #000; color: #fff; width: 800px; border-radius: 0 0 20px 20px; margin: 0 auto 50px; display: block;" onclick="downloadRealPDF()">📥 DOWNLOAD SECURE PDF RECEIPT</button>
 </div>
 
 <script>
@@ -179,7 +162,7 @@
         const upiURL = `upi://pay?pa=${upiID}&pn=AP%20MATHEMATICS&am=${amt}&cu=INR&tn=AP_DONATION`;
         const qrd = document.getElementById("qrcode");
         qrd.innerHTML = ""; qrd.style.display = "block";
-        new QRCode(qrd, { text: upiURL, width: 160, height: 160 });
+        new QRCode(qrd, { text: upiURL, width: 150, height: 150 });
         document.getElementById('verifySection').style.display = 'block';
     }
 
@@ -189,7 +172,7 @@
         const mobile = document.getElementById('donorMobile').value;
         const amt = finalAmt || document.getElementById('customInput').value;
 
-        if(!/^AP\d{12}$/.test(utr)) { alert("INVALID UTR: Format must be AP + 12 Digits (e.g. AP123456789012)"); return; }
+        if(!/^AP\d{12}$/.test(utr)) { alert("INVALID UTR CONTACT +91 9670078465"); return; }
 
         document.getElementById('pdfName').innerText = name;
         document.getElementById('pdfMobile').innerText = "+91 " + mobile;
@@ -209,14 +192,25 @@
 
     function downloadRealPDF() {
         const element = document.getElementById('official-receipt');
-        const donorName = document.getElementById('donorName').value.trim();
+        const donorName = document.getElementById('donorName').value.trim() || "Receipt";
+        
+        // Settings to fix blank pages and A4 fit
         const opt = {
             margin: 0,
-            filename: `AP_Maths_Receipt_${donorName}.pdf`,
+            filename: `AP_Receipt_${donorName}.pdf`,
             image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 3, useCORS: true, backgroundColor: "#ffffff" },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                backgroundColor: "#ffffff",
+                width: 800,
+                scrollY: 0,
+                windowWidth: 800
+            },
+            jsPDF: { unit: 'px', format: [800, 1123], orientation: 'portrait' }
         };
+        
+        // Execute download
         html2pdf().set(opt).from(element).save();
     }
 </script>
