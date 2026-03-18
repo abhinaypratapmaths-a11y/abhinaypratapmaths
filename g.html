@@ -1,167 +1,167 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OFFICIAL REGISTRATION | AP MATHEMATICS</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        :root { --primary: #00ffd5; --bg: #050810; }
+        :root { --primary: #00ffd5; --bg: #050810; --card-bg: rgba(17, 24, 39, 0.95); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; }
         
-        body { background: var(--bg); color: white; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 15px; }
+        body { background: var(--bg); color: white; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
 
         .card {
-            background: linear-gradient(145deg, #111827, #0b0f1a);
+            background: var(--card-bg);
             border: 1px solid rgba(0, 255, 213, 0.2);
-            padding: 30px; border-radius: 25px;
-            width: 100%; max-width: 440px; text-align: center;
-            margin-bottom: 30px;
+            padding: 35px; border-radius: 30px;
+            width: 100%; max-width: 450px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(0, 255, 213, 0.1);
+            margin-bottom: 40px;
         }
 
-        .header h1 { font-size: 24px; color: var(--primary); font-weight: 800; }
-        .form-area { margin-top: 25px; text-align: left; }
-        label { font-size: 10px; font-weight: 800; color: var(--primary); margin-left: 5px; }
+        .header h1 { font-size: 26px; color: var(--primary); font-weight: 800; }
+        label { font-size: 10px; font-weight: 800; color: var(--primary); display: block; text-align: left; margin: 15px 0 5px 5px; }
 
         input {
             width: 100%; padding: 16px; border-radius: 12px; border: 1.5px solid #1f2937;
-            background: #0f172a; color: white; font-size: 14px; margin: 8px 0 15px 0; outline: none;
+            background: #0f172a; color: white; font-size: 14px; outline: none; transition: 0.3s;
         }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 213, 0.2); }
 
-        .chip-box { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-        .chip { padding: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 12px; text-align: center; }
-        .chip.active { background: var(--primary); color: #000; }
+        .chip-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .chip { padding: 12px 5px; background: #1e293b; border: 1px solid #334155; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 11px; }
+        .chip.active { background: var(--primary); color: #000; border-color: var(--primary); }
 
-        #qrcode { background: white; padding: 12px; border-radius: 15px; display: none; margin: 20px auto; width: fit-content; border: 5px solid var(--primary); }
+        .btn { width: 100%; padding: 18px; border-radius: 12px; border: none; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 20px; }
+        .btn-pay { background: var(--primary); color: #000; }
 
-        .verify-section {
-            display: none; background: rgba(0, 255, 213, 0.05);
-            padding: 20px; border-radius: 20px; border: 1px dashed var(--primary);
-            margin-top: 25px;
-        }
+        #qrcode { background: white; padding: 15px; border-radius: 15px; display: none; margin: 25px auto; width: fit-content; border: 4px solid var(--primary); }
 
-        .btn { width: 100%; padding: 18px; border-radius: 12px; border: none; font-size: 14px; font-weight: 800; cursor: pointer; }
-        .btn-pay { background: var(--primary); color: #000; margin-top: 10px; }
-        .btn-verify { background: #ffffff; color: #000; margin-top: 10px; border: 2px solid #000; }
-
-        /* PREVIEW AREA */
-        #preview-container { display: none; width: 100%; max-width: 800px; background: white; margin-top: 20px; border-radius: 10px; overflow: hidden; box-shadow: 0 0 50px rgba(0,255,213,0.3); }
-
-        /* RECEIPT STYLING */
+        /* RECEIPT STYLING - FIXED A4 */
         #official-receipt { 
-            width: 100%; background: #fff; color: #000; padding: 50px; 
-            position: relative; overflow: hidden; border: 10px double #000;
+            width: 794px; height: 1123px;
+            background: #ffffff !important; color: #000 !important; 
+            padding: 60px; position: relative; border: 12px double #000; margin: 0 auto;
+            display: flex; flex-direction: column; overflow: hidden;
         }
 
-        .watermark-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            pointer-events: none; z-index: 0; opacity: 0.05;
+        .watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 100px; font-weight: 900; color: rgba(0,0,0,0.03); white-space: nowrap; pointer-events: none; z-index: 1;
         }
-        .wm-text { transform: rotate(-30deg); font-weight: 900; font-size: 35px; white-space: nowrap; margin: 45px; }
+
+        /* Security Corners */
+        .corner-seal { position: absolute; width: 40px; height: 40px; border: 2px solid #ddd; opacity: 0.5; }
+        .top-left { top: 20px; left: 20px; border-right: 0; border-bottom: 0; }
+        .top-right { top: 20px; right: 20px; border-left: 0; border-bottom: 0; }
+        .bot-left { bottom: 20px; left: 20px; border-right: 0; border-top: 0; }
+        .bot-right { bottom: 20px; right: 20px; border-left: 0; border-top: 0; }
+
+        .receipt-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; }
+        .official-logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #000; margin-bottom: 10px; }
+
+        .donor-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        .donor-table td { padding: 15px; border-bottom: 1px solid #eee; font-size: 16px; }
+
+        .footer-line { margin-top: auto; border-top: 2px solid #000; padding-top: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+        #verify-qr-img { background: #fff; padding: 5px; border: 1px solid #000; }
+        .digital-sig { font-family: 'Dancing Script', cursive; font-size: 32px; color: #111; text-transform: none; }
+
+        #preview-container { display: none; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <div class="header">
-        <img src="alogo.png" style="width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--primary); margin-bottom: 10px;">
+        <img src="r.png" onerror="this.src='https://via.placeholder.com/70'" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 10px;">
         <h1>AP MATHEMATICS</h1>
-        <p style="font-size: 10px; color: #94a3b8;">BY ABHINAY PRATAP MATHS</p>
+        <p style="font-size: 10px; color: #94a3b8;">SECURE DONATION GATEWAY</p>
     </div>
 
-    <div class="form-area">
-        <label>DONOR FULL NAME</label>
-        <input type="text" id="donorName" placeholder="ENTER NAME">
+    <label>FULL NAME</label>
+    <input type="text" id="donorName" placeholder="ENTER DONOR FULL NAME">
 
-        <label>SELECT AMOUNT</label>
-        <div class="chip-box">
-            <div class="chip" onclick="setAmt(10, this)">₹10</div>
-            <div class="chip" onclick="setAmt(21, this)">₹21</div>
-            <div class="chip" onclick="setAmt(50, this)">₹50</div>
-            <div class="chip" onclick="setAmt(100, this)">₹100</div>
-            <div class="chip" onclick="setAmt('custom', this)">CUSTOM</div>
-        </div>
-        <input type="number" id="customInput" placeholder="ENTER AMOUNT" style="display:none;">
+    <label>MOBILE NUMBER</label>
+    <input type="text" id="donorMobile" placeholder="ENTER 10 DIGIT MOBILE" maxlength="10">
 
-        <button class="btn btn-pay" onclick="generateDonation()">GENERATE QR FOR PAYMENT</button>
+    <label>SELECT AMOUNT</label>
+    <div class="chip-box">
+        <div class="chip" onclick="setAmt(21, this)">₹21</div>
+        <div class="chip" onclick="setAmt(51, this)">₹51</div>
+        <div class="chip" onclick="setAmt(101, this)">₹101</div>
+        <div class="chip" onclick="setAmt('custom', this)">CUSTOM</div>
     </div>
+    <input type="number" id="customInput" placeholder="ENTER AMOUNT" style="display:none; margin-top:10px;">
+
+    <button class="btn btn-pay" onclick="generateDonation()">GENERATE QR CODE</button>
 
     <div id="qrcode"></div>
 
-    <div class="verify-section" id="verifySection">
-        <p style="font-size: 11px; color: var(--primary); margin-bottom: 12px; font-weight: 800;">VERIFY AP UTR (AP + 12 DIGITS)</p>
+    <div id="verifySection" style="display:none; border-top: 1px solid #1f2937; margin-top: 20px;">
+        <label>ENTER UTR NUMBER (AFTER PAYMENT)</label>
         <input type="text" id="utrNo" placeholder="E.G. AP123456789012" maxlength="14">
-        <button class="btn btn-verify" onclick="verifyAndShowPreview()">VERIFY & PREVIEW RECEIPT</button>
+        <button class="btn" style="background:white; color:#000;" onclick="verifyAndShowPreview()">VERIFY & DOWNLOAD</button>
     </div>
 </div>
 
 <div id="preview-container">
     <div id="official-receipt">
-        <div class="watermark-overlay">
-            <div class="wm-text">AP MATHEMATICS</div> <div class="wm-text">AP MATHEMATICS</div> <div class="wm-text">AP MATHEMATICS</div>
-            <div class="wm-text">AP MATHEMATICS</div> <div class="wm-text">AP MATHEMATICS</div> <div class="wm-text">AP MATHEMATICS</div>
-            <div class="wm-text">AP MATHEMATICS</div> <div class="wm-text">AP MATHEMATICS</div> <div class="wm-text">AP MATHEMATICS</div>
-            <div class="wm-text">AP MATHEMATICS</div> <div class="wm-text">AP MATHEMATICS</div> <div class="wm-text">AP MATHEMATICS</div>
-        </div>
-
-        <div style="position: relative; z-index: 1;">
+        <div class="corner-seal top-left"></div><div class="corner-seal top-right"></div>
+        <div class="corner-seal bot-left"></div><div class="corner-seal bot-right"></div>
+        <div class="watermark">AP MATHEMATICS</div>
+        
+        <div class="receipt-content">
             <div style="text-align: center; border-bottom: 4px solid #000; padding-bottom: 20px;">
-                <h1 style="font-size: 38px; font-weight: 900; margin: 0; color: #000;">AP MATHEMATICS</h1>
+                <img src="r.png" class="official-logo" onerror="this.src='https://via.placeholder.com/90'">
+                <h1 style="font-size: 44px; font-weight: 900; margin: 0;">AP MATHEMATICS</h1>
                 <p style="font-size: 16px; font-weight: 800; color: #333;">BY ABHINAY PRATAP MATHS</p>
-                <div style="background: #000; color: #fff; display: inline-block; padding: 6px 20px; margin-top: 15px; font-size: 13px; font-weight: 900; letter-spacing: 1px;">OFFICIAL DONATION REGISTRATION 2026</div>
+                <div style="background: #000; color: #fff; display: inline-block; padding: 5px 20px; margin-top: 15px; font-size: 12px; font-weight: 900;">OFFICIAL DONATION RECEIPT (SEC 80G)</div>
+                <p style="font-size: 10px; margin-top: 10px;">PAN: AABTA0000P | REG NO: AP/TRUST/2026/089</p>
             </div>
 
-            <div style="margin: 30px 0; display: flex; justify-content: space-between; font-size: 13px; border-bottom: 1px dashed #000; padding-bottom: 15px;">
-                <div><p><strong>REGISTRATION ID:</strong> <span id="pdfID" style="color: #d32f2f;"></span></p><p><strong>DATE & TIME:</strong> <span id="pdfDate"></span></p></div>
-                <div style="text-align: right;"><p><strong>UTR NO:</strong> <span id="pdfUTR" style="font-weight: 900;"></span></p><p><strong>STATUS:</strong> <span style="color: #10b981; font-weight: 900;">VERIFIED</span></p></div>
+            <table class="donor-table">
+                <tr><td style="color: #64748b; font-weight: 600;">RECEIPT ID</td><td style="text-align: right; font-weight: 800;" id="pdfID"></td></tr>
+                <tr><td style="color: #64748b; font-weight: 600;">DATE & TIME</td><td style="text-align: right; font-weight: 800;" id="pdfDate"></td></tr>
+                <tr><td style="color: #64748b; font-weight: 600;">DONOR NAME</td><td style="text-align: right; font-weight: 900; font-size: 20px;" id="pdfName"></td></tr>
+                <tr><td style="color: #64748b; font-weight: 600;">MOBILE NO</td><td style="text-align: right; font-weight: 800;" id="pdfMobile"></td></tr>
+                <tr><td style="color: #64748b; font-weight: 600;">UTR / TRANS. ID</td><td style="text-align: right; font-weight: 800; color: #d32f2f;" id="pdfUTR"></td></tr>
+                <tr style="background: #f8fafc;"><td style="font-weight: 900; font-size: 18px;">TOTAL AMOUNT</td><td style="text-align: right; font-weight: 900; font-size: 28px; color: #10b981;">₹<span id="pdfAmt"></span>.00</td></tr>
+            </table>
+
+            <div style="margin-top: 40px; padding: 25px; border-left: 6px solid #00ffd5; background: #f9fafb; font-size: 14px; text-transform: none; line-height: 1.6;">
+                <strong>MESSAGE FROM ABHINAY PRATAP:</strong><br>
+                "Thank you for your valuable contribution. Your donation will be directly used for the education and welfare of underprivileged students. We appreciate your support!"
             </div>
 
-            <div style="background: #f8fafc; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 16px;">
-                    <tr>
-                        <td style="padding: 10px; font-weight: 600; color: #64748b;">DONOR NAME:</td>
-                        <td style="padding: 10px; text-align: right; font-weight: 900; font-size: 20px; color: #0f172a;" id="pdfName"></td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; font-weight: 600; color: #64748b;">CONTRIBUTION AMOUNT:</td>
-                        <td style="padding: 10px; text-align: right; font-weight: 900; font-size: 28px; color: #10b981;">₹<span id="pdfAmt"></span>.00</td>
-                    </tr>
-                </table>
-            </div>
-
-            <div style="margin-top: 10px; padding: 20px; border-left: 5px solid #00ffd5; background: #fff; font-style: italic; color: #1e293b; line-height: 1.6; font-size: 14px; text-transform: none;">
-                <strong>MESSAGE FROM AP MATHS:</strong><br>
-                "नमस्ते! आपके इस बहुमूल्य योगदान के लिए हम आपको हृदय से धन्यवाद देते हैं। आपकी यह छोटी सी मदद जरूरतमंद छात्रों के शिक्षा के मार्ग को सुगम बनाने में बहुत बड़ा योगदान देगी। आपके सहयोग के बिना हमारा यह मिशन अधूरा है। धन्यवाद!"
-            </div>
-
-            <div style="margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end;">
-                <div style="font-size: 11px; line-height: 1.8; color: #475569;">
-                    <p><strong>CONTACT:</strong> +91 9670078465</p>
-                    <p><strong>WHATSAPP:</strong> +91 9670078465</p>
-                    <p><strong>WEB:</strong> WWW.APMATHS.ONLINE</p>
+            <div class="footer-line">
+                <div style="width: 60%;">
+                    <p class="digital-sig">Abhinay Pratap</p>
+                    <p style="font-size: 16px; font-weight: 900; border-top: 2px solid #000; display: inline-block; margin-top: 5px; padding-top: 5px;">AP MATHEMATICS BY ABHINAY PRATAP MATHS</p>
+                    <p style="font-size: 10px; color: #64748b; font-weight: 800;">FOUNDER & MANAGING TRUSTEE</p>
+                    <p style="font-size: 10px; color: #475569; margin-top: 10px;">HELPLINE: +91 9670078465 | WWW.APMATHS.ONLINE</p>
                 </div>
                 <div style="text-align: center;">
-                    <div style="width: 180px; border-bottom: 2px solid #000; margin-bottom: 8px;"></div>
-                    <p style="font-size: 14px; font-weight: 900;">ABHINAY PRATAP</p>
-                    <p style="font-size: 10px; color: #64748b;">FOUNDER & TRUSTEE</p>
+                    <div id="verify-qr-img"></div>
+                    <p style="font-size: 9px; font-weight: 900; margin-top: 5px;">VERIFY RECEIPT</p>
                 </div>
             </div>
-            
-            <p style="text-align: center; font-size: 10px; color: #94a3b8; margin-top: 40px; border-top: 1px solid #eee; padding-top: 10px;">THIS IS A COMPUTER GENERATED REAL PDF DOCUMENT. VERIFIED BY AP MATHEMATICS SYSTEMS.</p>
+            <p style="text-align: center; font-size: 9px; color: #94a3b8; margin-top: auto; padding-bottom: 10px;">THIS IS A DIGITALLY VERIFIED DOCUMENT. NO PHYSICAL SIGNATURE REQUIRED.</p>
         </div>
     </div>
-    <button class="btn" style="background: #000; color: #fff; border-radius: 0; letter-spacing: 2px;" onclick="downloadRealPDF()">📥 DOWNLOAD REAL PDF RECEIPT</button>
+    <button class="btn" style="background: #000; color: #fff; width: 794px; border-radius: 0 0 20px 20px; margin: 0 auto 50px; display: block;" onclick="downloadRealPDF()">📥 DOWNLOAD SECURE PDF RECEIPT</button>
 </div>
 
 <script>
     let finalAmt = 0;
     const upiID = "7705042892@axl";
+    const webLink = "https://abhinaypratapmaths-a11y.github.io/abhinaypratapmaths/g.html";
 
     function setAmt(amt, el) {
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -171,10 +171,12 @@
     }
 
     function generateDonation() {
-        const name = document.getElementById('donorName').value.trim();
+        const name = document.getElementById('donorName').value;
+        const mobile = document.getElementById('donorMobile').value;
         const amt = finalAmt || document.getElementById('customInput').value;
-        if(!name || !amt) { alert("कृपया नाम और राशि दर्ज करें!"); return; }
-        const upiURL = `upi://pay?pa=${upiID}&pn=AP%20MATHEMATICS&am=${amt}&cu=INR&tn=AP_MATHS_HELP`;
+        if(!name || mobile.length < 10 || !amt) { alert("ERROR: Please fill all details correctly!"); return; }
+        
+        const upiURL = `upi://pay?pa=${upiID}&pn=AP%20MATHEMATICS&am=${amt}&cu=INR&tn=AP_DONATION`;
         const qrd = document.getElementById("qrcode");
         qrd.innerHTML = ""; qrd.style.display = "block";
         new QRCode(qrd, { text: upiURL, width: 160, height: 160 });
@@ -184,34 +186,39 @@
     function verifyAndShowPreview() {
         const utr = document.getElementById('utrNo').value.trim().toUpperCase();
         const name = document.getElementById('donorName').value.trim().toUpperCase();
+        const mobile = document.getElementById('donorMobile').value;
         const amt = finalAmt || document.getElementById('customInput').value;
 
-        if(!/^AP\d{12}$/.test(utr)) { alert("गलत UTR! कृपया AP के बाद 12 अंक डालें। (जैसे: AP123456789012)"); return; }
+        if(!/^AP\d{12}$/.test(utr)) { alert("INVALID UTR: Format must be AP + 12 Digits (e.g. AP123456789012)"); return; }
 
-        // Fill Real Data into Preview
         document.getElementById('pdfName').innerText = name;
+        document.getElementById('pdfMobile').innerText = "+91 " + mobile;
         document.getElementById('pdfAmt').innerText = amt;
         document.getElementById('pdfUTR').innerText = utr;
-        document.getElementById('pdfID').innerText = "AP-REG-" + Math.floor(100000 + Math.random() * 900000);
-        document.getElementById('pdfDate').innerText = new Date().toLocaleString();
+        document.getElementById('pdfID').innerText = "AP-TR-" + Date.now().toString().slice(-6);
+        document.getElementById('pdfDate').innerText = new Date().toLocaleString('en-IN');
+
+        const vqr = document.getElementById("verify-qr-img");
+        vqr.innerHTML = "";
+        const finalUrl = `${webLink}?donor=${encodeURIComponent(name)}&utr=${utr}&amt=${amt}`;
+        new QRCode(vqr, { text: finalUrl, width: 90, height: 90 });
 
         document.getElementById('preview-container').style.display = 'block';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        window.scrollTo({ top: document.getElementById('preview-container').offsetTop, behavior: 'smooth' });
     }
 
     function downloadRealPDF() {
         const element = document.getElementById('official-receipt');
         const donorName = document.getElementById('donorName').value.trim();
         const opt = {
-            margin: 0.2,
+            margin: 0,
             filename: `AP_Maths_Receipt_${donorName}.pdf`,
             image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 3, useCORS: true },
+            html2canvas: { scale: 3, useCORS: true, backgroundColor: "#ffffff" },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
         html2pdf().set(opt).from(element).save();
     }
 </script>
-
 </body>
 </html>
