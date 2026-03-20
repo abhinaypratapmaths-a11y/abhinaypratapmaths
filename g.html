@@ -34,50 +34,48 @@
         .chip { padding: 10px 2px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; cursor: pointer; font-size: 10px; font-weight: 800; }
         .chip.active { background: var(--primary); color: #000; }
 
-        .btn { width: 100%; padding: 16px; border-radius: 10px; border: none; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 20px; }
+        .btn { width: 100%; padding: 16px; border-radius: 10px; border: none; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .btn-pay { background: var(--primary); color: #000; }
+        .btn:active { transform: scale(0.98); }
 
         #qrcode { background: white; padding: 10px; border-radius: 10px; display: none; margin: 20px auto; width: fit-content; border: 4px solid var(--primary); }
 
-        /* --- RECEIPT STYLING UPDATED --- */
-        #preview-container { 
-            display: none; 
-            width: 100%; 
-            max-width: 800px; 
-            margin-top: 20px; 
-        }
+        /* --- RECEIPT STYLING (FIXED FOR PDF) --- */
+        #preview-container { display: none; width: 100%; max-width: 800px; margin-top: 20px; }
 
         #official-receipt { 
             width: 100%;
-            background: #ffffff !important; 
-            color: #000 !important; 
+            background-color: #ffffff !important; 
+            color: #000000 !important; 
             padding: 40px 30px; 
             position: relative; 
-            border: 10px double #000; 
+            border: 10px double #000000; 
             margin: 0 auto;
             box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .receipt-content { position: relative; z-index: 10; background: white !important; }
 
         .payment-seal {
             position: absolute; right: 40px; top: 110px; width: 110px; height: 110px;
-            border: 3px double var(--secure-green); border-radius: 50%;
+            border: 3px double #10b981; border-radius: 50%;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--secure-green); transform: rotate(-15deg); font-weight: 900;
+            color: #10b981 !important; transform: rotate(-15deg); font-weight: 900;
             text-align: center; line-height: 1.1; z-index: 20;
         }
 
         .donor-table { width: 100%; border-collapse: collapse; margin-top: 25px; }
-        .donor-table td { padding: 12px 5px; border-bottom: 1px solid #eee; font-size: 14px; color: #000 !important; }
+        .donor-table td { padding: 12px 5px; border-bottom: 1px solid #eeeeee; font-size: 14px; color: #000000 !important; }
 
         .footer-line { 
-            margin-top: 40px; border-top: 2px solid #000; padding-top: 20px; 
+            margin-top: 40px; border-top: 2px solid #000000; padding-top: 20px; 
             display: flex; justify-content: space-between; align-items: flex-end; 
         }
 
-        .digital-sig { font-family: 'Dancing Script', cursive; font-size: 30px; color: #000 !important; text-transform: none; }
-        #verify-qr-img { background: #fff; padding: 5px; border: 1px solid #000; display: inline-block;}
+        .digital-sig { font-family: 'Dancing Script', cursive; font-size: 30px; color: #000000 !important; text-transform: none; }
+        #verify-qr-img { background: #ffffff; padding: 5px; border: 1px solid #000000; display: inline-block;}
     </style>
 </head>
 <body>
@@ -114,48 +112,48 @@
 <div id="preview-container">
     <div id="official-receipt">
         <div class="payment-seal">
-            <span style="font-size: 9px;">OFFICIALLY</span>
-            <span style="font-size: 18px; letter-spacing: 1px;">VERIFIED</span>
-            <span style="font-size: 9px;">AP TRUST</span>
+            <span style="font-size: 9px; color: #10b981 !important;">OFFICIALLY</span>
+            <span style="font-size: 18px; letter-spacing: 1px; color: #10b981 !important;">VERIFIED</span>
+            <span style="font-size: 9px; color: #10b981 !important;">AP TRUST</span>
         </div>
         
         <div class="receipt-content">
-            <div style="text-align: center; border-bottom: 4px solid #000; padding-bottom: 15px;">
-                <h1 style="font-size: 32px; font-weight: 900; color: #000 !important; margin: 0;">AP MATHEMATICS</h1>
-                <p style="font-size: 14px; font-weight: 800; color: #333 !important;">BY ABHINAY PRATAP MATHS</p>
-                <div style="background: #000 !important; color: #fff !important; display: inline-block; padding: 5px 20px; margin-top: 10px; font-size: 10px; font-weight: 900;">DONATION RECEIPT (UNDER SEC 80G)</div>
+            <div style="text-align: center; border-bottom: 4px solid #000000; padding-bottom: 15px;">
+                <h1 style="font-size: 32px; font-weight: 900; color: #000000 !important; margin: 0;">AP MATHEMATICS</h1>
+                <p style="font-size: 14px; font-weight: 800; color: #333333 !important;">BY ABHINAY PRATAP MATHS</p>
+                <div style="background: #000000 !important; color: #ffffff !important; display: inline-block; padding: 5px 20px; margin-top: 10px; font-size: 10px; font-weight: 900;">DONATION RECEIPT (UNDER SEC 80G)</div>
             </div>
 
             <table class="donor-table">
-                <tr><td style="font-weight: 600;">RECEIPT ID</td><td style="text-align: right; font-weight: 800;" id="pdfID"></td></tr>
-                <tr><td style="font-weight: 600;">DATE & TIME</td><td style="text-align: right; font-weight: 800;" id="pdfDate"></td></tr>
-                <tr><td style="font-weight: 600;">DONOR NAME</td><td style="text-align: right; font-weight: 900; font-size: 18px;" id="pdfName"></td></tr>
-                <tr><td style="font-weight: 600;">MOBILE NO</td><td style="text-align: right; font-weight: 800;" id="pdfMobile"></td></tr>
-                <tr><td style="font-weight: 600;">UTR NO</td><td style="text-align: right; font-weight: 800; color: #d32f2f !important;" id="pdfUTR"></td></tr>
-                <tr style="background: #f8fafc !important;"><td style="font-weight: 900; font-size: 16px;">TOTAL DONATION</td><td style="text-align: right; font-weight: 900; font-size: 24px; color: #10b981 !important;">₹<span id="pdfAmt"></span>.00</td></tr>
+                <tr><td style="font-weight: 600; color: #000 !important;">RECEIPT ID</td><td style="text-align: right; font-weight: 800; color: #000 !important;" id="pdfID"></td></tr>
+                <tr><td style="font-weight: 600; color: #000 !important;">DATE & TIME</td><td style="text-align: right; font-weight: 800; color: #000 !important;" id="pdfDate"></td></tr>
+                <tr><td style="font-weight: 600; color: #000 !important;">DONOR NAME</td><td style="text-align: right; font-weight: 900; font-size: 18px; color: #000 !important;" id="pdfName"></td></tr>
+                <tr><td style="font-weight: 600; color: #000 !important;">MOBILE NO</td><td style="text-align: right; font-weight: 800; color: #000 !important;" id="pdfMobile"></td></tr>
+                <tr><td style="font-weight: 600; color: #000 !important;">UTR NO</td><td style="text-align: right; font-weight: 800; color: #d32f2f !important;" id="pdfUTR"></td></tr>
+                <tr style="background: #f8fafc !important;"><td style="font-weight: 900; font-size: 16px; color: #000 !important;">TOTAL DONATION</td><td style="text-align: right; font-weight: 900; font-size: 24px; color: #10b981 !important;">₹<span id="pdfAmt"></span>.00</td></tr>
             </table>
 
-            <div style="margin-top: 30px; padding: 15px; border-left: 5px solid #00ffd5; background: #f9fafb !important; font-size: 12px; text-transform: none; line-height: 1.5; color: #000 !important;">
+            <div style="margin-top: 30px; padding: 15px; border-left: 5px solid #00ffd5; background: #f9fafb !important; font-size: 12px; text-transform: none; line-height: 1.5; color: #000000 !important;">
                 <strong>TRUSTEE NOTE:</strong><br>
                 "Thank you for your valuable contribution. This donation is secured and will be utilized for student welfare programs."
             </div>
 
             <div class="footer-line">
                 <div style="width: 70%;">
-                    <p class="digital-sig">Abhinay Pratap</p>
-                    <p style="font-size: 14px; font-weight: 900; border-top: 2px solid #000; display: inline-block; margin-top: 5px; padding-top: 5px;">AP MATHEMATICS TRUST</p>
-                    <p style="font-size: 9px; font-weight: 800; margin-top: 3px;">EMAIL: ABHINETRI83@GMAIL.COM</p>
+                    <p class="digital-sig" style="color: #000 !important;">Abhinay Pratap</p>
+                    <p style="font-size: 14px; font-weight: 900; border-top: 2px solid #000; display: inline-block; margin-top: 5px; padding-top: 5px; color: #000 !important;">AP MATHEMATICS TRUST</p>
+                    <p style="font-size: 9px; font-weight: 800; margin-top: 3px; color: #000 !important;">EMAIL: ABHINETRI83@GMAIL.COM</p>
                 </div>
                 <div style="text-align: center;">
                     <div id="verify-qr-img"></div>
-                    <p style="font-size: 9px; font-weight: 900; margin-top: 5px;">SCAN TO VERIFY</p>
+                    <p style="font-size: 9px; font-weight: 900; margin-top: 5px; color: #000 !important;">SCAN TO VERIFY</p>
                 </div>
             </div>
-            <p style="text-align: center; font-size: 9px; color: #666 !important; margin-top: 30px;">PAN: AABTA0000P | REG NO: AP/TRUST/2026/089</p>
+            <p style="text-align: center; font-size: 9px; color: #666666 !important; margin-top: 30px;">PAN: AABTA0000P | REG NO: AP/TRUST/2026/089</p>
         </div>
     </div>
     
-    <button class="btn" style="background: #000; color: #fff; margin-bottom: 50px;" onclick="downloadRealPDF()">📥 DOWNLOAD RECEIPT (PDF)</button>
+    <button class="btn" id="dlBtn" style="background: #000; color: #fff; margin-bottom: 50px;" onclick="downloadRealPDF()">📥 DOWNLOAD RECEIPT (PDF)</button>
 </div>
 
 <script>
@@ -208,16 +206,29 @@
     function downloadRealPDF() {
         const element = document.getElementById('official-receipt');
         const donorName = document.getElementById('donorName').value.trim() || "Receipt";
+        const btn = document.getElementById('dlBtn');
         
+        btn.innerText = "GENERATING PDF...";
+        btn.disabled = true;
+
         const opt = {
-            margin: [10, 10, 10, 10],
+            margin: [5, 5, 5, 5],
             filename: `Receipt_${donorName}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 3, useCORS: true, letterRendering: true },
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { 
+                scale: 3, 
+                useCORS: true, 
+                letterRendering: true,
+                backgroundColor: '#ffffff',
+                scrollY: 0
+            },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
         
-        html2pdf().set(opt).from(element).save();
+        html2pdf().set(opt).from(element).save().then(() => {
+            btn.innerText = "📥 DOWNLOAD RECEIPT (PDF)";
+            btn.disabled = false;
+        });
     }
 </script>
 </body>
