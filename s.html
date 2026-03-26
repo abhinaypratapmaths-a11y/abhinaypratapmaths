@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP MATHEMATICS | SOCIAL LINKS</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root { 
+            --primary: #00ffd5; 
+            --bg: radial-gradient(circle at top, #0f172a, #020617); 
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            
+            --youtube: #ff0000;
+            --telegram: #0088cc;
+            --instagram: #e1306c;
+            --whatsapp: #25d366;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        body { 
+            background: var(--bg); 
+            background-attachment: fixed;
+            color: white; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 50px 20px; 
+            text-transform: uppercase;
+        }
+
+        .container { width: 100%; max-width: 450px; text-align: center; }
+
+        .profile-card { margin-bottom: 40px; animation: fadeIn 1s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .img-box { position: relative; display: inline-block; margin-bottom: 20px; }
+
+        .profile-pic {
+            width: 130px; height: 130px; border-radius: 50%; border: 4px solid var(--primary);
+            object-fit: cover; background-image: url('pro.png'); 
+            background-size: cover; background-position: center;
+            box-shadow: 0 0 30px rgba(0, 255, 213, 0.3);
+        }
+
+        .verify-tick {
+            position: absolute; bottom: 8px; right: 8px; background: #1d9bf0;
+            color: white; width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; border: 3px solid #0f172a;
+        }
+
+        .name-txt { font-size: 26px; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px; color: #fff; }
+        .bio-txt { font-size: 11px; color: #94a3b8; line-height: 1.6; margin-bottom: 25px; padding: 0 15px; letter-spacing: 1px; }
+
+        .links-grid { display: flex; flex-direction: column; gap: 15px; }
+
+        .link-item {
+            background: var(--card-bg); backdrop-filter: blur(12px);
+            border: 1px solid var(--border); padding: 18px 25px; border-radius: 20px;
+            color: white; display: flex; align-items: center; justify-content: space-between;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .link-item:hover { transform: scale(1.03); background: rgba(255, 255, 255, 0.1); }
+        .left-side { display: flex; align-items: center; gap: 15px; }
+        .social-icon { font-size: 22px; width: 35px; text-align: center; }
+        .text-wrap { display: flex; flex-direction: column; text-align: left; }
+        .title { font-size: 15px; font-weight: 800; }
+        .subtitle { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+        .chevron { font-size: 12px; opacity: 0.3; transition: 0.3s; }
+        .link-item:hover .chevron { opacity: 1; transform: translateX(5px); color: var(--primary); }
+
+        /* Specific Glows */
+        .youtube:hover { border-color: var(--youtube); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        .youtube .social-icon { color: var(--youtube); }
+        .telegram:hover { border-color: var(--telegram); box-shadow: 0 0 15px rgba(0, 136, 204, 0.2); }
+        .telegram .social-icon { color: var(--telegram); }
+        .instagram:hover { border-color: var(--instagram); box-shadow: 0 0 15px rgba(225, 48, 108, 0.2); }
+        .instagram .social-icon { color: var(--instagram); }
+        .whatsapp:hover { border-color: var(--whatsapp); box-shadow: 0 0 15px rgba(37, 211, 102, 0.2); }
+        .whatsapp .social-icon { color: var(--whatsapp); }
+
+        #alert-box {
+            position: fixed; top: 20px; background: #ff0000; color: white;
+            padding: 12px 25px; border-radius: 50px; font-size: 11px; font-weight: 800; 
+            display: none; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: slideDown 0.4s ease-out;
+        }
+        @keyframes slideDown { from { transform: translateY(-100px); } to { transform: translateY(0); } }
+
+        .footer-tag { margin-top: 60px; font-size: 9px; color: #475569; letter-spacing: 3px; font-weight: 800; }
+    </style>
+</head>
+<body>
+
+<div id="alert-box">⚠️ SORRY! LINK NOT AVAILABLE YET.</div>
+
+<div class="container">
+    
+    <div class="profile-card">
+        <div class="img-box">
+            <div class="profile-pic"></div>
+            <div class="verify-tick"><i class="fas fa-check"></i></div>
+        </div>
+        <h1 class="name-txt">AP MATHEMATICS</h1>
+        <p class="bio-txt">Abhinay Pratap | Maths Expert | Educator<br>Connect with me for daily updates and classes.</p>
+    </div>
+
+    <div class="links-grid">
+        
+        <div onclick="openLink('https://www.youtube.com/@abhinaypratapmaths')" class="link-item youtube">
+            <div class="left-side">
+                <i class="fab fa-youtube social-icon"></i>
+                <div class="text-wrap">
+                    <span class="title">YouTube Channel</span>
+                    <span class="subtitle">Live Classes & Video Lectures</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right chevron"></i>
+        </div>
+
+        <div onclick="openLink('https://t.me/TWA2025EDUCATION11')" class="link-item telegram">
+            <div class="left-side">
+                <i class="fab fa-telegram social-icon"></i>
+                <div class="text-wrap">
+                    <span class="title">Telegram Group</span>
+                    <span class="subtitle">Daily PDFs & Study Material</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right chevron"></i>
+        </div>
+
+        <div onclick="openLink('YOUR_IG_URL')" class="link-item instagram">
+            <div class="left-side">
+                <i class="fab fa-instagram social-icon"></i>
+                <div class="text-wrap">
+                    <span class="title">Instagram</span>
+                    <span class="subtitle">Latest Updates & Short Tricks</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right chevron"></i>
+        </div>
+
+        <div onclick="openLink('https://whatsapp.com/channel/0029VbC88AOJuyADBpJq3O0s')" class="link-item whatsapp">
+            <div class="left-side">
+                <i class="fab fa-whatsapp social-icon"></i>
+                <div class="text-wrap">
+                    <span class="title">WhatsApp Help</span>
+                    <span class="subtitle">Direct Support & Queries</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right chevron"></i>
+        </div>
+
+    </div>
+
+    <div class="footer-tag">
+        AP MATHEMATICS FOUNDATION • 2026
+    </div>
+
+</div>
+
+<script>
+    function openLink(url) {
+        // Agar link mein YOUR_IG_URL hai ya # hai, toh alert dikhayega
+        if (url === '#' || url === '' || url.includes('YOUR_')) {
+            let toast = document.getElementById('alert-box');
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        } else {
+            // Sahi link ko naye tab mein kholega
+            window.open(url, '_blank');
+        }
+    }
+</script>
+
+</body>
+</html>
