@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Mathematics | Math's Warrior</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00d2ff; 
+            --dark-bg: #050a18;
+            --card-bg: #111a2e;
+            --gold: #fbbf24;
+            --danger: #ff4b2b;
+            --success: #00c853;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body { 
+            background-color: var(--dark-bg); 
+            color: white; 
+            padding: 40px 15px;
+            background-image: radial-gradient(circle at 50% 0%, #112244 0%, #050a18 70%);
+            min-height: 100vh;
+        }
+
+        /* --- Header Section --- */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .profile-circle {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            padding: 5px;
+            background: linear-gradient(45deg, var(--primary), var(--gold));
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
+            overflow: hidden;
+        }
+
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #111;
+        }
+
+        .header h1 { 
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem; 
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .header p { 
+            color: var(--gold); 
+            font-weight: 600; 
+            font-size: 1rem; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- Books Grid --- */
+        .books-grid {
+            max-width: 850px;
+            margin: 0 auto;
+            display: grid;
+            gap: 25px;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            display: flex;
+            padding: 25px;
+            gap: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .book-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .book-img {
+            flex: 0 0 150px;
+            height: 220px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            background: #000;
+        }
+
+        .book-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        
+        .book-tag { 
+            color: var(--primary); 
+            font-size: 0.8rem; 
+            font-weight: 800; 
+            margin-bottom: 10px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .book-title { 
+            font-size: 1.6rem; 
+            margin-bottom: 15px; 
+            color: #fff; 
+            font-weight: 700;
+        }
+
+        /* --- Buttons Logic --- */
+        .actions { display: flex; gap: 12px; }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-explore { 
+            background: white; 
+            color: black; 
+            box-shadow: 0 4px 10px rgba(255,255,255,0.2);
+        }
+
+        .btn-explore:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .extra-options { 
+            display: none; 
+            gap: 12px; 
+            animation: slideIn 0.4s ease forwards; 
+        }
+
+        .btn-buy { background: var(--success); color: white; }
+        .btn-pdf { background: var(--danger); color: white; }
+
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateX(20px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 650px) {
+            .book-card { flex-direction: column; align-items: center; text-align: center; }
+            .book-img { flex: 0 0 auto; width: 160px; height: 230px; }
+            .actions { justify-content: center; width: 100%; }
+            .extra-options { flex-direction: column; width: 100%; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-section">
+        <div class="profile-circle">
+            <img src="profile.jpg" alt="Abhinay Pratap">
+        </div>
+        <div class="header">
+            <h1>AP MATHEMATICS</h1>
+            <p>BY ABHINAY PRATAP CHAUBEY</p>
+        </div>
+    </div>
+
+    <div class="books-grid">
+        
+        <div class="book-card">
+            <img src="book1.jpg" class="book-img" alt="SSC Maths">
+            <div class="book-content">
+                <div class="book-tag">LAKSHAY FOUNDATION</div>
+                <h2 class="book-title">SSC Mathematics Warrior</h2>
+                <div class="actions">
+                    <button class="btn btn-explore" onclick="reveal(this)">EXPLORE NOW</button>
+                    <div class="extra-options">
+                        <button class="btn btn-buy" onclick="validate('', 'buy')">BUY NOW (229/-)</button>
+                        <button class="btn btn-pdf" onclick="validate('', 'pdf')">VIEW PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="book-card">
+            <img src="book2.jpg" class="book-img" alt="Advance Maths">
+            <div class="book-content">
+                <div class="book-tag">SANKALP SERIES</div>
+                <h2 class="book-title">Advance Maths Special</h2>
+                <div class="actions">
+                    <button class="btn btn-explore" onclick="reveal(this)">EXPLORE NOW</button>
+                    <div class="extra-options">
+                        <button class="btn btn-buy" onclick="validate('', 'buy')">BUY NOW (229/-)</button>
+                        <button class="btn btn-pdf" onclick="validate('', 'pdf')">VIEW PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="book-card">
+            <img src="book3.jpg" class="book-img" alt="Calculation Tricks">
+            <div class="book-content">
+                <div class="book-tag">PRAKRAM BATCH</div>
+                <h2 class="book-title">Maths Calculation Tricks</h2>
+                <div class="actions">
+                    <button class="btn btn-explore" onclick="reveal(this)">EXPLORE NOW</button>
+                    <div class="extra-options">
+                        <button class="btn btn-buy" onclick="validate('', 'buy')">BUY NOW (229/-)</button>
+                        <button class="btn btn-pdf" onclick="validate('', 'pdf')">VIEW PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 AP MATHEMATICS | Designed for Math's Warriors
+    </footer>
+
+    <script>
+        // Reveal buttons on click
+        function reveal(btn) {
+            btn.style.display = 'none';
+            btn.nextElementSibling.style.display = 'flex';
+        }
+
+        // Check if link is provided
+        function validate(link, type) {
+            if (!link || link === "" || link === " ") {
+                if (type === 'buy') {
+                    alert("⚠️ Link Does not exist.");
+                } else {
+                    alert("⚠️ PDF does not found.");
+                }
+            } else {
+                window.open(link, '_blank');
+            }
+        }
+    </script>
+
+</body>
+</html>
