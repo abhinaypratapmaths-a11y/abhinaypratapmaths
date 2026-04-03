@@ -6,7 +6,7 @@
     <title>PREMIUM ADMISSION PORTAL | AP MATHEMATICS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #d32f2f; --dark: #0f172a; --success: #10b981; }
+        :root { --primary: #d32f2f; --dark: #0f172a; --success: #10b981; --gray: #64748b; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; }
         
         body { 
@@ -24,12 +24,6 @@
         .header { 
             background: var(--dark); color: white; padding: 40px 20px; 
             text-align: center; border-bottom: 8px solid var(--primary);
-        }
-
-        .header img { 
-            width: 100px; height: 100px; margin-bottom: 15px; 
-            border-radius: 50%; border: 4px solid var(--primary); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3); object-fit: cover; 
         }
 
         .header h1 { font-size: 32px; letter-spacing: 2px; font-weight: 800; }
@@ -60,22 +54,33 @@
             cursor: pointer; transition: 0.4s; box-shadow: 0 15px 30px rgba(211, 47, 47, 0.3);
         }
 
+        /* Payment Modal */
         .modal { 
-            display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); 
-            z-index: 100; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(10px); 
+            display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.98); 
+            z-index: 100; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(15px); 
         }
 
         .modal-content { 
-            background: white; padding: 40px; border-radius: 30px; 
-            max-width: 450px; width: 100%; text-align: center;
+            background: white; padding: 30px; border-radius: 35px; 
+            max-width: 480px; width: 100%; text-align: center; max-height: 90vh; overflow-y: auto;
         }
 
         .qr-box { 
-            width: 240px; height: 240px; background: white; margin: 25px auto; 
-            border-radius: 20px; border: 1px solid #e2e8f0; padding: 15px;
+            width: 200px; height: 200px; background: white; margin: 10px auto; 
+            border-radius: 20px; border: 3px solid var(--dark); padding: 10px;
         }
 
-        #successCard { display: none; padding: 50px 40px; text-align: center; }
+        .bank-details { 
+            background: #f8fafc; border-radius: 20px; padding: 15px; 
+            text-align: left; border: 1px solid #e2e8f0; margin: 15px 0;
+        }
+
+        .bank-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }
+        .bank-label { font-weight: 700; color: var(--gray); }
+        .bank-value { font-weight: 800; color: var(--dark); }
+
+        /* Success Card */
+        #successCard { display: none; padding: 60px 40px; text-align: center; }
 
         @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .full { grid-column: span 1; } }
     </style>
@@ -84,13 +89,12 @@
 
 <div class="container" id="mainContainer">
     <div class="header">
-        <img src="alogo.png" id="mainLogo" alt="LOGO"> 
         <h1>AP MATHEMATICS</h1>
-        <p>POWERED BY ABHINAY PRATAP MATHS</p>
+        <p>POWERED BY ABHINAY PRATAP MATHS (MATHS MYSTIC)</p>
     </div>
     <form id="admissionForm" class="form-grid">
         <div class="field full">
-            <label>OUR LIVE BATCH <span>*</span></label>
+            <label>CHOOSE YOUR BATCH <span>*</span></label>
             <select id="course" onchange="updateFee()">
                 <option value="">-- SELECT OUR COURSE --</option>
                 <option value="500">REGISTRATION FEE</option>
@@ -104,27 +108,15 @@
         <div class="field full">
             <label>COUPON CODE</label>
             <div style="display:flex; gap:12px;">
-                <input type="text" id="coupon" placeholder="ENTER VALID COUPAN" style="flex:1;">
+                <input type="text" id="coupon" placeholder="ENTER VALID COUPON" style="flex:1;">
                 <button type="button" onclick="applyCoupon()" style="padding:0 25px; background:var(--dark); color:white; border-radius:15px; border:none; cursor:pointer; font-weight:700;">APPLY</button>
             </div>
         </div>
 
         <div class="field full fee-status" id="feeDisplay" style="display:none">
-            <div style="display:flex; flex-direction:column; gap:5px;">
-                <div style="display:flex; justify-content:space-between; font-size:12px; color:#475569;">
-                    <span>COURSE BASE PRICE:</span> <span id="dispBase">₹0</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; color:#10b981;">
-                    <span>DISCOUNT:</span> <span id="dispDiscount">-₹0</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; color:#475569;">
-                    <span>GST (2%):</span> <span id="dispGST">₹0</span>
-                </div>
-                <hr style="border:0; border-top:1px solid #e2e8f0; margin:5px 0;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-weight:800; color:#1e293b;">FINAL PAYABLE FEE:</span>
-                    <span id="finalPrice" style="font-size:24px; font-weight:900; color:var(--primary);">₹0</span>
-                </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:800; color:var(--dark);">FINAL PAYABLE:</span>
+                <span id="finalPrice" style="font-size:26px; font-weight:900; color:var(--primary);">₹0</span>
             </div>
         </div>
 
@@ -132,38 +124,40 @@
         <div class="field"><label>FATHER'S NAME</label><input type="text" id="fName"></div>
         <div class="field"><label>MOTHER'S NAME</label><input type="text" id="mName"></div>
         <div class="field"><label>DATE OF BIRTH</label><input type="date" id="dob"></div>
-        <div class="field"><label>AADHAR NO.</label><input type="number" id="aadhar"></div>
-        <div class="field"><label>STUDENT MOBILE</label><input type="number" id="mobile"></div>
+        <div class="field"><label>AADHAR NO. (12 DIGITS)</label><input type="number" id="aadhar"></div>
+        <div class="field"><label>STUDENT MOBILE (10 DIGITS)</label><input type="number" id="mobile"></div>
         <div class="field"><label>PARENTS MOBILE</label><input type="number" id="pMobile"></div>
         <div class="field"><label>VILLAGE/CITY</label><input type="text" id="village"></div>
         <div class="field"><label>STATE</label><select id="state"><option value="UTTAR PRADESH">UTTAR PRADESH</option><option value="BIHAR">BIHAR</option></select></div>
         <div class="field full"><label>ADDRESS</label><textarea id="address" rows="2"></textarea></div>
         
-        <button type="button" class="btn-pay full" onclick="openPayment()">PROCEED TO SECURE PAYMENT</button>
+        <button type="button" class="btn-pay full" onclick="openPayment()">PROCEED TO PAYMENT</button>
     </form>
 </div>
 
 <div class="modal" id="payModal">
     <div class="modal-content">
-        <h2 style="font-weight:800; color:var(--dark);">UPI PAYMENT</h2>
-        <div class="qr-box"><img id="dynamicQR" src="" alt="QR"></div>
-        <p id="qrAmountShow" style="font-weight:900; color:var(--primary); font-size:28px;">₹0</p>
-        <p style="font-size:11px; color:#64748b; margin-bottom:15px;">©SCAN THIS QR AND PAY NOW COURSE FEE AMOUNT!! ANY ISSUES CONTACT ON +91 9670078465</p>
-        <input type="text" id="utr" placeholder="FILL UTR NUMBER AND PROCEED" style="width:100%; text-align:center; border:2px solid var(--dark); margin-bottom:15px;">
+        <h2 style="font-weight:800; color:var(--dark);">SECURE PAYMENT</h2>
+        <div class="qr-box"><img id="dynamicQR" src="" alt="QR" style="width:100%; height:100%;"></div>
+        <p id="qrAmountShow" style="font-size:24px; font-weight:900; color:var(--dark);">₹0</p>
+        <div class="bank-details">
+            <div class="bank-row"><span class="bank-label">A/C:</span><span class="bank-value">520102120008909</span></div>
+            <div class="bank-row"><span class="bank-label">IFSC:</span><span class="bank-value">UBIN0552011</span></div>
+            <div class="bank-row"><span class="bank-label">NAME:</span><span class="bank-value">ABHINAY CHAUBEY</span></div>
+        </div>
+        <input type="text" id="utr" placeholder="MW + 12 DIGIT TRANSACTION ID" style="width:100%; text-align:center; border:2px solid var(--dark); margin-bottom:15px;">
         <button type="button" class="btn-pay" style="background:var(--success);" onclick="verifyAndSubmit()">VERIFY & ENROLL</button>
-        <button type="button" onclick="closeModal()" style="margin-top:15px; border:none; background:none; cursor:pointer; color:#64748b; font-weight:700;">❌ CANCEL PAYMENT</button>
+        <button type="button" onclick="closeModal()" style="margin-top:10px; border:none; background:none; cursor:pointer; color:var(--gray); font-weight:700;">❌ CANCEL</button>
     </div>
 </div>
 
 <div class="container" id="successCard">
-    <div style="background:var(--success); width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
-        <span style="color:white; font-size:35px;">✔</span>
-    </div>
-    <h2 style="font-weight:800; font-size:24px;">ADMISSION SUCCESSFUL!</h2>
-    <div id="receiptData" class="receipt-container"></div><p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">COMPUTER GENERATED SECURE ADMISSION RECEIPT</p>
+    <div style="background:var(--success); color:white; width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:40px;">✔</div>
+    <h1 style="font-weight:900;">ADMISSION CONFIRMED</h1>
+    <div id="receiptData"></div>
     <div style="display:flex; gap:15px; margin-top:30px;">
-        <button class="btn-pay" onclick="downloadReceipt()" style="background:var(--dark); flex:1;">DOWNLOAD OFFICIAL RECEIPT</button>
-        <button class="btn-pay" onclick="location.reload()" style="background:#e2e8f0; color:#1e293b; flex:1; box-shadow:none;">CLOSE</button>
+        <button class="btn-pay" onclick="downloadReceipt()" style="background:var(--dark); flex:1;">PRINT A4 RECEIPT</button>
+        <button class="btn-pay" onclick="location.reload()" style="background:#e2e8f0; color:var(--dark); flex:1; box-shadow:none;">CLOSE</button>
     </div>
 </div>
 
@@ -180,126 +174,101 @@
 
     function applyCoupon() {
         let code = document.getElementById("coupon").value.trim().toUpperCase();
-        let courseSelect = document.getElementById("course");
-        let isSpecial = courseSelect.options[courseSelect.selectedIndex].getAttribute('data-type') === 'special';
-        if(code === "HBD50" && isSpecial) discountAmt = Math.round(basePrice * 0.5);
-        else if(code.startsWith("MW")) {
+        if(code.startsWith("MW")) {
             let num = parseInt(code.replace("MW", ""));
             if(num > 0 && num <= 100) discountAmt = Math.round(basePrice * (num/100));
-        } else { alert("INVALID COUPON!"); discountAmt = 0; }
+            else alert("INVALID COUPON!");
+        } else if(code === "HBD50") {
+            discountAmt = Math.round(basePrice * 0.5);
+        } else { alert("INVALID COUPON!"); }
         calculateTotal();
     }
 
     function calculateTotal() {
         let afterDiscount = basePrice - discountAmt;
-        totalGst = Math.round(afterDiscount * 0.05); // Total 5% GST
+        totalGst = Math.round(afterDiscount * 0.05); 
         finalPayable = afterDiscount + totalGst;
-
-        document.getElementById("dispBase").innerText = "₹" + basePrice;
-        document.getElementById("dispDiscount").innerText = "-₹" + discountAmt;
-        document.getElementById("dispGST").innerText = "₹" + totalGst;
         document.getElementById("finalPrice").innerText = "₹" + finalPayable;
-        
-        document.getElementById("dynamicQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?pa=7705042892@axl&pn=AP%20MATHEMATICS&am='+finalPayable+'&cu=INR')}`;
         document.getElementById("qrAmountShow").innerText = "₹" + finalPayable;
+        let upiUri = `upi://pay?pa=520102120008909@unionbank&pn=ABHINAY%20CHAUBEY&am=${finalPayable}&cu=INR`;
+        document.getElementById("dynamicQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUri)}`;
     }
 
     function openPayment() {
-        const fields = ["course", "sName", "fName", "mName", "dob", "aadhar", "mobile", "pMobile", "village", "state", "address"];
-        for(let id of fields) { if(!document.getElementById(id).value.trim()){ alert("PLEASE FILL ALL FIELDS!"); return; } }
+        const fields = ["course", "sName", "fName", "mName", "dob", "aadhar", "mobile", "village", "address"];
+        for(let id of fields) { if(!document.getElementById(id).value.trim()){ alert("PLEASE FILL ALL DETAILS!"); return; } }
+        
+        // Validation for Mobile and Aadhar
+        let mobile = document.getElementById("mobile").value;
+        let aadhar = document.getElementById("aadhar").value;
+
+        if(mobile.length !== 10) { alert("ERROR: MOBILE NUMBER MUST BE EXACTLY 10 DIGITS!"); return; }
+        if(aadhar.length !== 12) { alert("ERROR: AADHAR NUMBER MUST BE EXACTLY 12 DIGITS!"); return; }
+
         document.getElementById("payModal").style.display = "flex";
     }
 
     function closeModal() { document.getElementById("payModal").style.display = "none"; }
 
     function verifyAndSubmit() {
-        let utr = document.getElementById("utr").value.trim().toUpperCase();
-        if(utr.startsWith("MW") && utr.length === 14) {
+        let utrInput = document.getElementById("utr").value.trim().toUpperCase();
+        if(/^MW\d{12}$/.test(utrInput)) {
             document.getElementById("mainContainer").style.display = "none";
             document.getElementById("payModal").style.display = "none";
             document.getElementById("successCard").style.display = "block";
-            renderReceipt(utr);
-        } else alert("INVALID UTR! AP MATHEMATICS 2026 .");
+            renderReceipt(utrInput);
+        } else { alert("ERROR: ENTER 'MW' FOLLOWED BY 12 DIGIT TRANSACTION ID!"); }
     }
 
     function renderReceipt(utr) {
         let studentID = "MW-" + Math.floor(1000 + Math.random() * 9000) + "-APM";
         let enrollmentNo = "APM" + Date.now().toString().slice(-7);
-        let courseElement = document.getElementById("course");
-        let selectedCourseName = courseElement.options[courseElement.selectedIndex].text;
-
-        let cgst = (totalGst / 2).toFixed(2);
-        let sgst = (totalGst / 2).toFixed(2);
-
-        let verifyData = `VERIFIED: ${document.getElementById("sName").value} | ID: ${studentID} | PAID: ${finalPayable}`;
-        let verifyQR = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verifyData)}`;
-
+        let selectedCourse = document.getElementById("course").options[document.getElementById("course").selectedIndex].text;
+        
         let html = `
-            <div style="padding:40px; border:10px double #0f172a; background:#fff; font-family:sans-serif; text-transform:uppercase; position:relative; overflow:hidden; margin-top:20px;">
-                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-45deg); font-size:90px; color:rgba(15, 23, 42, 0.05); font-weight:900; white-space:nowrap; z-index:0; pointer-events:none;">AP MATHEMATICS</div>
+            <div style="width:100%; max-width:800px; margin:20px auto; padding:40px; border:10px double #0f172a; background:#fff; text-align:left; position:relative; box-sizing:border-box;">
+                <div style="position:absolute; top:40px; right:40px; border:4px solid #10b981; color:#10b981; padding:10px 20px; transform:rotate(15deg); font-weight:900; font-size:18px; border-radius:10px; opacity:0.9;">PAYMENT VERIFIED</div>
+                
+                <div style="text-align:center; border-bottom:4px solid #d32f2f; padding-bottom:15px; margin-bottom:25px;">
+                    <h1 style="margin:0; font-size:32px; color:#0f172a;">AP MATHEMATICS</h1>
+                    <p style="font-size:12px; font-weight:800; color:#d32f2f; margin-top:5px;">POWERED BY ABHINAY PRATAP MATHS (MATHS MYSTIC)</p>
+                    <p style="font-size:10px; color:#64748b;">OFFICIAL ADMISSION RECEIPT - SESSION 2026-27</p>
+                </div>
 
-                <div style="position:relative; z-index:1;">
-                    <div style="text-align:center; border-bottom:4px solid #d32f2f; padding-bottom:15px; margin-bottom:20px;">
-                        <h1 style="margin:0; font-size:32px; color:#0f172a; font-weight:900;">AP MATHEMATICS</h1>
-                        <p style="margin:5px 0; font-size:12px; font-weight:bold; color:#d32f2f;">POWERED BY ABHINAY PRATAP MATHS</p>
-                        <p style="margin:8px 0 0 0; font-size:10px; color:#64748b; font-weight:bold;"> NEAR PRAKASH CHOWK, RAVINDRA NAGAR, KUSHINAGAR (UP)</p>
+                <div style="display:flex; justify-content:space-between; background:#f8fafc; padding:20px; border-radius:15px; margin-bottom:30px; border:1px solid #e2e8f0;">
+                    <div><p style="font-size:10px; color:#64748b;">STUDENT ID</p><p style="font-weight:900; font-size:16px; color:#d32f2f;">${studentID}</p></div>
+                    <div style="text-align:right;"><p style="font-size:10px; color:#64748b;">ENROLLMENT NO</p><p style="font-weight:900; font-size:16px;">${enrollmentNo}</p></div>
+                </div>
+
+                <table style="width:100%; font-size:14px; line-height:2.5; border-collapse:collapse;">
+                    <tr><td style="color:#64748b;">FULL NAME:</td><td align="right"><b>${document.getElementById("sName").value}</b></td></tr>
+                    <tr><td style="color:#64748b;">FATHER'S NAME:</td><td align="right">${document.getElementById("fName").value}</td></tr>
+                    <tr><td style="color:#64748b;">AADHAR NO:</td><td align="right">${document.getElementById("aadhar").value}</td></tr>
+                    <tr><td style="color:#64748b;">MOBILE NO:</td><td align="right">${document.getElementById("mobile").value}</td></tr>
+                    <tr><td style="color:#64748b;">COURSE ENROLLED:</td><td align="right"><b>${selectedCourse}</b></td></tr>
+                    <tr style="border-top:1px solid #eee;"><td>BATCH BASE PRICE:</td><td align="right">₹${basePrice}</td></tr>
+                    <tr><td>DISCOUNT:</td><td align="right" style="color:red;">-₹${discountAmt}</td></tr>
+                    <tr style="background:#0f172a; color:#fff; font-size:18px; font-weight:900;">
+                        <td style="padding:12px; border-radius:10px 0 0 10px;">TOTAL AMOUNT PAID:</td>
+                        <td align="right" style="padding:12px; border-radius:0 10px 10px 0;">₹${finalPayable}</td>
+                    </tr>
+                    <tr><td style="color:#10b981; font-weight:bold;">TRANSACTION ID:</td><td align="right" style="color:#10b981; font-weight:bold;">${utr}</td></tr>
+                </table>
+
+                <div style="margin-top:80px; display:flex; justify-content:space-between;">
+                    <div style="text-align:center;">
+                        <p style="font-weight:900; color:#0f172a; font-size:14px; border-bottom:2px solid #0f172a; display:inline-block; padding:0 20px;">Bholu Chaubey</p>
+                        <p style="font-size:11px; margin-top:5px; font-weight:800;">BHOLU CHAUBEY</p>
+                        <p style="font-size:9px; color:#64748b;">DIRECTOR</p>
                     </div>
-
-                    <div style="display:flex; justify-content:space-between; margin-bottom:25px; align-items:center; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;">
-                        <div style="text-align:left;">
-                            <p style="font-size:10px; color:#64748b;">STUDENT ID</p>
-                            <p style="font-weight:900; color:#d32f2f; font-size:16px;">${studentID}</p>
-                        </div>
-                        <div style="text-align:right;">
-                            <p style="font-size:10px; color:#64748b;">ENROLLMENT NO</p>
-                            <p style="font-weight:900; color:#0f172a; font-size:16px;">${enrollmentNo}</p>
-                        </div>
+                    <div style="text-align:center;">
+                        <p style="font-weight:900; color:#d32f2f; font-size:14px; border-bottom:2px solid #d32f2f; display:inline-block; padding:0 20px;">Abhinay Pratap</p>
+                        <p style="font-size:11px; margin-top:5px; font-weight:800;">ABHINAY PRATAP</p>
+                        <p style="font-size:9px; color:#64748b;">FOUNDER (MATHS MYSTIC)</p>
                     </div>
-
-                    <div style="background:#0f172a; color:#fff; padding:12px; border-radius:10px; margin-bottom:20px; text-align:center;">
-                        <p style="font-size:10px; opacity:0.8; margin-bottom:4px;">ENROLLED COURSE / BATCH</p>
-                        <p style="font-size:18px; font-weight:900; letter-spacing:1px;">${selectedCourseName}</p>
-                    </div>
-
-                    <table style="width:100%; font-size:12px; line-height:2.0; border-collapse:collapse;">
-                        <tr><td style="color:#64748b; font-weight:bold;">FULL NAME</td><td align="right" style="font-weight:800;">${document.getElementById("sName").value}</td></tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">FATHER'S NAME</td><td align="right">${document.getElementById("fName").value}</td></tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">COURSE BASE FEE</td><td align="right">₹${basePrice}</td></tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">DISCOUNT APPLIED</td><td align="right" style="color:#d32f2f;">-₹${discountAmt}</td></tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">CGST (2.5%)</td><td align="right">₹${cgst}</td></tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">SGST (2.5%)</td><td align="right">₹${sgst}</td></tr>
-                        
-                        <tr style="border-top:2px solid #0f172a; border-bottom:2px solid #0f172a; background:#f1f5f9;">
-                            <td style="font-weight:900; padding:10px; font-size:14px; color:#d32f2f;">TOTAL PAID (INCL. GST)</td>
-                            <td align="right" style="font-weight:900; font-size:20px; color:#d32f2f; padding:10px;">₹${finalPayable}</td>
-                        </tr>
-                        <tr><td style="color:#64748b; font-weight:bold;">TRANSACTION ID</td><td align="right" style="font-weight:800; color:#10b981;">${utr}</td></tr>
-                    </table>
-
-                    <div style="margin-top:30px; text-align:center; padding:15px; background:#f8fafc; border-radius:15px;">
-                        <img src="${verifyQR}" style="width:110px; height:110px; border:3px solid #fff; border-radius:10px; margin-bottom:8px;">
-                        <p style="font-size:9px; font-weight:800; color:#0f172a;">SCAN TO VERIFY DETAILS & BATCH</p>
-                    </div>
-                    
-
-                    <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:flex-end;">
-                        <div style="text-align:center;">
-                            <div style="width:150px; border-bottom:2px solid #0f172a; margin-bottom:5px;"></div>
-                            <p style="font-size:11px; font-weight:900;">BHOLU CHAUBEY</p>
-                            <p style="font-size:9px; color:#64748b;">DIRECTOR</p>
-                        </div>
-                        <div style="text-align:center;">
-                            <div style="width:150px; border-bottom:2px solid #0f172a; margin-bottom:5px;"></div>
-                            <p style="font-size:11px; font-weight:900;">ABHINAY PRATAP</p>
-                            <p style="font-size:9px; color:#64748b;">FOUNDER (MATH'S EXPERT)</p>
-                        </div>
-                    </div>
-
-                    <div style="margin-top:30px; border-top:1px dashed #cbd5e1; padding-top:15px; font-size:10px; text-align:center; color:#64748b;">
-                        <p>HELPLINE NO: +91 9670078465 | WEBSITE: WWW.APMATHS.ONLINE | YOUTUBE: @abhinaypratapmaths</p>
-                        <p style="margin-top:10px; font-weight:bold; color:#0f172a; letter-spacing:1px;">COMPUTER GENERATED SECURE ADMISSION RECEIPT</p>
-                        <p style="margin-top:5px; font-weight:bold; color:#0f172a; letter-spacing:1px;">@AP MATHEMATICS 2026 BY ABHINAY PRATAP CHAUBEY</p>
-                    </div>
+                </div>
+                <div style="text-align:center; margin-top:40px; font-size:10px; color:#94a3b8; border-top:1px dashed #eee; padding-top:15px;">
+                    © AP MATHEMATICS 2026 | WWW.APMATHS.ONLINE | HELP: +91 9670078465
                 </div>
             </div>
         `;
@@ -308,12 +277,24 @@
 
     function downloadReceipt() {
         const content = document.getElementById("receiptData").innerHTML;
-        const studentName = document.getElementById("sName").value || "STUDENT";
-        const blob = new Blob([`<html><body style="margin:0; padding:20px;">${content}</body></html>`], { type: "text/html" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = `APM_RECEIPT_2026_${studentName}.html`;
-        link.click();
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print Receipt</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+                    <style>
+                        body { font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; margin:0; }
+                        @page { size: A4; margin: 0; }
+                        @media print { .no-print { display: none; } }
+                    </style>
+                </head>
+                <body onload="window.print()">
+                    ${content}
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
     }
 </script>
 
