@@ -163,13 +163,19 @@
     }
 
     function calculateTotal() {
-        let afterDisc = basePrice - discountAmt;
-        gstAmt = Math.round(afterDisc * 0.05);
-        finalPayable = afterDisc + gstAmt;
-        document.getElementById("finalPrice").innerText = "₹" + finalPayable;
-        let upi = `upi://pay?pa=7705042892@axl=ABHINAY%20CHAUBEY&am=${finalPayable}&cu=INR`;
-        document.getElementById("dynamicQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upi)}`;
-    }
+    let afterDisc = basePrice - discountAmt;
+    gstAmt = Math.round(afterDisc * 0.05);
+    finalPayable = afterDisc + gstAmt;
+
+    document.getElementById("finalPrice").innerText = "₹" + finalPayable;
+
+    // Correct UPI Link
+    let upi = `upi://pay?pa=7705042892@axl&pn=ABHINAY%20CHAUBEY&am=${finalPayable}&cu=INR&tn=EXAMEDGE%20ONLINE`;
+
+    // QR Generate
+    document.getElementById("dynamicQR").src =
+        `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upi)}`;
+}
 
     function openPayment() {
         const fields = ["course", "sName", "fName", "dob", "aadhar", "mobile", "address"];
