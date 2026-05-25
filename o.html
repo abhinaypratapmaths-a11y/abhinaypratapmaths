@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABHINAY PRATAP MATHS | PRO EXAM PORTAL</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary: #1e3a8a; --primary-light: #3b82f6; --accent: #ef4444; 
+            --success: #10b981; --dark: #0f172a; --gold: #f59e0b; 
+        }
+        * { box-sizing: border-box; outline: none; }
+        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; color: #1e293b; user-select: none; }
+        
+        /* Registration Screen */
+        #reg-screen { 
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; 
+            background: radial-gradient(circle, #1e3a8a 0%, #0f172a 100%); padding: 20px; 
+        }
+        .reg-card { background: white; border-radius: 30px; width: 100%; max-width: 460px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.4); overflow: hidden; }
+        .reg-header { background: var(--dark); color: white; padding: 30px; border-bottom: 4px solid var(--primary-light); }
+        .reg-body { padding: 35px; }
+
+        /* Inputs */
+        .pro-input { width: 100%; padding: 15px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; font-family: inherit; }
+        .error-tag { color: var(--accent); font-size: 12px; text-align: left; display: none; font-weight: 600; margin-bottom: 5px; }
+
+        .btn-action { width: 100%; padding: 16px; border-radius: 12px; border: none; cursor: pointer; font-weight: 700; color: white; text-transform: uppercase; margin-top: 10px; }
+        .btn-primary { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        .btn-success { background: #10b981; }
+        .btn-dark { background: var(--dark); }
+
+        /* Branded 6-Digit OTP Overlay */
+        #otp-overlay { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; 
+        }
+        .otp-box { background: white; padding: 40px; border-radius: 35px; text-align: center; width: 360px; border: 3px solid var(--primary); }
+        .otp-img { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--primary-light); object-fit: cover; }
+        #otp-val { font-size: 45px; font-weight: 800; color: var(--accent); letter-spacing: 5px; margin: 15px 0; background: #fff1f2; border-radius: 10px; padding: 10px; }
+
+        /* Exam Layout - Full Width (No Palette) */
+        #test-screen { display: none; }
+        .exam-header { background: var(--dark); color: white; padding: 15px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-around; align-items: center; }
+        .q-container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        .q-card { background: white; padding: 30px; border-radius: 20px; margin-bottom: 25px; border-left: 8px solid var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left; }
+        
+        /* Analysis & Solutions */
+        #analysis-screen, #solution-screen, #receipt-screen, #admin-sheet { display: none; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .stat-item { background: #f1f5f9; padding: 12px; border-radius: 12px; font-weight: 600; }
+        .sol-card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; border-left: 6px solid #e2e8f0; text-align: left; }
+        
+        /* Admin Table */
+        .res-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: left; }
+        .res-table th, .res-table td { border: 1px solid #ddd; padding: 12px; }
+        .res-table th { background: var(--primary); color: white; }
+
+        @media print { .no-print { display: none !important; } }
+    </style>
+</head>
+<body oncontextmenu="return false;" oncopy="return false;">
+
+    <div id="otp-overlay" class="no-print">
+        <div class="otp-box">
+            <img src="q.png" class="otp-img" onerror="this.src='https://via.placeholder.com/110'">
+            <div style="font-weight: 800; color: var(--primary); font-size: 20px; margin-top: 10px;">ABHINAY PRATAP MATHS</div>
+            <div style="font-size: 12px; color: #15803d; font-weight: 600; margin-top: 5px; background: #f0fdf4; padding: 8px; border-radius: 8px;">
+                "Best of luck! मेहनत आपकी, मार्गदर्शन हमारा।"
+            </div>
+            <div style="font-size: 11px; color: #64748b; margin-top: 15px;">ACCESS CODE</div>
+            <div id="otp-val">000000</div>
+            <button class="btn-action btn-primary" onclick="closeOTP()">CONTINUE TO EXAM</button>
+        </div>
+    </div>
+
+    <div id="reg-screen" class="no-print">
+        <div class="reg-card">
+            <div class="reg-header">
+                <h1 style="margin:0;">EXAMWILL ONLINE</h1>
+                <p style="margin:0; opacity:0.8; font-size:12px;">Premium Portal 2026</p>
+            </div>
+            <div class="reg-body">
+                <div id="reg-form">
+                    <input type="text" id="stuName" class="pro-input" placeholder="Your Full Name">
+                    <div id="name-err" class="error-tag">! Please enter name</div>
+                    <input type="number" id="stuMobile" class="pro-input" placeholder="10 Digit Mobile No." oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
+                    <div id="mob-err" class="error-tag">! Enter 10-digit number</div>
+                    <select id="stuBatch" class="pro-input">
+                        <option value="Maths Special 2.0">Maths Special 2.0</option>
+                        <option value="Lakshay Foundation">Lakshay Foundation</option>
+                        <option value="Sankalp Special">Sankalp Special</option>
+                    </select>
+                    <button class="btn-action btn-primary" onclick="getOTP()">GENERATE ACCESS CODE</button>
+                </div>
+                <div id="otp-panel" style="display:none;">
+                    <input type="number" id="typedOtp" class="pro-input" placeholder="ENTER 6-DIGIT CODE" style="text-align:center; font-size:25px; letter-spacing:5px;">
+                    <button class="btn-action btn-success" onclick="startExam()">VERIFY & START</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="test-screen" class="no-print">
+        <div class="exam-header">
+            <span id="display-info" style="font-weight:700;"></span>
+            <h3 style="margin:0;">TIME: <span id="timer" style="color:var(--gold);">25:00</span></h3>
+            <button class="btn-action btn-success" style="width:auto; margin:0; padding:10px 20px;" onclick="submitExam()">SUBMIT</button>
+        </div>
+        <div class="q-container" id="quiz-area"></div>
+        <div style="text-align:center; padding-bottom:50px;">
+            <button class="btn-action btn-success" style="width:250px;" onclick="submitExam()">SUBMIT FINAL ANSWERS</button>
+        </div>
+    </div>
+
+    <div id="analysis-screen" class="no-print">
+        <div class="reg-card" style="margin:40px auto;">
+            <div class="reg-header"><h2>Result Summary</h2></div>
+            <div class="reg-body">
+                <h1 id="res-score-text" style="color:var(--primary); font-size:50px; margin:10px 0;"></h1>
+                <div class="stat-grid">
+                    <div class="stat-item" style="color:green;">Right: <span id="res-r"></span></div>
+                    <div class="stat-item" style="color:red;">Wrong: <span id="res-w"></span></div>
+                </div>
+                <button class="btn-action btn-primary" onclick="showSolutions()">VIEW SOLUTIONS</button>
+                <button class="btn-action btn-success" onclick="showReceipt()">DOWNLOAD RECEIPT</button>
+                <hr style="margin:20px 0; opacity:0.1;">
+                <button class="btn-action btn-dark" onclick="adminView()">PRINT ALL STUDENTS LIST (SIR)</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="solution-screen" class="no-print" style="padding:20px;">
+        <div style="max-width:850px; margin:auto; text-align:center;">
+            <h2>Detailed Explanations</h2>
+            <div id="sol-load"></div>
+            <button class="btn-action btn-primary" style="width:200px;" onclick="location.reload()">HOME</button>
+        </div>
+    </div>
+
+    <div id="admin-sheet">
+        <div style="text-align:center; padding:20px; border-bottom:3px solid var(--primary);">
+            <h1 style="color:var(--primary); margin:0;">ABHINAY PRATAP MATHS</h1>
+            <p>CONSOLIDATED RESULT SHEET - 2026</p>
+        </div>
+        <table class="res-table">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Batch</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="admin-tbody"></tbody>
+        </table>
+        <div class="no-print" style="text-align:center; margin-top:20px;">
+            <button class="btn-action btn-success" style="width:200px;" onclick="window.print()">PRINT NOW</button>
+            <button class="btn-action btn-dark" style="width:200px;" onclick="location.reload()">CLOSE</button>
+        </div>
+    </div>
+
+    <div id="receipt-screen" class="no-print">
+        <div id="pdf-content" style="background:white; padding:50px; width:210mm; min-height:297mm; margin:auto; border:15px solid var(--primary);">
+            <center>
+                <h1 style="color:var(--primary); margin:0; font-size:40px;">ABHINAY PRATAP MATHS</h1>
+                <p>Official Performance Marksheet</p>
+                <hr>
+            </center>
+            <div style="margin-top:40px; line-height:2.5; font-size:18px;">
+                <p><b>Candidate Name:</b> <span id="rec-name" style="color:var(--primary);"></span></p>
+                <p><b>Mobile Number:</b> <span id="rec-mob"></span></p>
+                <p><b>Batch:</b> <span id="rec-batch" style="color:green;"></span></p>
+                <p><b>Net Score:</b> <span id="rec-score" style="font-size:30px; color:red;"></span> / 25.00</p>
+            </div>
+            <div style="margin-top:100px; text-align:right;">
+                <p>____________________<br>Abhinay Pratap Sir</p>
+            </div>
+        </div>
+        <center><button class="btn-action btn-primary" style="width:250px; margin:20px;" onclick="downloadPDF()">SAVE AS PDF</button></center>
+    </div>
+
+    <script>
+        let correctOtp, studentName, studentMobile, studentBatch, score=0;
+
+        const questions = [
+            { q: "If A:B = 2:3 and B:C = 4:5, find A:B:C.", h: "यदि A:B = 2:3 और B:C = 4:5 है, तो A:B:C ज्ञात करें।", a: "8:12:15", b: "2:4:5", c: "8:10:15", d: "6:12:15", ans: "a", sol: "B को समान करें: (2:3) को 4 से और (4:5) को 3 से गुणा करें।" },
+            { q: "Value of 30% of 40 + 20% of 60?", h: "40 का 30% + 60 का 20% कितना होगा?", a: "24", b: "20", c: "12", d: "10", ans: "a", sol: "12 + 12 = 24." },
+            { q: "CP = ₹500, SP = ₹625, Profit %?", h: "₹500 की वस्तु ₹625 में बेची, लाभ % बताएं?", a: "25%", b: "20%", c: "15%", d: "30%", ans: "a", sol: "(125/500)*100 = 25%." },
+            { q: "72 ÷ 9 of 2 + 8 = ?", h: "72 ÷ 9 of 2 + 8 का मान क्या है?", a: "12", b: "16", c: "4", d: "10", ans: "a", sol: "72/18 + 8 = 12." },
+            { q: "Average of first 10 natural numbers?", h: "प्रथम 10 प्राकृतिक संख्याओं का औसत क्या है?", a: "5.5", b: "5", c: "6", d: "4.5", ans: "a", sol: "55/10 = 5.5." },
+            { q: "If 2/5 of a number is 40, find the number.", h: "किसी संख्या का 2/5 हिस्सा 40 है, संख्या बताएं।", a: "100", b: "80", c: "120", d: "150", ans: "a", sol: "40 * 5 / 2 = 100." },
+            { q: "Convert 0.4 into percentage.", h: "0.4 को प्रतिशत में बदलें।", a: "40%", b: "4%", c: "0.4%", d: "400%", ans: "a", sol: "0.4 * 100 = 40%." },
+            { q: "Simple Interest: P=5000, R=10%, T=2 yrs.", h: "SI ज्ञात करें: P=5000, R=10%, T=2 वर्ष।", a: "₹1000", b: "₹500", c: "₹1500", d: "₹800", ans: "a", sol: "(5000*10*2)/100 = 1000." },
+            { q: "Area of square is 144 sqm, find perimeter.", h: "वर्ग का क्षेत्रफल 144 वर्ग मीटर है, परिमाप बताएं।", a: "48m", b: "36m", c: "24m", d: "60m", ans: "a", sol: "Side = 12, Perim = 48." },
+            { q: "LCM of 25, 30 and 45?", h: "25, 30 और 45 का LCM क्या है?", a: "450", b: "225", c: "900", d: "150", ans: "a", sol: "LCM = 450." },
+            { q: "If 5x - 10 = 20, find x.", h: "यदि 5x - 10 = 20 है, तो x बताएं।", a: "6", b: "5", c: "4", d: "8", ans: "a", sol: "5x=30, x=6." },
+            { q: "Speed 18km/h to m/s?", h: "18 किमी/घंटा को मी/सेकंड में बदलें।", a: "5 m/s", b: "10 m/s", c: "15 m/s", d: "2 m/s", ans: "a", sol: "18 * 5/18 = 5." },
+            { q: "Value of √0.0064?", h: "√0.0064 का मान क्या है?", a: "0.08", b: "0.8", c: "0.008", d: "8", ans: "a", sol: "0.08." },
+            { q: "Price increases by 25%. Reduction in consumption to keep exp same?", h: "कीमत 25% बढ़ी। खर्च समान रखने हेतु खपत कितनी कम करें?", a: "20%", b: "25%", c: "15%", d: "10%", ans: "a", sol: "25/125 * 100 = 20%." },
+            { q: "HCF=15, LCM=300, Num1=60. Num2=?", h: "HCF=15, LCM=300, संख्या1=60। संख्या2=?", a: "75", b: "80", c: "90", d: "100", ans: "a", sol: "(15*300)/60 = 75." },
+            { q: "10 CP = 8 SP, Profit %?", h: "10 वस्तुओं का CP = 8 का SP, लाभ %?", a: "25%", b: "20%", c: "15%", d: "30%", ans: "a", sol: "2/8 * 100 = 25%." },
+            { q: "Circumference is 88cm, radius?", h: "परिधि 88 सेमी है, त्रिज्या क्या है?", a: "14cm", b: "7cm", c: "21cm", d: "28cm", ans: "a", sol: "r = 14." },
+            { q: "Length 20m, Width 15m, Area of rectangle?", h: "L=20m, W=15m, आयत का क्षेत्रफल?", a: "300 sqm", b: "250 sqm", c: "350 sqm", d: "400 sqm", ans: "a", sol: "20 * 15 = 300." },
+            { q: "Average of 12, 14, 16, 18, 20?", h: "12, 14, 16, 18, 20 का औसत क्या है?", a: "16", b: "15", c: "17", d: "14", ans: "a", sol: "16." },
+            { q: "A-10 days, B-15 days. Together they do in?", h: "A-10 दिन, B-15 दिन। साथ मिलकर करेंगे?", a: "6 days", b: "5 days", c: "8 days", d: "7 days", ans: "a", sol: "150/25 = 6." },
+            { q: "Sum of angles in a triangle?", h: "त्रिभुज के कोणों का योग?", a: "180°", b: "360°", c: "90°", d: "270°", ans: "a", sol: "180°." },
+            { q: "x + 1/x = 4, then x² + 1/x² = ?", h: "यदि x+1/x=4, तो x²+1/x²?", a: "14", b: "16", c: "18", d: "12", ans: "a", sol: "4² - 2 = 14." },
+            { q: "6 chairs cost ₹2400, cost of 3 chairs?", h: "6 कुर्सियों का मूल्य ₹2400, 3 का मूल्य?", a: "₹1200", b: "₹1000", c: "₹1500", d: "₹1800", ans: "a", sol: "2400/2 = 1200." },
+            { q: "(-8) * (-5) + (-10) = ?", h: "(-8) * (-5) + (-10) का मान?", a: "30", b: "50", c: "40", d: "-30", ans: "a", sol: "40 - 10 = 30." },
+            { q: "Diameter 70cm, Circumference?", h: "व्यास 70 सेमी, परिधि?", a: "220cm", b: "440cm", c: "110cm", d: "154cm", ans: "a", sol: "π * 70 = 220." }
+        ];
+
+        function getOTP() {
+            studentName = document.getElementById('stuName').value.trim();
+            studentMobile = document.getElementById('stuMobile').value.trim();
+            studentBatch = document.getElementById('stuBatch').value;
+            if(!studentName || studentMobile.length !== 10) return alert("Fill Name & 10 Digit Mobile!");
+            correctOtp = Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('otp-val').innerText = correctOtp;
+            document.getElementById('otp-overlay').style.display = 'flex';
+        }
+
+        function closeOTP() {
+            document.getElementById('otp-overlay').style.display = 'none';
+            document.getElementById('reg-form').style.display = 'none';
+            document.getElementById('otp-panel').style.display = 'block';
+        }
+
+        function startExam() {
+            if(document.getElementById('typedOtp').value == correctOtp) {
+                document.getElementById('reg-screen').style.display = 'none';
+                document.getElementById('test-screen').style.display = 'block';
+                document.getElementById('display-info').innerText = studentName.toUpperCase() + " | " + studentBatch;
+                loadQuiz();
+            } else alert("Invalid Access Code!");
+        }
+
+        function loadQuiz() {
+            const area = document.getElementById('quiz-area');
+            questions.forEach((item, i) => {
+                area.innerHTML += `
+                    <div class="q-card">
+                        <p><b>Q${i+1}. ${item.q}</b></p>
+                        <p style="color:#666; font-size:14px;">(${item.h})</p>
+                        <label style="display:block; margin:8px 0;"><input type="radio" name="q${i}" value="a"> A) ${item.a}</label>
+                        <label style="display:block; margin:8px 0;"><input type="radio" name="q${i}" value="b"> B) ${item.b}</label>
+                        <label style="display:block; margin:8px 0;"><input type="radio" name="q${i}" value="c"> C) ${item.c}</label>
+                        <label style="display:block; margin:8px 0;"><input type="radio" name="q${i}" value="d"> D) ${item.d}</label>
+                    </div>`;
+            });
+            let time = 1500;
+            const timer = setInterval(() => {
+                let m = Math.floor(time/60), s = time%60;
+                document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`;
+                if(time-- <= 0) submitExam();
+            }, 1000);
+        }
+
+        function submitExam() {
+            let r=0, w=0;
+            const solArea = document.getElementById('sol-load');
+            solArea.innerHTML = "";
+            questions.forEach((item, i) => {
+                const sel = document.querySelector(`input[name="q${i}"]:checked`);
+                if(sel && sel.value === item.ans) r++; else if(sel) w++;
+                solArea.innerHTML += `<div class="sol-card"><b>Q${i+1}. ${item.q}</b><br>Correct: ${item.ans.toUpperCase()} | Sol: ${item.sol}</div>`;
+            });
+            score = (r - (w * 0.25)).toFixed(2);
+            document.getElementById('res-score-text').innerText = score + " / 25";
+            document.getElementById('res-r').innerText = r;
+            document.getElementById('res-w').innerText = w;
+            document.getElementById('test-screen').style.display = "none";
+            document.getElementById('analysis-screen').style.display = "block";
+            window.scrollTo(0,0);
+        }
+
+        function showSolutions() {
+            document.getElementById('analysis-screen').style.display = "none";
+            document.getElementById('solution-screen').style.display = "block";
+        }
+
+        function showReceipt() {
+            document.getElementById('analysis-screen').style.display = "none";
+            document.getElementById('receipt-screen').style.display = "block";
+            document.getElementById('rec-name').innerText = studentName;
+            document.getElementById('rec-mob').innerText = studentMobile;
+            document.getElementById('rec-batch').innerText = studentBatch;
+            document.getElementById('rec-score').innerText = score;
+        }
+
+        function downloadPDF() {
+            html2pdf().from(document.getElementById('pdf-content')).save(studentName + "_Marksheet.pdf");
+        }
+
+        function adminView() {
+            const pass = prompt("ADMIN KEY:");
+            if(pass === "APMATHS2026") {
+                document.getElementById('analysis-screen').style.display = "none";
+                document.getElementById('admin-sheet').style.display = "block";
+                document.getElementById('admin-tbody').innerHTML = `<tr><td>1</td><td>${studentName}</td><td>${studentMobile}</td><td>${studentBatch}</td><td>${score}</td></tr>`;
+            } else alert("Denied!");
+        }
+    </script>
+</body>
+</html>
