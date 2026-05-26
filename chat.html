@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXAMEDGE ONLINE - Smart AI Assistant</title>
+    <!-- Google Fonts import kiya hai premium look ke liye -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a1128, #101f42, #1c3566);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* PREMIUM CHAT BOX INTERFACE */
+        .chat-container {
+            width: 440px;
+            max-width: 95%;
+            height: 680px;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* HEADER REDESIGN */
+        .chat-header {
+            background: linear-gradient(135deg, #0b2545, #134074);
+            color: white;
+            padding: 22px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .logo-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2.5px solid #00b4d8;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .header-subtitle {
+            font-size: 0.8rem;
+            color: #90e0ef;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #06d6a0;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #06d6a0;
+        }
+
+        /* MESSAGES STREAM */
+        .chat-messages {
+            flex: 1;
+            padding: 22px;
+            overflow-y: auto;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            scroll-behavior: smooth;
+        }
+
+        /* MODERN BUBBLE STYLING */
+        .message {
+            max-width: 82%;
+            padding: 12px 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #134074, #0b2545);
+            color: white;
+            align-self: flex-end;
+            border-radius: 20px 20px 4px 20px;
+            box-shadow: 0 4px 12px rgba(19, 64, 116, 0.2);
+        }
+
+        .bot-message {
+            background: #ffffff;
+            color: #1d2d44;
+            align-self: flex-start;
+            border-radius: 20px 20px 20px 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* ROTATING LOADER (ABHI.PNG) */
+        .typing-indicator-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            align-self: flex-start;
+            margin-top: 4px;
+        }
+
+        .typing-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #00b4d8;
+            object-fit: cover;
+            animation: rotateLogo 1.2s linear infinite;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        @keyframes rotateLogo {
+            100% { transform: rotate(360deg); }
+        }
+
+        .typing-bubble {
+            background: #ffffff;
+            padding: 14px 22px;
+            border-radius: 20px 20px 20px 4px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #00b4d8;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+
+        /* BOX INPUT AREA */
+        .chat-input-area {
+            display: flex;
+            padding: 18px;
+            background: #ffffff;
+            border-top: 1px solid #edf2f7;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 14px 22px;
+            border: 1px solid #cbd5e1;
+            border-radius: 50px;
+            outline: none;
+            font-size: 0.95rem;
+            color: #1e293b;
+            background: #f8fafc;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-input-area input:focus {
+            border-color: #134074;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(19, 64, 116, 0.1);
+        }
+
+        .chat-input-area button {
+            background: linear-gradient(135deg, #134074, #0b2545);
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 14px rgba(11, 37, 69, 0.3);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .chat-input-area button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(11, 37, 69, 0.4);
+        }
+
+        /* CUSTOM SCROLLBAR FOR PREMIUM FEEL */
+        .chat-messages::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <!-- TOP HEADER WITH NAME CORRECTION -->
+    <div class="chat-header">
+        <img src="logo.png" alt="Logo" class="logo-circle" onerror="this.src='https://via.placeholder.com/150?text=EE'">
+        <div class="header-info">
+            <span class="header-title">EXAMEDGE ONLINE</span>
+            <span class="header-subtitle"><span class="online-dot"></span> AI Desk Active</span>
+        </div>
+    </div>
+
+    <!-- CHAT BOX BODY -->
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">
+            Namaste! 🙏 <b>EXAMEDGE ONLINE</b> AI Helpdesk me aapka swagat hai. <br><br>
+            Aap mujhse Academic Batches, Faculty/Founder details, GST ke sawal, ya Fees aur Helpline ke baare me kuch bhi puch sakte hain.
+        </div>
+    </div>
+
+    <!-- BOTTOM INPUT BAR -->
+    <div class="chat-input-area">
+        <input type="text" id="userInput" placeholder="Apna sawal yahan likhein..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+        </button>
+    </div>
+</div>
+
+<script>
+    // AUTOMATIC KNOWLEDGE DATA
+    const instituteData = {
+        rules: [
+            { keywords: ['hi', 'hello', 'hey', 'namaste', 'ram ram', 'pranam'], response: "Namaste! Main EXAMEDGE ONLINE ka smart assistant hoon. Aapko apne institute, courses ya faculty ke baare me kya jankari chahiye? Puchiye!" },
+            { keywords: ['ok', 'okay', 'theek hai', 'thik h', 'done'], response: "Aapka bahut-bahut dhanyawad (Thank you)! 👍 Agar koi aur help chahiye ho to batayein. EXAMEDGE ONLINE hamesha aapke sath hai!" },
+            { keywords: ['bye', 'alvida', 'tata', 'chalta hu'], response: "Alvida! 👋 Achhe se padhai kariye aur aage badhiye. Jab bhi zaroorat ho, aapka AI Assistant yahin milega." },
+            { keywords: ['founder', 'malik', 'owner', 'kisne banaya', 'director', 'abhinay'], response: "👨‍🏫 EXAMEDGE ONLINE ke Founder aur Director **Abhinay Chaubey** sir hain, jinhone **B.Sc Mathematics** kiya hai aur unka vision har student tak best education pahunchana hai." },
+            { keywords: ['faculty', 'teacher', 'kaun padhata hai', 'teachers', 'sir'], response: "%F0%9F%8E%93 **Our Expert Faculty Team:**\n\n• **Mathematics:** Abhinay Chaubey Sir\n• **Biology & GS:** Bholu Chaubey Sir\n• **Social Science (SST):** Ravi Sir\n\nHamari poori team aapko selection dilane ke liye committed hai!" },
+            { keywords: ['math', 'maths', 'mathematics'], response: "📐 Mathematics ki complete classes expert **Abhinay Chaubey Sir** dwara li jaati hain. Basic levels se lekar board aur competitive levels tak poori help milti hai!" },
+            { keywords: ['biology', 'gs', 'science', 'general studies', 'bholu'], response: "🔬 Biology aur General Studies (GS) ke expert **Bholu Chaubey Sir** hain, jo har topic ko bade hi mazedaar aur aasan tarike se yaad karwate hain!" },
+            { keywords: ['sst', 'social science', 'history', 'ravi'], response: "🌍 Social Science (SST) ki kamaal ki taiyari hamare **Ravi Sir** karwate hain, jisse mushkil concepts bhi minto me samajh aa jate hain." },
+            { keywords: ['gst', 'goods and services tax', 'tax kya hai'], response: "📈 **GST Jankari:**\n• GST ek Indirect Tax hai jo India me 1 July 2017 se lagu hua.\n• Types: CGST, SGST, aur IGST.\n• Slabs: 5%, 12%, 18%, aur 28%.\n\nGS batch me Bholu sir is tarah ke har topics ko detail me padhate hain!" },
+            { keywords: ['number', 'helpline', 'contact', 'phone', 'call', 'whatsapp'], response: "Aap hamare official Helpline Number 📞 **96700 78465** par call ya WhatsApp kar sakte hain!" },
+            { keywords: ['academic', 'school', '9th', '10th', '11th', '12th', 'batch', 'course'], response: "📚 **Academic Batches Details:**\n• **Class 9th:** Sankalp Batch (Complete Syllabus)\n• **Class 10th:** Lakshya Foundation Batch (Special Board Target)\n• **Class 11th:** Coming Soon!\n• **Math Special Batch:** Yeh Class 9th, 10th, 11th, aur 12th ke liye har mahine ki **11 tarikh** ko naya shuru hota hai." },
+            { keywords: ['sankalp', '9th batch'], response: "Class 9th ke bacho ke liye hamara sabse behtareen **'Sankalp Batch'** chalta hai, jisme maths aur baaki subjects basic se advance tak padhaya jaata hai." },
+            { keywords: ['lakshya', 'foundation', '10th batch'], response: "Class 10th Board Exams me top rank laane ke liye hamara premium **'Lakshya Foundation Batch'** chalta hai. Isme strict board pattern par preparation hoti hai." },
+            { keywords: ['11', 'eleven', '11th'], response: "Class 11th ke liye hamara batch abhi **Coming Soon** mode par hai. Iski official announcement jaldi hi ki jayegi!" },
+            { keywords: ['kvs', 'nvs', 'prakram', 'paraakram'], response: "KVS aur NVS exams ki behtareen taiyari ke liye hamara special **'Paraakram Batch'** chalta hai." },
+            { keywords: ['math special', 'special math', '11 tarikh'], response: "Har prakar ki Math ko super strong karne ke liye (9th to 12th) hamara **'Math Special Batch'** har mahine ki **11 tarikh** ko shuru hota hai!" },
+            { keywords: ['thank you', 'thanks', 'shukriya', 'dhanyawad'], response: "Aapka swagat hai! EXAMEDGE ONLINE se judne ke liye dhanyawad. Padhte rahiye, aage badhte rahiye! 🚀" }
+        ],
+        defaultResponse: "Maaf kijiyega, main samajh nahi paya. Aap Academic Batches (Sankalp, Lakshya), Faculty/Founder, GST, ya Math Special ke baare me puchein. Ya direct hamare Helpline **96700 78465** par contact karein."
+    };
+
+    const chatMessages = document.getElementById('chatMessages');
+    const userInput = document.getElementById('userInput');
+
+    function sendMessage() {
+        const text = userInput.value.trim();
+        if (text === '') return;
+
+        appendMessage(text, 'user-message', false);
+        userInput.value = '';
+
+        // Loader ghumega niche stream me abhi.png ke sath
+        showTypingIndicator();
+
+        setTimeout(() => {
+            removeTypingIndicator();
+            const botResponse = getBotResponse(text);
+            
+            // Jawab typewriter effect ke sath aayega
+            appendMessage(botResponse, 'bot-message', true);
+        }, 2000); 
+    }
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') sendMessage();
+    }
+
+    function appendMessage(text, className, isTypewriter) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', className);
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        let formattedText = text.replace(/\n/g, '<br>');
+
+        if (isTypewriter) {
+            let i = 0;
+            messageDiv.innerHTML = "";
+            
+            function typeLog() {
+                if (i < formattedText.length) {
+                    if (formattedText.substr(i, 4) === '<br>') {
+                        messageDiv.innerHTML += '<br>';
+                        i += 4;
+                    } else {
+                        messageDiv.innerHTML += formattedText.charAt(i);
+                        i++;
+                    }
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    setTimeout(typeLog, 12); // Priting speed optimized
+                } else {
+                    let boldProcessed = messageDiv.innerHTML
+                        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                        .replace(/\*(.*?)\*/g, '<b>$1</b>');
+                    messageDiv.innerHTML = boldProcessed;
+                }
+            }
+            typeLog();
+        } else {
+            messageDiv.innerHTML = formattedText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        }
+    }
+
+    function showTypingIndicator() {
+        if(document.getElementById('typingIndicator')) return;
+        const indicator = document.createElement('div');
+        indicator.id = 'typingIndicator';
+        indicator.classList.add('typing-indicator-container');
+        indicator.innerHTML = `
+            <img src="abhi.png" class="typing-logo" onerror="this.src='https://via.placeholder.com/150?text=ABHI'">
+            <div class="typing-bubble">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        `;
+        chatMessages.appendChild(indicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) indicator.remove();
+    }
+
+    function getBotResponse(input) {
+        const lowerInput = input.toLowerCase();
+        for (let rule of instituteData.rules) {
+            for (let keyword of rule.keywords) {
+                if (lowerInput.includes(keyword)) return rule.response;
+            }
+        }
+        return instituteData.defaultResponse;
+    }
+</script>
+</body>
+</html>
