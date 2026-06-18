@@ -20,22 +20,21 @@
     }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; text-decoration: none !important; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--navy); color: var(--text); overflow-x: hidden; width: 100%; }
+    /* Padding bottom added so content doesn't hide behind the new bottom nav */
+    body { background: var(--navy); color: var(--text); overflow-x: hidden; width: 100%; padding-bottom: 75px; }
 
-    /* SPLASH SCREEN - CLEAN & BOLD */
+    /* SPLASH SCREEN */
     #splash { position: fixed; inset: 0; background: radial-gradient(circle, var(--navy) 0%, var(--navy-dark) 100%); display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 9999; }
-    
-    .splash-container { position: relative; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; }
-    
-    .loader-ring { position: absolute; width: 100%; height: 100%; border: 6px solid transparent; border-top: 6px solid var(--gold); border-bottom: 6px solid var(--gold); border-radius: 50%; animation: spin 2s linear infinite; }
-    
-    .splash-circle { width: 190px; height: 190px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 8px solid var(--gold); overflow: hidden; z-index: 2; box-shadow: 0 0 50px rgba(255, 204, 0, 0.4); animation: zoomIn 5s ease-out forwards; }
-    
+    .splash-container { position: relative; width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; }
+    .splash-circle { width: 180px; height: 180px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 6px solid var(--gold); overflow: hidden; z-index: 5; box-shadow: 0 0 50px rgba(255, 204, 0, 0.4); animation: splashZoomOut 2.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     .splash-circle img { width: 100%; height: 100%; object-fit: cover; }
-    
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    @keyframes zoomIn { from { transform: scale(0.8); } to { transform: scale(1.1); } }
-    
+    @keyframes splashZoomOut { 0% { transform: scale(1.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .orbit-track { position: absolute; width: 260px; height: 260px; border-radius: 50%; border: 2px dashed rgba(255, 204, 0, 0.3); animation: spinOrbit 8s linear infinite; z-index: 3; }
+    .orbit-item { position: absolute; width: 50px; height: 50px; background: #1e293b; border-radius: 50%; border: 3px solid var(--primary); overflow: hidden; box-shadow: 0 0 15px rgba(255,0,0,0.5); animation: counterSpin 8s linear infinite; }
+    .orbit-item img { width: 100%; height: 100%; object-fit: cover; }
+    .item-top { top: -25px; left: 105px; } .item-bottom { bottom: -25px; left: 105px; } .item-left { left: -25px; top: 105px; } .item-right { right: -25px; top: 105px; }
+    @keyframes spinOrbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes counterSpin { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
     .splash-text { margin-top: 40px; font-size: 32px; font-weight: 900; letter-spacing: 3px; color: var(--text); opacity: 0.9; text-align: center; }
 
     #main { display: none; opacity: 0; transition: 1s ease; }
@@ -44,7 +43,6 @@
     .topbar { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(15, 23, 42, 0.98); display: flex; align-items: center; padding: 0 20px; z-index: 2000; border-bottom: 2px solid var(--primary); transition: 0.3s; }
     .menu-btn { font-size: 24px; color: var(--primary); cursor: pointer; transition: 0.2s; }
     .header-logo { width: 45px; height: 45px; background: #fff; border-radius: 50%; margin-left: auto; overflow: hidden; border: 2px solid #fff; cursor: pointer; }
-    
     #headerToast { position: fixed; top: 85px; right: -400px; background: #fff; color: #000; padding: 15px 25px; border-radius: 12px; font-weight: 800; z-index: 9999; border-left: 6px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 13px; transition: 0.5s; }
     #headerToast.active { right: 20px; }
 
@@ -57,46 +55,69 @@
     .sidebar a:hover { background: var(--primary); color: #fff; }
     .sidebar-ai-card { margin-top: auto; padding: 18px; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; border: 1px solid var(--gold); text-align: center; }
     .ai-btn { width: 100%; padding: 12px; border-radius: 10px; border: none; background: var(--gold); font-weight: 800; cursor: pointer; color: #000; margin-top: 10px; }
-
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; z-index: 2500; backdrop-filter: blur(5px); }
 
     /* CONTENT */
     .content { margin-top: 85px; padding: 15px; max-width: 650px; margin-left: auto; margin-right: auto; padding-bottom: 5px; }
     .slider-box { position: relative; border-radius: 15px; overflow: hidden; width: 100%; aspect-ratio: 800 / 400; border: 2px solid rgba(255,255,255,0.1); touch-action: pan-x; }
-    
-    /* UPDATED BANNER TRACK CSS */
     .banner-track { display: flex; transition: 0.5s; height: 100%; }
     .banner-track a { flex-shrink: 0; width: 100%; height: 100%; display: block; }
     .banner-track a img { width: 100%; height: 100%; object-fit: fill; }
-    
     .dots { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
     .dot { width: 12px; height: 12px; background: #334155; border-radius: 50%; cursor: pointer; transition: 0.3s; }
     .dot.active { background: var(--dot-blue); width: 30px; border-radius: 6px; }
 
     /* CARDS */
-    .card { background: var(--card-bg); border-radius: 15px; overflow: hidden; margin-top: 15px; border: 2px solid var(--gold); }
+    .card { background: var(--card-bg); border-radius: 15px; overflow: hidden; margin-top: 15px; border: 2px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
     .card-img-box { width: 100%; aspect-ratio: 800 / 400; overflow: hidden; }
     .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
     .card-body { padding: 18px; }
     .card-body h3 { font-size: 19px; font-weight: 800; color: #fff; }
     .btn-group { display: flex; gap: 10px; margin-top: 15px; }
-    .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: white; text-align: center; font-size: 13px; }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: white; text-align: center; font-size: 13px; transition: 0.3s;}
+    .btn:active { transform: scale(0.95); }
     .btn-f { background: var(--btn-blue); }
     .btn-e { background: var(--primary); }
 
+    /* --- SECTION TITLES --- */
+    .section-title { text-align: center; font-size: 18px; font-weight: 800; color: var(--gold); margin: 35px 0 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+    .section-subtitle { text-align: center; font-size: 12px; color: #cbd5e1; margin-top: -10px; margin-bottom: 20px; font-weight: 600; }
+
+    /* --- STUDENT REVIEWS SECTION --- */
+    .reviews-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; }
+    .reviews-container::-webkit-scrollbar { height: 5px; }
+    .reviews-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+    .reviews-container::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+    .review-card { min-width: 280px; max-width: 280px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; scroll-snap-align: start; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-left: 4px solid var(--primary); display: flex; flex-direction: column; justify-content: space-between; }
+    .review-stars { color: var(--gold); font-size: 14px; margin-bottom: 10px; }
+    .review-text { font-size: 13px; color: #e2e8f0; text-transform: none; line-height: 1.5; font-style: italic; margin-bottom: 15px; }
+    .review-user { display: flex; align-items: center; gap: 10px; }
+    .review-avatar { width: 35px; height: 35px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+    .review-name { font-size: 13px; font-weight: 700; color: #fff; }
+    .review-batch { font-size: 10px; color: var(--gold); }
+
+    /* --- SLIM SCROLLABLE + AUTO-PLAY RIBBON --- */
+    .marquee-wrapper { width: 100%; overflow-x: auto; background: #070b14; padding: 12px 0; border-top: 1px solid rgba(255,204,0,0.3); border-bottom: 1px solid rgba(255,204,0,0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.8); scroll-behavior: auto; -webkit-overflow-scrolling: touch; cursor: grab; }
+    .marquee-wrapper:active { cursor: grabbing; }
+    .marquee-wrapper::-webkit-scrollbar { display: none; }
+    .marquee-track { display: inline-flex; width: max-content; padding-left: 10px; }
+    .marquee-item { height: 65px; margin-right: 15px; border-radius: 8px; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); transition: 0.3s; flex-shrink: 0; }
+    .marquee-item:hover { border-color: var(--gold); transform: scale(1.05); }
+    .marquee-item img { height: 100%; width: auto; object-fit: cover; border-radius: 6px; }
+
     /* TICKER */
-    .news-ticker { width: 100%; background: rgba(0,0,0,0.8); padding: 14px 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--gold); margin-top: 20px; }
+    .news-ticker { width: 100%; background: rgba(0,0,0,0.8); padding: 14px 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--gold); margin-top: 25px; margin-bottom: 20px;}
     .news-ticker p { display: inline-block; padding-left: 100%; font-size: 14px; font-weight: 800; color: var(--gold); animation: ticker 25s linear infinite; }
     @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
     /* FOOTER */
-    .footer { background: var(--navy-dark); padding: 25px 10px; text-align: center; }
+    .footer { background: var(--navy-dark); padding: 25px 10px 40px; text-align: center; }
     .social-icons { display: flex; justify-content: center; gap: 30px; margin-bottom: 15px; }
     .social-icons a { font-size: 22px; color: #64748b; transition: 0.3s; }
     .social-icons a:hover { color: #fff; transform: translateY(-3px); }
     .footer-branding { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.2); letter-spacing: 1px; }
 
-    /* MODALS */
+    /* MODALS & CHAT */
     .chat-modal, .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 15px; }
     .chat-box { background: #fff; color: #000; width: 100%; max-width: 400px; height: 500px; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 2px solid var(--gold); }
     .chat-head { background: var(--navy); color: #fff; padding: 15px; font-weight: 800; display: flex; justify-content: space-between; }
@@ -107,13 +128,30 @@
     .chat-foot { padding: 12px; display: flex; gap: 10px; background: #fff; border-top: 1px solid #ddd; }
     .chat-foot input { flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 20px; outline: none; text-transform: none; }
 
-    .fab-group { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 4000; }
+    /* FLOATING BUTTONS (Shifted up to not overlap with bottom nav) */
+    .fab-group { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 4000; }
     .fab { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
     .fab-call { background: var(--pink-call); }
     .fab-wa { background: #25d366; }
 
     .modal-content { background: #1e293b; width: 100%; max-width: 400px; padding: 20px; border-radius: 20px; border: 2px solid var(--gold); }
     .feat-line { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; }
+
+    /* URL NOT AVAILABLE TOAST */
+    #urlToast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0; background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; padding: 25px 35px; border-radius: 20px; font-weight: 800; font-size: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); z-index: 100000; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center; gap: 12px; width: 85%; max-width: 320px; }
+    #urlToast.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    #urlToast .icon-box { width: 60px; height: 60px; background: rgba(255,0,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
+    #urlToast i { font-size: 30px; color: var(--primary); animation: shake 0.5s ease-in-out infinite alternate; }
+    @keyframes shake { 0% { transform: translateX(-3px) rotate(-5deg); } 100% { transform: translateX(3px) rotate(5deg); } }
+
+    /* ========================================== */
+    /* NAYA: BOTTOM NAVIGATION BAR APP STYLE      */
+    /* ========================================== */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: rgba(15, 23, 42, 0.98); border-top: 2px solid var(--primary); display: flex; justify-content: space-around; align-items: center; z-index: 5000; box-shadow: 0 -5px 20px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
+    .bottom-nav a { color: #64748b; text-align: center; font-size: 10px; font-weight: 800; display: flex; flex-direction: column; gap: 5px; flex: 1; transition: 0.3s; padding: 5px 0; }
+    .bottom-nav a i { font-size: 20px; transition: 0.3s; }
+    .bottom-nav a.active, .bottom-nav a:hover { color: var(--gold); }
+    .bottom-nav a.active i, .bottom-nav a:hover i { transform: translateY(-3px); }
     </style>
 </head>
 <body>
@@ -122,11 +160,16 @@
 
 <div id="splash">
     <div class="splash-container">
-        <div class="loader-ring"></div>
+        <div class="orbit-track">
+            <div class="orbit-item item-top"><img src="ii.png"></div>
+            <div class="orbit-item item-bottom"><img src="ii.png"></div>
+            <div class="orbit-item item-left"><img src="ii.png"></div>
+            <div class="orbit-item item-right"><img src="ii.png"></div>
+        </div>
         <div class="splash-circle"><img src="logo.png"></div>
     </div>
     <div class="splash-text">EXAMEDGE ONLINE</div>
-    <div class="splash-text">“ज्ञान का पराक्रम, सफलता का संकल्प”</div>
+    <div class="splash-text" style="font-size:18px; margin-top:15px; color:var(--gold);">“ज्ञान का पराक्रम, सफलता का संकल्प”</div>
 </div>
 
 <div id="main">
@@ -145,13 +188,14 @@
         </div>
         <a href="index.html" onclick="closeSidebar()"><i class="fas fa-home"></i> HOME</a>
         <a href="student.html"><i class="fas fa-user-graduate"></i>STUDENT PANEL</a>
-        <a href="ent.html"><i class="fas fa-user-graduate"></i>ENTRENCE TEST</a>
-        <a href="g.html"><i class="fas fa-user-graduate"></i>AP TRUST</a>
+        <a href="ent.html"><i class="fas fa-pen-nib"></i>ENTRENCE TEST</a>
+        <a href=""><i class="fas fa-shield-alt"></i>AP TRUST</a> 
         <a href="mer.html"><i class="fas fa-book-open"></i>Notes</a>
-        <a href="r.html"><i class="fas fa-user-graduate"></i>OUR RESULT</a>
-        <a href="s.html"><i class="fas fa-book-open"></i>SOCIAL LINKS</a>
+        <a href="r.html"><i class="fas fa-trophy"></i>OUR RESULT</a>
+        <a href="s.html"><i class="fas fa-share-alt"></i>SOCIAL LINKS</a>
+        <a href="live.html"><i class="fas fa-video"></i>LECTURE</a>
         <a href="tel:9670078465"><i class="fas fa-phone-alt"></i>CONTACT US</a>
-        <a href="chat.html"><i class="fas fa-user-graduate"></i>EXAMEDGE ASSISTANT</a>
+        <a href="chat.html"><i class="fas fa-robot"></i>EXAMEDGE ASSISTANT</a>
         
         <div class="sidebar-ai-card">
             <h4 style="color:#fff; font-size: 14px;"><i class="fas fa-robot"></i>AI ASSISTANT</h4>
@@ -160,51 +204,219 @@
     </div>
 
     <div class="content">
+        <!-- TOP BANNER SLIDER -->
         <div class="slider-box" id="bannerBox">
             <div class="banner-track" id="bannerTrack">
-                <!-- YAHA AAP JITNE CHAHEIN UTNE BANNERS ADD KAR SAKTE HAIN -->
-                <!-- href="" ke andar apna link dalein -->
                 <a href="https://youtu.be/oZBf5CXbov4?si=AMZVp3AJQDr8bg9P"><img src="q.png"></a>
                 <a href="ent.html"><img src="z.png"></a>
-                <a href="https://example.com/link3"><img src="@.png"></a>
-                <a href="https://example.com/link4"><img src="i.png"></a>
-                <a href="https://example.com/link5"><img src="zz.png"></a>
-                <a href="https://example.com/link6"><img src="o.png"></a>
-                <a href="https://example.com/link6"><img src="ii.png"></a>
-                <!-- EXAMPLE: Aur badhane ke liye bas aise hi line copy-paste karein -->
-                <!-- <a href="your-link.html"><img src="your-image.png"></a> -->
+                <a href=""><img src="@.png"></a>
+                <a href=""><img src="i.png"></a>
+                <a href=""><img src="zz.png"></a>
+                <a href=""><img src="o.png"></a>
+                <a href=""><img src="ii.png"></a>
             </div>
         </div>
         <div class="dots" id="bannerDots"></div>
 
+        <!-- COURSE CARDS -->
         <div class="card">
             <div class="card-img-box"><img src="s.png"></div>
             <div class="card-body"><h3>SANKALP FOUNDATION BATCH</h3><p>"संकल्प" से सफलता तक</p>
-                <div class="btn-group"><button class="btn btn-f" onclick="showFeats('SANKALP')">FEATURES</button><a href="student.html" class="btn btn-e">ENROLL NOW</a></div>
+                <div class="btn-group">
+                    <button class="btn btn-f" onclick="showFeats('SANKALP')">FEATURES</button>
+                    <a href="student.html" class="btn btn-e">ENROLL NOW</a>
+                </div>
             </div>
         </div>
         
         <div class="card">
             <div class="card-img-box"><img src="p.png"></div>
-            <div class="card-body"><h3>𝓟𝓻𝓪𝓴𝓻𝓪𝓶 𝓕𝓸𝓾𝓷𝓭𝓪𝓽𝓲𝓸𝓷 𝓑𝓪𝓽𝓬𝓱</h3><p>!!पराक्रम की पहचान  सिलेक्शन की भरमार!!</p>
-                <div class="btn-group"><button class="btn btn-f" onclick="showFeats('ENTRENCE')">FEATURES</button><a href="student.html" class="btn btn-e">ENROLL NOW</a></div>
+            <div class="card-body"><h3>Prakram Foundation Batch</h3><p>!!पराक्रम की पहचान  सिलेक्शन की भरमार!!</p>
+                <div class="btn-group">
+                    <button class="btn btn-f" onclick="showFeats('ENTRENCE')">FEATURES</button>
+                    <a href="student.html" class="btn btn-e">ENROLL NOW</a>
+                </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-img-box"><img src="l.png"></div>
             <div class="card-body"><h3>LAKSHYA FOUNDATION BATCH</h3><p>"लक्ष्य की उड़ान, बोर्ड में नई पहचान"</p>
-                <div class="btn-group"><button class="btn btn-f" onclick="showFeats('LAKSHYA')">FEATURES</button><a href="student.html" class="btn btn-e">ENROLL NOW</a></div>
+                <div class="btn-group">
+                    <button class="btn btn-f" onclick="showFeats('LAKSHYA')">FEATURES</button>
+                    <a href="student.html" class="btn btn-e">ENROLL NOW</a>
+                </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-img-box"><img src="m.png"></div>
             <div class="card-body"><h3>MATHEMATICS FOUNDATION</h3><p>“गणित का पराक्रम, सफलता का संकल्प”</p>
-                <div class="btn-group"><button class="btn btn-f" onclick="showFeats('SPECIAL')">FEATURES</button><a href="student.html" class="btn btn-e">ENROLL NOW</a></div>
+                <div class="btn-group">
+                    <button class="btn btn-f" onclick="showFeats('SPECIAL')">FEATURES</button>
+                    <a href="student.html" class="btn btn-e">ENROLL NOW</a>
+                </div>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-img-box"><img src="gs.png"></div>
+            <div class="card-body"><h3>GS SPECIAL FOUNDATION</h3><p>"सामान्य अध्ययन, सफलता का नया आयाम"</p>
+                <div class="btn-group">
+                    <button class="btn btn-f" onclick="showFeats('GS')">FEATURES</button>
+                    <a href="student.html" class="btn btn-e">ENROLL NOW</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- REVIEWS -->
+        <h2 class="section-title">WARRIORS FEEDBACK</h2>
+        <p class="section-subtitle">What our selected students say</p>
+
+        <div class="reviews-container">
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Abhinay Sir ki wajah se UP Board mein maths ka darr khatam ho gaya. 100/100 ki tyaari yahin se hogi!"</div>
+                <div class="review-user">
+                    <div class="review-avatar">R</div>
+                    <div>
+                        <div class="review-name">Rahul Sharma</div>
+                        <div class="review-batch">SANKALP FOUNDATION BATCH</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <div class="review-text">"SSC CGL level tak ka foundation sir bahut mast clear karte hain. Mock tests ne bahut help ki hai."</div>
+                <div class="review-user">
+                    <div class="review-avatar">P</div>
+                    <div>
+                        <div class="review-name">Priya Singh</div>
+                        <div class="review-batch">PRAKRAM FOUNDATION BATCH</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Live chat aur doubt classes bilkul offline coaching jaisa feel deti hain. Notes ekdum top class hain."</div>
+                <div class="review-user">
+                    <div class="review-avatar">A</div>
+                    <div>
+                        <div class="review-name">Aman Verma</div>
+                        <div class="review-batch">LAKSHYA FOUNDATION BATCH</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Maths Mystic Abhinay Sir ki speed tricks exam mein bahut time bachati hain. Arithmetic ab halwa lagta hai!"</div>
+                <div class="review-user">
+                    <div class="review-avatar">N</div>
+                    <div>
+                        <div class="review-name">Neha Yadav</div>
+                        <div class="review-batch">MATHEMATICS FOUNDATION</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Maths ke sath Bholu Sir ka GS batch bhi bahut badhiya hai. Content ekdum UP exams oriented hai."</div>
+                <div class="review-user">
+                    <div class="review-avatar">V</div>
+                    <div>
+                        <div class="review-name">Vikas Tiwari</div>
+                        <div class="review-batch">GS SPECIAL FOUNDATION</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <div class="review-text">"Class 10th board ke liye best platform. Sir ka padhane ka style sabse alag aur best hai. Excellent App!"</div>
+                <div class="review-user">
+                    <div class="review-avatar">A</div>
+                    <div>
+                        <div class="review-name">Anjali Gupta</div>
+                        <div class="review-batch">LAKSHYA FOUNDATION BATCH</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Homework PDF aur Sunday tests se preparation daily track hoti hai. Thank you AP Maths Team!"</div>
+                <div class="review-user">
+                    <div class="review-avatar">R</div>
+                    <div>
+                        <div class="review-name">Rohit Chauhan</div>
+                        <div class="review-batch">SANKALP FOUNDATION BATCH</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Railway aur SSC exams ke liye best batch. Formula mastery class se bahut confidence aaya."</div>
+                <div class="review-user">
+                    <div class="review-avatar">S</div>
+                    <div>
+                        <div class="review-name">Sneha Chaurasia</div>
+                        <div class="review-batch">PRAKRAM FOUNDATION BATCH</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <div class="review-text">"Zero to Hero series sach mein zero se hero banati hai. Basic se advance tak sab samajh aata hai."</div>
+                <div class="review-user">
+                    <div class="review-avatar">D</div>
+                    <div>
+                        <div class="review-name">Deepak Mishra</div>
+                        <div class="review-batch">MATHEMATICS FOUNDATION</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Sir bahut patience ke sath padhate hain. Jo bacche maths mein weak hain, unhe zaroor join karna chahiye."</div>
+                <div class="review-user">
+                    <div class="review-avatar">P</div>
+                    <div>
+                        <div class="review-name">Pooja Patel</div>
+                        <div class="review-batch">LAKSHYA FOUNDATION BATCH</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End of Content Container -->
+
+    <!-- SLIM SCROLLABLE + AUTO-PLAY RIBBON -->
+    <div class="marquee-wrapper" id="marquee-ribbon">
+        <div class="marquee-track">
+            <!-- Set 1 -->
+            <div class="marquee-item"><img src="q.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+1'"></div>
+            <div class="marquee-item"><img src="z.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+2'"></div>
+            <div class="marquee-item"><img src="i.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+3'"></div>
+            <div class="marquee-item"><img src="zz.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+4'"></div>
+            <div class="marquee-item"><img src="o.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+5'"></div>
+            <div class="marquee-item"><img src="ii.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+6'"></div>
+            
+            <!-- Set 2 -->
+            <div class="marquee-item"><img src="q.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+1'"></div>
+            <div class="marquee-item"><img src="z.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+2'"></div>
+            <div class="marquee-item"><img src="i.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+3'"></div>
+            <div class="marquee-item"><img src="zz.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+4'"></div>
+            <div class="marquee-item"><img src="o.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+5'"></div>
+            <div class="marquee-item"><img src="ii.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+6'"></div>
+            
+            <!-- Set 3 -->
+            <div class="marquee-item"><img src="q.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+1'"></div>
+            <div class="marquee-item"><img src="z.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+2'"></div>
+            <div class="marquee-item"><img src="i.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+3'"></div>
+            <div class="marquee-item"><img src="zz.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+4'"></div>
+            <div class="marquee-item"><img src="o.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+5'"></div>
+            <div class="marquee-item"><img src="ii.png" onerror="this.src='https://via.placeholder.com/150x65/1e293b/ffcc00?text=IMG+6'"></div>
+        </div>
     </div>
+
 
     <div class="news-ticker">
         <p>NAYA LAKSHYA BATCH SHURU HO CHUKA HAI... ADMIT CARDS FOR BOARDS ARE OUT... JOIN EXAMEDGE ONLINE FOR 100/100 MISSION! LEARN MATHS LIKE A WARRIOR BY ABHINAY PRATAP SIR!</p>
@@ -217,8 +429,33 @@
             <a href="https://www.instagram.com/abhinaypratapmaths" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="https://whatsapp.com/channel/0029VbDNYxp72WTvUU6uut0u" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <div class="footer-branding">© EXAMEDGE ONLINE 2026 BY ABHINAY PRATAP MATHS</div>
+        <div class="footer-branding">© EXAMEDGE ONLINE 2026 BY AP MATHEMATICS</div>
     </footer>
+</div>
+
+<!-- ========================================== -->
+<!-- NAYA: APP STYLE BOTTOM NAVIGATION BAR      -->
+<!-- ========================================== -->
+<div class="bottom-nav">
+    <a href="" class="">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <span>TEACHER</span>
+    </a>
+    <a href="index.html" class="active">
+        <i class="fas fa-home"></i>
+        <span>HOME</span>
+    </a>
+    <a href="student.html">
+        <i class="fas fa-user-graduate"></i>
+        <span>STUDENT</span>
+    </a>
+</div>
+
+<!-- ALL MODALS & ALERTS -->
+<div id="urlToast">
+    <div class="icon-box"><i class="fas fa-link-slash"></i></div>
+    <span>LINK NOT AVAILABLE!</span>
+    <span style="font-size: 11px; color: #94a3b8; font-weight: 600;">Link abhi active nahi hai. Kripya baad mein try karein.</span>
 </div>
 
 <div class="chat-modal" id="chatWin">
@@ -243,7 +480,7 @@
 </div>
 
 <script>
-    // Startup
+    // Startup System
     window.onload = () => {
         setTimeout(() => {
             const splash = document.getElementById('splash');
@@ -254,9 +491,29 @@
                 main.style.display = 'block'; 
                 setTimeout(() => main.style.opacity = '1', 50); 
             }, 500);
-        }, 4000); // 4 Seconds Splash
+        }, 4500);
     };
 
+    // Empty Link Error Handler (Works for bottom nav "Teacher" link too!)
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (!href || href.trim() === '' || href === '#' || href.includes('example.com')) {
+                    e.preventDefault(); 
+                    showUrlToast(); 
+                }
+            });
+        });
+    });
+
+    function showUrlToast() {
+        const toast = document.getElementById('urlToast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // Sidebar Logic
     function openSidebar() { 
         document.getElementById('sidebar').classList.add('active'); 
         document.getElementById('overlay').style.display = 'block'; 
@@ -274,13 +531,12 @@
         if(t.classList.contains('active')) setTimeout(() => t.classList.remove('active'), 5000);
     }
 
-    // Manual Slider Logic (Now Dynamic)
+    // Banner Slider Logic
     const track = document.getElementById('bannerTrack');
     const bannerBox = document.getElementById('bannerBox');
     const dots = document.getElementById('bannerDots');
     let currentSlide = 0;
     
-    // Yahan totalSlides ko dynamic kar diya hai, jitne <a> tags lagayenge, utne count honge
     const slideElements = document.querySelectorAll('#bannerTrack a');
     const totalSlides = slideElements.length;
 
@@ -306,6 +562,7 @@
         if (touchEndX - touchStartX > 50 && currentSlide > 0) moveToSlide(currentSlide - 1);
     });
 
+    // Chat Logic
     function toggleChat() { closeSidebar(); const w = document.getElementById('chatWin'); w.style.display = (w.style.display === 'flex' ? 'none' : 'flex'); }
     function sendMsg() {
         const i = document.getElementById('chatInput'), b = document.getElementById('chatBody');
@@ -315,11 +572,13 @@
         i.value = "";
     }
     
+    // Batch Features Modals
     const courseFeatures = {
         'SANKALP': ["9th Math Foundation", "Weekly Homework PDF", "Live Doubt Groups", "NCERT Solutions", "Bilingual Concepts", "Video Backup", "Progress Track", "Personal Mentor", "Board Strategy", "Sunday Tests"],
         'ENTRENCE': ["FOR KVS NVS", "10 Years PYQs", "Full Mock Tests", "Formula Mastery", "Faculty Direct Access", "Last Minute Notes", "Step Marking", "Time Mastery", "Question Bank", "Parent Meet"],
         'LAKSHYA': ["10TH", "10 Years PYQs", "Full Mock Tests", "Formula Mastery", "Faculty Direct Access", "Last Minute Notes", "Step Marking", "Time Mastery", "Question Bank", "Parent Meet"],
-        'SPECIAL': ["Arithmetic Mastery", "Speed Math Tricks", "Competitive PYQs", "Zero to Hero Series", "1 Year Validity", "DPP Daily", "Digital Notes", "Sunday Doubts", "Topic Backups", "Shortcut MCQ"]
+        'SPECIAL': ["Arithmetic Mastery", "Speed Math Tricks", "Competitive PYQs", "Zero to Hero Series", "1 Year Validity", "DPP Daily", "Digital Notes", "Sunday Doubts", "Topic Backups", "Shortcut MCQ"],
+        'GS': ["Complete History", "Indian Polity", "Geography & Maps", "Economics Basics", "Current Affairs", "Science & Tech", "PYQ Analysis", "Weekly Mock Tests", "PDF Notes", "Live Doubts"]
     };
 
     function showFeats(batch) {
@@ -328,6 +587,48 @@
         document.getElementById('featModal').style.display = 'flex';
     }
     function closeFeats() { document.getElementById('featModal').style.display = 'none'; }
+
+    // Marquee JS
+    const ribbon = document.getElementById('marquee-ribbon');
+    let ribbonScrollInterval;
+    let isDown = false;
+    let startX;
+    let scrollLeftPos;
+
+    function startRibbonScroll() {
+        ribbonScrollInterval = setInterval(() => {
+            ribbon.scrollLeft += 1;
+            if (ribbon.scrollLeft >= (ribbon.scrollWidth - ribbon.clientWidth)) {
+                ribbon.scrollLeft = 0;
+            }
+        }, 25);
+    }
+
+    function stopRibbonScroll() {
+        clearInterval(ribbonScrollInterval);
+    }
+
+    startRibbonScroll();
+
+    ribbon.addEventListener('mouseenter', stopRibbonScroll);
+    ribbon.addEventListener('mouseleave', () => { isDown = false; startRibbonScroll(); });
+    
+    ribbon.addEventListener('touchstart', stopRibbonScroll);
+    ribbon.addEventListener('touchend', startRibbonScroll);
+
+    ribbon.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - ribbon.offsetLeft;
+        scrollLeftPos = ribbon.scrollLeft;
+    });
+    ribbon.addEventListener('mouseup', () => { isDown = false; });
+    ribbon.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - ribbon.offsetLeft;
+        const walk = (x - startX) * 2;
+        ribbon.scrollLeft = scrollLeftPos - walk;
+    });
 
 </script>
 </body>
