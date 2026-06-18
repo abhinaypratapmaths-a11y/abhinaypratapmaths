@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PREMIUM ADMISSION PORTAL | AP MATHEMATICS</title>
+    <title>PREMIUM ADMISSION PORTAL | EXAMEDGE ONLINE INSTITUTE</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #0f172a; --accent: #f59e0b; --success: #10b981; --gray: #64748b; }
@@ -70,14 +70,14 @@
             <img src="abhi.png" alt="Logo">
         </div>
         <h1>EXAMEDGE ONLINE</h1>
-        <p> BY ABHINAYPRATAP CHAUBEY</p>
+        <p> ज्ञान का पराक्रम, सफलता का संकल्प</p>
     </div>
 
     <form id="admissionForm" class="form-grid">
         <div class="field full">
             <label>SELECT BATCH <span>*</span></label>
             <select id="course" onchange="updateFee()">
-                <option value="">-- CHOOSE YOUR BATCH --</option>
+                <option value="">-- CHOOSE YOUR COURSE --</option>
                 <option value="500">REGISTRATION FEE</option>
                 <option value="2199">LAKSHYA FOUNDATION BATCH</option>
                 <option value="999">ENTRENCE EXAM FOUNDATION</option>
@@ -153,8 +153,8 @@
 
     function applyCoupon() {
         let code = document.getElementById("coupon").value.trim().toUpperCase();
-        if(code.startsWith("MW")) {
-            let num = parseInt(code.replace("MW", ""));
+        if(code.startsWith("ABHINAY")) {
+            let num = parseInt(code.replace("ABHINAY", ""));
             if(num > 0 && num <= 90) discountAmt = Math.round(basePrice * (num/100));
         } else if(code === "HBD50") {
             discountAmt = Math.round(basePrice * 0.5);
@@ -206,7 +206,7 @@
             <div id="printArea" style="width:100%; max-width:800px; margin:0 auto; padding:40px; border:15px double var(--primary); background:#fff; text-align:left; box-sizing:border-box;">
                 <div style="text-align:center; margin-bottom:30px;">
                     <h1 style="margin:0; font-size:32px; color:var(--primary);">EXAMEDGE ONLINE</h1>
-                    <p style="font-size:12px; font-weight:800; color:var(--accent);">BY ABHINAY </p>
+                    <p style="font-size:12px; font-weight:800; color:var(--accent);">ज्ञान का पराक्रम, सफलता का संकल्प</p>
                     <p style="font-size:10px; color:#64748b; margin-top:5px;">${dateTime}</p>
                 </div>
 
@@ -237,17 +237,17 @@
 
                 <div style="display:flex; justify-content:space-between; align-items: flex-end;">
                     <div style="text-align:center; width:40%;">
-                        <div style="border-bottom: 3px solid #000; margin-bottom: 10px; padding-bottom: 5px; font-weight: 900; font-size: 16px;">BHOLU CHAUBEY</div>
-                        <p style="font-size:11px; font-weight:700;">BHOLU CHAUBEY<br>(DIRECTOR)</p>
+                        <div style="border-bottom: 3px solid #000; margin-bottom: 10px; padding-bottom: 5px; font-weight: 900; font-size: 16px;">ABHINAY CHAUBEY</div>
+                        <p style="font-size:11px; font-weight:700;">ABHINAY CHAUBEY<br>(DIRECTOR)</p>
                     </div>
                     <div style="text-align:center; width:40%;">
-                        <div style="border-bottom: 3px solid #d32f2f; margin-bottom: 10px; padding-bottom: 5px; font-weight: 900; font-size: 16px; color: #d32f2f;">ABHINAY PRATAP</div>
-                        <p style="font-size:11px; font-weight:700;">ABHINAY PRATAP<br>(FOUNDER)</p>
+                        <div style="border-bottom: 3px solid #d32f2f; margin-bottom: 10px; padding-bottom: 5px; font-weight: 900; font-size: 16px; color: #d32f2f;"> B.P CHAUBEY</div>
+                        <p style="font-size:11px; font-weight:700;">B.P CHAUBEY<br>(FOUNDER)</p>
                     </div>
                 </div>
 
                 <div style="margin-top:50px; text-align:center; font-size:10px; color:#94a3b8; border-top:1px dashed #eee; padding-top:20px;">
-                    CONTACT: +91 9670078465 | WEBSITE: WWW.EXAMEDGE.ONLINE || YOUTUBE: @abhinaypratapmaths <br>
+                    CONTACT: +91 9670078465 | WEBSITE: WWW.EXAMEDGE.ONLINE || YOUTUBE: @examedgeonline<br>
                     THIS IS A COMPUTER GENERATED SECURE RECEIPT. NO PHYSICAL SIGNATURE REQUIRED.
                 </div>
             </div>`;

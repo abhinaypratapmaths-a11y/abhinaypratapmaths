@@ -5,193 +5,675 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AP MATHEMATICS | PREMIUM HUB</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root { 
             --primary: #00ffd5; 
-            --bg: radial-gradient(circle at top, #0f172a, #020617); 
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
-            --yt-red: #ff0000;
+            --primary-glow: rgba(0, 255, 213, 0.6);
+            --bg-dark: #050b14; 
+            --card-bg: rgba(20, 30, 48, 0.65);
+            --border: rgba(0, 255, 213, 0.2);
+            --yt-red: #ff0055;
+            --text-main: #ffffff;
+            --text-muted: #8892b0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: var(--bg); background-attachment: fixed; color: white;
-            display: flex; flex-direction: column; align-items: center; 
-            min-height: 100vh; padding: 10px; font-family: 'Plus Jakarta Sans', sans-serif;
-            text-transform: uppercase;
+            background: radial-gradient(circle at 50% 0%, #112240, var(--bg-dark) 60%);
+            background-attachment: fixed; 
+            color: var(--text-main); display: flex; flex-direction: column; align-items: center; 
+            min-height: 100vh; padding: 20px 10px; font-family: 'Plus Jakarta Sans', sans-serif;
+            text-transform: uppercase; overflow-x: hidden;
         }
 
-        /* --- Progress Loader Screen --- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
         #loader-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 6, 23, 0.98); display: none;
+            background: rgba(5, 11, 20, 0.95); display: none;
             flex-direction: column; align-items: center; justify-content: center; z-index: 3000;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px); animation: fadeIn 0.3s ease;
         }
-        .loader-text { color: var(--primary); font-weight: 800; font-size: 14px; margin-bottom: 15px; letter-spacing: 2px; }
-        .progress-container { width: 80%; max-width: 300px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
-        .progress-bar { width: 0%; height: 100%; background: var(--primary); box-shadow: 0 0 20px var(--primary); transition: 0.1s; }
-        .percent-text { margin-top: 15px; font-size: 24px; font-weight: 900; color: white; text-shadow: 0 0 10px var(--primary); }
+        .loader-ring {
+            width: 80px; height: 80px; border: 3px solid rgba(0, 255, 213, 0.1);
+            border-top-color: var(--primary); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 20px; box-shadow: 0 0 30px var(--primary-glow);
+        }
+        .loader-text { color: var(--primary); font-weight: 900; font-size: 16px; margin-bottom: 15px; letter-spacing: 3px; text-shadow: 0 0 10px var(--primary-glow); }
+        .progress-container { width: 80%; max-width: 350px; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, transparent, var(--primary)); box-shadow: 0 0 20px var(--primary); transition: 0.2s; }
+        .percent-text { margin-top: 15px; font-size: 28px; font-weight: 900; color: white; text-shadow: 0 0 15px var(--primary-glow); }
 
-        .ticker-wrap { width: 100%; max-width: 480px; background: rgba(0, 255, 213, 0.08); padding: 8px 0; margin: 10px 0 20px 0; border-radius: 50px; overflow: hidden; white-space: nowrap; border: 1px solid var(--border); }
-        .ticker { display: inline-block; animation: marquee 20s linear infinite; color: var(--primary); font-size: 10px; font-weight: 800; }
+        .ticker-wrap { 
+            width: 100%; max-width: 500px; 
+            background: linear-gradient(90deg, rgba(0,255,213,0.05), rgba(0,255,213,0.15), rgba(0,255,213,0.05));
+            padding: 10px 0; margin: 10px 0 30px 0; border-radius: 50px; overflow: hidden; white-space: nowrap; 
+            border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .ticker { display: inline-block; animation: marquee 25s linear infinite; color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: 1px;}
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .hub-container { width: 100%; max-width: 480px; text-align: center; }
-        .main-header { color: var(--primary); font-size: 16px; font-weight: 900; margin-bottom: 25px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; display: inline-block; }
+        .hub-container { width: 100%; max-width: 500px; text-align: center; animation: slideUp 0.6s ease-out; }
+        .main-header { 
+            color: var(--text-main); font-size: 20px; font-weight: 900; margin-bottom: 30px; 
+            text-shadow: 0 0 20px rgba(0,255,213,0.4); position: relative; display: inline-block;
+        }
+        .main-header::after {
+            content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+            width: 50px; height: 4px; background: var(--primary); border-radius: 2px; box-shadow: 0 0 15px var(--primary);
+        }
 
-        .book-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
-        .book-card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 25px; padding: 15px; display: flex; align-items: center; gap: 15px; }
+        .book-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; padding-bottom: 40px;}
+        .book-card { 
+            background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border); border-radius: 20px; padding: 18px; 
+            display: flex; align-items: center; gap: 15px; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); position: relative; overflow: hidden;
+        }
+        .book-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 12px 40px rgba(0, 255, 213, 0.2); }
+        .image-wrapper { position: relative; flex-shrink: 0; }
+        .subject-img { width: 85px; height: 85px; border-radius: 16px; border: 2px solid var(--border); object-fit: cover; background: #000; transition: 0.3s; }
+        .yt-badge { 
+            position: absolute; bottom: -5px; right: -5px; background: var(--yt-red); 
+            width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            border: 3px solid var(--bg-dark); box-shadow: 0 4px 10px rgba(255, 0, 85, 0.5);
+        }
+        .yt-badge i { color: white; font-size: 12px; margin-left: 2px; }
 
-        .subject-img { width: 75px; height: 75px; border-radius: 50%; border: 2.5px solid var(--primary); object-fit: cover; background: #000; }
-        .yt-badge { position: absolute; bottom: 0; right: 0; background: var(--yt-red); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2.5px solid #0f172a; }
-        .yt-badge i { color: white; font-size: 10px; margin-left: 2px; }
+        .book-info { flex-grow: 1; text-align: left; display: flex; flex-direction: column; justify-content: center; }
+        .teacher-name { font-size: 9px; color: var(--text-muted); font-weight: 800; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .teacher-name span { color: var(--primary); }
+        .book-name { font-size: 15px; font-weight: 900; color: #fff; line-height: 1.3; }
+        .class-tag { 
+            display: inline-block; font-size: 9px; background: rgba(0, 255, 213, 0.1); 
+            padding: 4px 12px; border-radius: 50px; margin-top: 8px; 
+            color: var(--primary); border: 1px solid rgba(0,255,213,0.3); font-weight: 800; 
+        }
 
-        .book-info { flex-grow: 1; text-align: left; }
-        .teacher-name { font-size: 8px; color: var(--primary); font-weight: 800; margin-bottom: 3px; display: block; }
-        .book-name { font-size: 13px; font-weight: 800; color: #fff; }
-        .class-tag { font-size: 9px; background: rgba(255, 255, 255, 0.1); padding: 2px 8px; border-radius: 4px; margin-left: 5px; color: #00ffd5; border: 0.5px solid var(--primary); }
+        .dl-trigger { 
+            background: linear-gradient(135deg, var(--primary), #00b395); color: #000; 
+            width: 55px; height: 55px; border-radius: 16px; 
+            display: flex; align-items: center; justify-content: center; font-size: 22px; 
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0,255,213,0.4); flex-shrink: 0; transition: 0.3s;
+        }
+        .dl-trigger:hover { transform: scale(1.1) rotate(-5deg); box-shadow: 0 6px 20px rgba(0,255,213,0.6); }
 
-        .dl-trigger { background: var(--primary); color: #000; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,255,213,0.3); }
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(2, 6, 15, 0.9); backdrop-filter: blur(15px); 
+            display: none; align-items: center; justify-content: center; z-index: 1000; 
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; }
+        .modal-content { 
+            background: linear-gradient(180deg, #0f172a, #050b14); 
+            border: 1px solid var(--border); padding: 25px; border-radius: 24px; 
+            width: 92%; max-width: 400px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); 
+            transform: scale(0.9); transition: transform 0.3s ease;
+            max-height: 85vh; display: flex; flex-direction: column;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        
+        .scrollable-list { overflow-y: auto; overflow-x: hidden; max-height: 50vh; padding-right: 8px; margin: 10px 0; }
+        .scrollable-list::-webkit-scrollbar { width: 5px; }
+        .scrollable-list::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: #0f172a; border: 2px solid var(--primary); padding: 25px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 0 40px rgba(0, 255, 213, 0.3); }
-        .opt-btn { display: flex; align-items: center; gap: 12px; padding: 15px 20px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; border-radius: 12px; text-decoration: none; font-size: 11px; font-weight: 800; cursor: pointer; }
-        .opt-btn:hover { background: var(--primary); color: #000; }
-        .close-btn { margin-top: 15px; color: #ff4d4d; font-size: 10px; cursor: pointer; font-weight: 900; }
+        .modal-title { color: white; font-size: 16px; font-weight: 900; margin-bottom: 15px; letter-spacing: 1px; line-height: 1.4;}
+        
+        .opt-btn { 
+            display: flex; align-items: center; justify-content: flex-start; gap: 15px; 
+            padding: 16px; margin: 10px 0; 
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
+            color: white; border-radius: 14px; text-decoration: none; 
+            font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; text-align: left;
+            position: relative; overflow: hidden;
+        }
+        .opt-btn i { font-size: 16px; color: var(--primary); transition: 0.3s; min-width: 25px; text-align: center;}
+        .opt-btn:hover { background: rgba(0, 255, 213, 0.1); border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,255,213,0.1); }
+        .opt-btn:hover i { transform: scale(1.2); }
 
-        #alert-box { position: fixed; top: 20px; background: #ff0000; color: white; padding: 12px 25px; border-radius: 50px; font-size: 11px; font-weight: 800; display: none; z-index: 4000; }
+        .medium-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .medium-card {
+            background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 25px 15px; cursor: pointer; transition: 0.3s;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .medium-card i { font-size: 30px; color: var(--text-muted); transition: 0.3s; }
+        .medium-card span { font-size: 12px; font-weight: 900; color: white; letter-spacing: 1px;}
+        .medium-card:hover { border-color: var(--primary); background: rgba(0,255,213,0.1); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,255,213,0.2);}
+        .medium-card:hover i { color: var(--primary); transform: scale(1.1); }
+
+        .close-btn { margin-top: 15px; color: #ff4d4d; font-size: 12px; cursor: pointer; font-weight: 900; letter-spacing: 1px; padding: 12px; background: rgba(255,0,85,0.1); border-radius: 12px; transition: 0.3s;}
+        .close-btn:hover { background: rgba(255,0,85,0.2); color: #ff1a1a; }
+        
+        .nav-back { color:var(--text-muted); cursor:pointer; font-size:11px; margin-bottom:15px; font-weight:800; letter-spacing:1px; transition:0.3s; text-align:left; display: flex; align-items: center; gap: 8px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px;}
+        .nav-back:hover { color:var(--primary); background: rgba(0,255,213,0.1); }
+
+        #alert-box { 
+            position: fixed; top: 30px; background: rgba(255, 0, 85, 0.95); backdrop-filter: blur(10px);
+            color: white; padding: 16px 30px; border-radius: 50px; font-size: 13px; font-weight: 800; 
+            display: none; z-index: 4000; border: 1px solid #ff4d4d; box-shadow: 0 10px 30px rgba(255,0,85,0.4);
+            animation: slideDown 0.4s;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div id="loader-screen">
-    <div class="loader-text">DOWNLOADING FILE...</div>
+    <div class="loader-ring"></div>
+    <div class="loader-text">PREPARING SECURE LINK...</div>
     <div class="progress-container"><div class="progress-bar" id="p-bar"></div></div>
     <div class="percent-text" id="p-text">0%</div>
 </div>
 
-<div id="alert-box">⚠️ SORRY! NOT AVAILABLE YET.</div>
+<div id="alert-box"><i class="fa-solid fa-triangle-exclamation"></i> SORRY! LINK NOT UPDATED YET.</div>
 
-<div class="ticker-wrap"><div class="ticker">WELCOME TO EXAMEDGE ONLINE• ALL BATCH NOTES ARE BEING UPLOADED • JOIN TELEGRAM CHANNEL FOR UPDATES • BY ABHINAY PRATAP(MATHS MYSTIC)•</div></div>
-
-<div class="hub-container">
-    <div class="main-header">EXAMEDGE ONLINE NOTES SECTION</div>
-    
-    <div class="book-grid">
-        
-        <div class="book-card">
-            <div style="position:relative;"><img src="logo.png" class="subject-img"><div class="yt-badge"><i class="fa-solid fa-play"></i></div></div>
-            <div class="book-info"><span class="teacher-name">BY ABHINAY PRATAP AND TEAM</span><span class="book-name">LAKSHYA FOUNDATION BATCH <span class="class-tag">10th</span></span></div>
-            <div class="dl-trigger" onclick="openSubjectMenu('LAKSHYA', '5SUB', 
-                'MATH_HINDI_LINK', 'MATH_ENGLISH_LINK', 
-                'PHYS_HINDI_LINK', 'PHYS_ENGLISH_LINK', 
-                'CHEM_HINDI_LINK', 'CHEM_ENGLISH_LINK', 
-                'ENG_HINDI_LINK', 'ENG_ENGLISH_LINK', 
-                'HIN_HINDI_LINK', 'HIN_ENGLISH_LINK')">
-                <i class="fa-solid fa-arrow-down"></i>
-            </div>
-        </div>
-
-        <div class="book-card">
-            <div style="position:relative;"><img src="logo.png" class="subject-img"><div class="yt-badge"><i class="fa-solid fa-play"></i></div></div>
-            <div class="book-info"><span class="teacher-name">BY ABHINAY PRATAP AND TEAM</span><span class="book-name">SANKALP FOUNDATION BATCH <span class="class-tag">9th</span></span></div>
-            <div class="dl-trigger" onclick="openSubjectMenu('SANKALP', '5SUB', 
-                'MATH_HINDI_LINK', 'MATH_ENGLISH_LINK', 
-                'PHYS_HINDI_LINK', 'PHYS_ENGLISH_LINK', 
-                'CHEM_HINDI_LINK', 'CHEM_ENGLISH_LINK', 
-                'ENG_HINDI_LINK', 'ENG_ENGLISH_LINK', 
-                'HIN_HINDI_LINK', 'HIN_ENGLISH_LINK')">
-                <i class="fa-solid fa-arrow-down"></i>
-            </div>
-        </div>
-
-        <div class="book-card">
-            <div style="position:relative;"><img src="abhi.png" class="subject-img"><div class="yt-badge"><i class="fa-solid fa-play"></i></div></div>
-            <div class="book-info"><span class="teacher-name">BY ABHINAY PRATAP(MATHS MYSTIC)</span><span class="book-name">MATHEMATICS SPECIAL<span class="class-tag">9-10th</span></span></div>
-            <div class="dl-trigger" onclick="openSubjectMenu('MATHS SPECIAL', '2SUB', 
-                'https://drive.google.com/file/d/1tccUd9QizapxJ0l0h7nmfeMeh8uW4u3x/view?usp=drivesdk', 'ARITH_ENGLISH_LINK', 
-                'ADV_HINDI_LINK', 'ADV_ENGLISH_LINK')">
-                <i class="fa-solid fa-arrow-down"></i>
-            </div>
-        </div>
-
-        <div class="book-card">
-            <div style="position:relative;"><img src="logo.png" class="subject-img"><div class="yt-badge"><i class="fa-solid fa-play"></i></div></div>
-            <div class="book-info"><span class="teacher-name">BY ABHINAY PRATAP</span><span class="book-name">PRAKRAM FOUNDATION <span class="class-tag">KVS||NVS </span></span></div>
-            <div class="dl-trigger" onclick="openSubjectMenu('ADVANCED', '5SUB', 
-                'MATH_HINDI_LINK', 'MATH_ENGLISH_LINK', 
-                'PHYS_HINDI_LINK', 'PHYS_ENGLISH_LINK', 
-                'CHEM_HINDI_LINK', 'CHEM_ENGLISH_LINK', 
-                'ENG_HINDI_LINK', 'ENG_ENGLISH_LINK', 
-                'HIN_HINDI_LINK', 'HIN_ENGLISH_LINK')">
-                <i class="fa-solid fa-arrow-down"></i>
-            </div>
-        </div>
-
-    </div>
+<div class="ticker-wrap">
+    <div class="ticker">WELCOME TO EXAMEDGE ONLINE • NOTES HUB BY ABHINAY CHAUBEY (MATHS MYSTIC) • ALL PREMIUM BATCH NOTES AVAILABLE •</div>
 </div>
 
-<div class="modal-overlay" id="downloadModal"><div class="modal-content" id="modalContent"></div></div>
+<div class="hub-container">
+    <div class="main-header">EXAMEDGE PREMIUM NOTES</div>
+    <div class="book-grid">
 
+        <!-- LAKSHYA FOUNDATION -->
+        <div class="book-card">
+            <div class="image-wrapper"><img src="logo.png" class="subject-img" alt="Logo"><div class="yt-badge"><i class="fa-solid fa-play"></i></div></div>
+            <div class="book-info">
+                <span class="teacher-name">BY <span>MATHS MYSTIC</span> & TEAM</span>
+                <span class="book-name">LAKSHYA FOUNDATION BATCH</span>
+                <div><span class="class-tag"><i class="fa-solid fa-graduation-cap"></i> CLASS 10TH</span></div>
+            </div>
+            <div class="dl-trigger" onclick="openSubjectMenu('LAKSHYA FOUNDATION BATCH', '5SUB')">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+        </div>
+
+        <!-- SANKALP FOUNDATION -->
+        <div class="book-card">
+            <div class="image-wrapper"><img src="logo.png" class="subject-img" alt="Logo"><div class="yt-badge"><i class="fa-solid fa-play"></i></div></div>
+            <div class="book-info">
+                <span class="teacher-name">BY <span>MATHS MYSTIC</span> & TEAM</span>
+                <span class="book-name">SANKALP FOUNDATION BATCH</span>
+                <div><span class="class-tag"><i class="fa-solid fa-graduation-cap"></i> CLASS 9TH</span></div>
+            </div>
+            <div class="dl-trigger" onclick="openSubjectMenu('SANKALP FOUNDATION BATCH', '5SUB')">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+        </div>
+                <!-- MATHS SPECIAL -->
+        <div class="book-card">
+            <div class="image-wrapper"><img src="abhi.png" class="subject-img" alt="Abhinay Chaubey"><div class="yt-badge"><i class="fa-solid fa-play"></i></div></div>
+            <div class="book-info">
+                <span class="teacher-name">BY <span>ABHINAY CHAUBEY</span></span>
+                <span class="book-name">MATHEMATICS SPECIAL</span>
+                <div><span class="class-tag"><i class="fa-solid fa-square-root-variable"></i> CLASS 9-10TH</span></div>
+            </div>
+            <div class="dl-trigger" onclick="openSubjectMenu('MATHEMATICS SPECIAL', '2SUB')">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+        </div>
+
+        <!-- PRAKRAM FOUNDATION -->
+        <div class="book-card">
+            <div class="image-wrapper"><img src="logo.png" class="subject-img" alt="Logo"><div class="yt-badge"><i class="fa-solid fa-play"></i></div></div>
+            <div class="book-info">
+                <span class="teacher-name">BY <span>MATHS MYSTIC</span></span>
+                <span class="book-name">PRAKRAM FOUNDATION</span>
+                <div><span class="class-tag"><i class="fa-solid fa-building-columns"></i> KVS || NVS</span></div>
+            </div>
+            <div class="dl-trigger" onclick="openSubjectMenu('PRAKRAM FOUNDATION', '5SUB')">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+        </div>
+
+        <!-- HIGH COURT SPECIAL BATCH -->
+        <div class="book-card">
+            <div class="image-wrapper"><img src="logo.png" class="subject-img" alt="Logo"><div class="yt-badge"><i class="fa-solid fa-scale-balanced"></i></div></div>
+            <div class="book-info">
+                <span class="teacher-name">BY <span>MATHS MYSTIC</span> & TEAM</span>
+                <span class="book-name">HIGH COURT SPECIAL</span>
+                <div><span class="class-tag"><i class="fa-solid fa-gavel"></i> RO/ARO & GROUP C/D</span></div>
+            </div>
+            <div class="dl-trigger" onclick="openSubjectMenu('HIGH COURT SPECIAL', '5SUB')">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+        </div>
+
+    </div> <!-- End of book-grid -->
+</div> <!-- End of hub-container -->
+
+<!-- Modal Box For Chapters -->
+<div class="modal-overlay" id="downloadModal">
+    <div class="modal-content" id="modalContent"></div>
+</div>
 <script>
-    let batchData = {};
+    // =========================================================
+    // 📚 MEGA DATABASE: YAHAN APNE LINKS PASTE KAREIN
+    // =========================================================
+    
+    const batchDatabase = {
+        
+        // --- 1. LAKSHYA FOUNDATION BATCH ---
+        "LAKSHYA FOUNDATION BATCH": {
+            "MATHS": [
+                { name: "CH 1: REAL NUMBERS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: POLYNOMIALS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: LINEAR EQUATIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: QUADRATIC EQUATIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: ARITHMETIC PROGRESSION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: TRIANGLES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: COORDINATE GEOMETRY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: TRIGONOMETRY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: CIRCLES & AREAS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: STATISTICS & PROBABILITY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "PHYSICS": [
+                { name: "CH 1: LIGHT - REFLECTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: LIGHT - REFRACTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: HUMAN EYE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: COLORFUL WORLD", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: ELECTRICITY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: HEATING EFFECT OF CURRENT", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: MAGNETIC EFFECTS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: ELECTROMAGNETIC INDUCTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: SOURCES OF ENERGY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: MODERN PHYSICS INTRO", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "CHEMISTRY": [
+                { name: "CH 1: CHEMICAL REACTIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: ACIDS, BASES & SALTS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: METALS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: NON-METALS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: CARBON & ITS COMPOUNDS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: PERIODIC CLASSIFICATION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: ORGANIC CHEMISTRY BASICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: ENVIRONMENTAL CHEMISTRY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: INDUSTRIAL CHEMISTRY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: PRACTICAL EXPERIMENTS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "ENGLISH": [
+                { name: "CH 1: NOUNS & PRONOUNS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: VERBS & TENSES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: ADJECTIVES & ADVERBS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: PREPOSITIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: CONJUNCTIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: ACTIVE & PASSIVE VOICE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: DIRECT & INDIRECT SPEECH", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: COMPREHENSION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: LETTER & ESSAY WRITING", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: VOCABULARY & IDIOMS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "HINDI": [
+                { name: "CH 1: SANGYA & SARVANAM", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: VISESHAN & KRIYA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: LING & VACHAN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: KAARAK & KAAL", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: SANDHI", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: SAMAAS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: UPSARG & PRATYAY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: RAS, CHHAND, ALANKAR", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: VAKYA SHUDDHI", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: PATRA & NIBANDH LEKHAN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ]
+        },
 
-    function openSubjectMenu(batch, type, ...links) {
-        batchData = { batch, type, links };
-        renderSubjects();
-        document.getElementById('downloadModal').style.display = 'flex';
-    }
+        // --- 2. SANKALP FOUNDATION BATCH ---
+        "SANKALP FOUNDATION BATCH": {
+            "MATHS": [
+                { name: "CH 1: NUMBER SYSTEM", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: ALGEBRA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: GEOMETRY INTRO", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: LINES & ANGLES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: TRIANGLES (CONGRUENCE)", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: QUADRILATERALS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: CIRCLES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: MENSURATION (SURFACE AREA)", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: MENSURATION (VOLUME)", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: STATISTICS & DATA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "PHYSICS": [
+                { name: "CH 1: MOTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: FORCE & LAWS OF MOTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: GRAVITATION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: FLOTATION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: WORK & ENERGY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: POWER", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: SOUND - PROPAGATION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: SOUND - REFLECTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: WAVE MOTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: PRACTICAL EXPERIMENTS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "CHEMISTRY": [
+                { name: "CH 1: MATTER IN OUR SURROUNDINGS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: IS MATTER AROUND US PURE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: ATOMS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: MOLECULES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: STRUCTURE OF ATOM", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: CHEMICAL FORMULAE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: MOLE CONCEPT", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: MIXTURES & SOLUTIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: SEPARATION TECHNIQUES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: PHYSICAL & CHEMICAL CHANGES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "ENGLISH": [
+                { name: "CH 1: PARTS OF SPEECH", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: ARTICLES & DETERMINERS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: TENSES (PRESENT & PAST)", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: TENSES (FUTURE)", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: MODALS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: SUBJECT-VERB AGREEMENT", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: CLAUSES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: READING SKILLS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: STORY WRITING", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: ERROR SPOTTING", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "HINDI": [
+                { name: "CH 1: VARNAMALA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: SHABD VICHAR", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: VAKYA VICHAR", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: PARYAYVACHI SHABD", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: VILOM SHABD", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: MUHAVARE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: LOKOKTIYAN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: GADHYANSH", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: PADHYANSH", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: ANUCHHED LEKHAN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ]
+        },
+                // --- 3. MATHEMATICS SPECIAL ---
+        "MATHEMATICS SPECIAL": {
+            "ARITHMETIC": [
+                { name: "📑: SYLLABUS", hiLink: "https://drive.google.com/file/d/1CaJYIsRspcMGq13Ua_zsOipMDIITqm4W/view?usp=drivesdk", enLink: "https://drive.google.com/file/d/1CaJYIsRspcMGq13Ua_zsOipMDIITqm4W/view?usp=drivesdk" },
+                { name: "CH 1: PERCENTAGE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: PROFIT & LOSS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: DISCOUNT", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: SIMPLE INTEREST", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: COMPOUND INTEREST", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: RATIO & PROPORTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: TIME & WORK", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: PIPE & CISTERN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: TIME, SPEED & DISTANCE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: AVERAGE & MIXTURE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "ADVANCED": [
+                { name: "CH 1: NUMBER SYSTEM & ALGEBRA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: TRIGONOMETRY (BASICS)", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: HEIGHT & DISTANCE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: GEOMETRY - LINES & ANGLES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: GEOMETRY - TRIANGLES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: GEOMETRY - CIRCLES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: MENSURATION 2D", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: MENSURATION 3D", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: COORDINATE GEOMETRY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: DATA INTERPRETATION (DI)", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ]
+        },
 
-    function renderSubjects() {
-        let content = `<div class="modal-title">${batchData.batch} - SELECT SUBJECT</div>`;
-        if (batchData.type === '2SUB') {
+        // --- 4. PRAKRAM FOUNDATION ---
+        "PRAKRAM FOUNDATION": {
+            "MATHS": [
+                { name: "CH 1: NUMBER OPERATIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: FRACTIONS & DECIMALS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: LINEAR EQUATIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: EXPONENTS & POWERS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: COMMERCIAL MATHS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: GEOMETRY FUNDAMENTALS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: SYMMETRY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: MENSURATION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: DATA HANDLING", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: LOGICAL REASONING", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "PHYSICS": [
+                { name: "CH 1: MEASUREMENT & UNITS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: KINEMATICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: DYNAMICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: HEAT & TEMPERATURE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: LIGHT & OPTICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: SOUND & OSCILLATIONS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: ELECTRIC CURRENT", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: MAGNETISM", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: UNIVERSE & PLANETS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: ELECTRONICS BASICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "CHEMISTRY": [
+                { name: "CH 1: STATES OF MATTER", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: ELEMENTS & COMPOUNDS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: ATOMIC STRUCTURE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: CHEMICAL BONDING", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: CHEMICAL KINETICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: THERMODYNAMICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: METALLURGY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: POLYMERS & PLASTICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: CHEMISTRY IN DAILY LIFE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: POLLUTION & ENVIRONMENT", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "ENGLISH": [
+                { name: "CH 1: BASIC GRAMMAR", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: SENTENCE STRUCTURE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: VOCABULARY BUILDING", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: SYNONYMS & ANTONYMS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: ONE WORD SUBSTITUTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: SPELLING RULES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: IDIOMS & PHRASES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: FILL IN THE BLANKS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: CLOZE TEST", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: COMPREHENSION PASSAGE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "HINDI": [
+                { name: "CH 1: VYAKARAN PARICHAY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: SHABD RACHNA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: VAKYA RACHNA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: SHABDAWALI", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: ANEKARTHI SHABD", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: SAMRUPI BHINARTHAK", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: MUHAVARE & LOKOKTIYAN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: KAVI & LEKHAK", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: RACHNAYEIN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: PATHIT GADHYANSH", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ]
+        },
+
+        // --- 5. HIGH COURT SPECIAL ---
+        "HIGH COURT SPECIAL": {
+            "MATHS": [
+                { name: "CH 1: NUMBER SYSTEM", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: HCF & LCM", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: SIMPLIFICATION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: PERCENTAGE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: PROFIT & LOSS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: SIMPLE & COMPOUND INTEREST", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: TIME & WORK", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: TIME, SPEED & DISTANCE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: MENSURATION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: DATA INTERPRETATION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "ENGLISH": [
+                { name: "CH 1: PARTS OF SPEECH", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: TENSES & ARTICLES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: SUBJECT-VERB AGREEMENT", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: ACTIVE & PASSIVE VOICE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: DIRECT & INDIRECT SPEECH", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: SYNONYMS & ANTONYMS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: IDIOMS & PHRASES", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: ERROR DETECTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: CLOZE TEST", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: COMPREHENSION PASSAGE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "HINDI": [
+                { name: "CH 1: HINDI VARNAMALA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: SANDHI VICHHED", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: SAMAAS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: UPSARG WA PRATYAY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: PARYAYVACHI WA VILOM", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: MUHAVARE WA LOKOKTIYAN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: VAKYASHUDDHI", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: TATSAM WA TADBHAV", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: ANEKARTHI SHABD", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: GADHYANSH WA RACHNAYEIN", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "GS_GK": [
+                { name: "CH 1: INDIAN HISTORY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: INDIAN NATIONAL MOVEMENT", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: GEOGRAPHY OF INDIA", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: INDIAN POLITY & CONSTITUTION", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: INDIAN ECONOMY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: UP SPECIAL GK 1", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: UP SPECIAL GK 2", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: CURRENT AFFAIRS 1", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: CURRENT AFFAIRS 2", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: STATIC GK", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ],
+            "COMPUTER": [
+                { name: "CH 1: COMPUTER BASICS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 2: HARDWARE & SOFTWARE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 3: MEMORY & STORAGE", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 4: OPERATING SYSTEMS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 5: MS WORD", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 6: MS EXCEL", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 7: INTERNET & NETWORKING", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 8: CYBER SECURITY", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 9: ABBREVIATIONS & SHORTCUTS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" },
+                { name: "CH 10: MISCELLANEOUS", hiLink: "YAHAN_HINDI_LINK_DALEIN", enLink: "YAHAN_ENGLISH_LINK_DALEIN" }
+            ]
+        }
+    };
+        // ==========================================
+    // ⚙️ LOGIC & FUNCTIONS (ISE MAT CHEDEIYGA)
+    // ==========================================
+    let currentBatch = "";
+    let currentBatchType = "";
+    let currentSubject = "";
+
+    function getModalContent() { return document.getElementById('modalContent'); }
+    function getModalOverlay() { return document.getElementById('downloadModal'); }
+
+    // 1. Open Subject List
+    function openSubjectMenu(batch, type) {
+        currentBatch = batch;
+        currentBatchType = type;
+        let mContent = getModalContent();
+        let mOverlay = getModalOverlay();
+        
+        let content = `<div class="modal-title" style="color:var(--primary); font-size:18px;">${batch}</div>
+                       <div style="font-size:11px;color:var(--text-muted);margin-bottom:15px;letter-spacing:1px;">SELECT SUBJECT</div>
+                       <div class="scrollable-list">`;
+        
+        if (type === '2SUB') {
             content += `
-                <div class="opt-btn" onclick="openMediumMenu('ARITHMETIC', 0, 1)"><i class="fa-solid fa-calculator"></i> ARITHMETIC MATHS</div>
-                <div class="opt-btn" onclick="openMediumMenu('ADVANCED', 2, 3)"><i class="fa-solid fa-chart-line"></i> ADVANCED MATHS</div>
+                <div class="opt-btn" onclick="openChapterMenu('ARITHMETIC')"><i class="fa-solid fa-calculator"></i> <span style="flex-grow:1; text-align:center;">ARITHMETIC MATHS</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('ADVANCED')"><i class="fa-solid fa-chart-line"></i> <span style="flex-grow:1; text-align:center;">ADVANCED MATHS</span></div>
+            `;
+        } else if (batch === 'HIGH COURT SPECIAL') {
+            content += `
+                <div class="opt-btn" onclick="openChapterMenu('MATHS')"><i class="fa-solid fa-calculator"></i> <span style="flex-grow:1; text-align:center;">MATHEMATICS</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('ENGLISH')"><i class="fa-solid fa-book-open"></i> <span style="flex-grow:1; text-align:center;">ENGLISH</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('HINDI')"><i class="fa-solid fa-pen-nib"></i> <span style="flex-grow:1; text-align:center;">HINDI</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('GS_GK')"><i class="fa-solid fa-globe"></i> <span style="flex-grow:1; text-align:center;">GS & UP GK</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('COMPUTER')"><i class="fa-solid fa-desktop"></i> <span style="flex-grow:1; text-align:center;">COMPUTER</span></div>
             `;
         } else {
             content += `
-                <div class="opt-btn" onclick="openMediumMenu('MATHS', 0, 1)"><i class="fa-solid fa-calculator"></i> MATHS</div>
-                <div class="opt-btn" onclick="openMediumMenu('PHYSICS', 2, 3)"><i class="fa-solid fa-atom"></i> PHYSICS</div>
-                <div class="opt-btn" onclick="openMediumMenu('CHEMISTRY', 4, 5)"><i class="fa-solid fa-flask"></i> CHEMISTRY</div>
-                <div class="opt-btn" onclick="openMediumMenu('ENGLISH', 6, 7)"><i class="fa-solid fa-book-open"></i> ENGLISH</div>
-                <div class="opt-btn" onclick="openMediumMenu('HINDI', 8, 9)"><i class="fa-solid fa-pen-nib"></i> HINDI</div>
+                <div class="opt-btn" onclick="openChapterMenu('MATHS')"><i class="fa-solid fa-calculator"></i> <span style="flex-grow:1; text-align:center;">MATHEMATICS</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('PHYSICS')"><i class="fa-solid fa-atom"></i> <span style="flex-grow:1; text-align:center;">PHYSICS</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('CHEMISTRY')"><i class="fa-solid fa-flask"></i> <span style="flex-grow:1; text-align:center;">CHEMISTRY</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('ENGLISH')"><i class="fa-solid fa-book-open"></i> <span style="flex-grow:1; text-align:center;">ENGLISH</span></div>
+                <div class="opt-btn" onclick="openChapterMenu('HINDI')"><i class="fa-solid fa-pen-nib"></i> <span style="flex-grow:1; text-align:center;">HINDI</span></div>
             `;
         }
-        content += `<div class="close-btn" onclick="closeMenu()">DISMISS [X]</div>`;
-        document.getElementById('modalContent').innerHTML = content;
+        content += `</div><div class="close-btn" onclick="closeMenu()"><i class="fa-solid fa-power-off"></i> CLOSE MENU</div>`;
+        
+        mContent.innerHTML = content;
+        mOverlay.style.display = 'flex';
+        setTimeout(() => mOverlay.classList.add('active'), 10);
     }
 
-    function openMediumMenu(subject, hIndex, eIndex) {
-        let hLink = batchData.links[hIndex], eLink = batchData.links[eIndex];
-        let content = `
-            <div style="color:var(--primary);cursor:pointer;font-size:10px;margin-bottom:15px;font-weight:800;" onclick="renderSubjects()">← BACK TO SUBJECTS</div>
-            <div class="modal-title">SUBJECT- ${subject}</div>
-            <div class="opt-btn" onclick="startDownload('${hLink}')"><i class="fa-solid fa-language"></i> HINDI MEDIUM</div>
-            <div class="opt-btn" onclick="startDownload('${eLink}')"><i class="fa-solid fa-globe"></i> ENGLISH MEDIUM</div>
-            <div class="close-btn" onclick="closeMenu()">DISMISS [X]</div>
-        `;
-        document.getElementById('modalContent').innerHTML = content;
+    // 2. Open Chapter List
+    function openChapterMenu(subject) {
+        currentSubject = subject;
+        let mContent = getModalContent();
+
+        let content = `<div class="nav-back" onclick="openSubjectMenu('${currentBatch}', '${currentBatchType}')"><i class="fa-solid fa-circle-left"></i> BACK TO SUBJECTS</div>`;
+        content += `<div class="modal-title" style="color:white; font-size:16px;">${subject} <span style="color:var(--primary)">NOTES</span></div>`;
+        
+        content += `<div class="scrollable-list">`;
+        
+        let chapters = [];
+        if(batchDatabase[currentBatch] && batchDatabase[currentBatch][subject]) {
+            chapters = batchDatabase[currentBatch][subject];
+        }
+
+        if(chapters.length === 0) {
+            content += `<div style="color:var(--text-muted); padding: 20px; font-size: 11px;">⚠️ Chapters updating soon...</div>`;
+        } else {
+            chapters.forEach((chap, index) => {
+                content += `<div class="opt-btn" onclick="openMediumMenu(${index})"><i class="fa-solid fa-file-pdf"></i> ${chap.name}</div>`;
+            });
+        }
+        
+        content += `</div>`;
+        mContent.innerHTML = content;
     }
 
+    // 3. Beautiful Medium Selection Menu
+    function openMediumMenu(chapterIndex) {
+        let chapter = batchDatabase[currentBatch][currentSubject][chapterIndex];
+        let mContent = getModalContent();
+        
+        let content = `<div class="nav-back" onclick="openChapterMenu('${currentSubject}')"><i class="fa-solid fa-circle-left"></i> BACK TO CHAPTERS</div>`;
+        
+        content += `<div style="margin: 20px 0;">
+                        <div style="font-size:14px; font-weight:900; color:white; margin-bottom:5px;">${chapter.name}</div>
+                        <div style="font-size:11px; color:var(--primary); font-weight:800; letter-spacing:1px;">CHOOSE YOUR MEDIUM</div>
+                    </div>`;
+        
+        content += `<div class="medium-grid">
+                        <div class="medium-card" onclick="startDownload('${chapter.hiLink}')">
+                            <i class="fa-solid fa-language"></i>
+                            <span>HINDI<br>MEDIUM</span>
+                        </div>
+                        <div class="medium-card" onclick="startDownload('${chapter.enLink}')">
+                            <i class="fa-solid fa-earth-americas"></i>
+                            <span>ENGLISH<br>MEDIUM</span>
+                        </div>
+                    </div>`;
+        
+        mContent.innerHTML = content;
+    }
+
+    // 4. Download Process Setup
     function startDownload(url) {
-        if (!url || url === '#' || url.includes('_LINK')) { showToast(); return; }
+        if (!url || url === 'YAHAN_HINDI_LINK_DALEIN' || url === 'YAHAN_ENGLISH_LINK_DALEIN') { showToast(); return; }
         closeMenu();
-        let loader = document.getElementById('loader-screen'), pBar = document.getElementById('p-bar'), pText = document.getElementById('p-text');
+        let loader = document.getElementById('loader-screen');
+        let pBar = document.getElementById('p-bar');
+        let pText = document.getElementById('p-text');
+        
         loader.style.display = 'flex';
         let width = 0;
         let interval = setInterval(() => {
             if (width >= 100) {
                 clearInterval(interval);
-                setTimeout(() => { loader.style.display = 'none'; window.open(url, '_blank'); width = 0; pBar.style.width = '0%'; }, 500);
+                setTimeout(() => { 
+                    loader.style.display = 'none'; 
+                    window.open(url, '_blank'); 
+                    width = 0; pBar.style.width = '0%'; pText.innerText = '0%';
+                }, 600);
             } else {
-                width += Math.floor(Math.random() * 8) + 2;
+                width += Math.floor(Math.random() * 15) + 5;
                 if(width > 100) width = 100;
                 pBar.style.width = width + '%';
                 pText.innerText = width + '%';
@@ -199,8 +681,20 @@
         }, 100);
     }
 
-    function showToast() { let t = document.getElementById('alert-box'); t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000); }
-    function closeMenu() { document.getElementById('downloadModal').style.display = 'none'; }
+    function showToast() { 
+        let t = document.getElementById('alert-box'); 
+        t.style.display = 'block'; 
+        setTimeout(() => {
+            t.style.animation = 'slideUp 0.4s reverse forwards';
+            setTimeout(() => { t.style.display = 'none'; t.style.animation = 'slideDown 0.4s'; }, 350);
+        }, 2500); 
+    }
+    
+    function closeMenu() { 
+        let mOverlay = getModalOverlay();
+        mOverlay.classList.remove('active');
+        setTimeout(() => { mOverlay.style.display = 'none'; document.getElementById('modalContent').innerHTML='';}, 300);
+    }
 </script>
 
 </body>
