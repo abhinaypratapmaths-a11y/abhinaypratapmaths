@@ -611,17 +611,18 @@
             }
         }, 5000); // 5000ms = 5 seconds wait time
         
-        // --- NEW 10 MINUTE BANNER TIMER ---
-        const tenMinutes = 10 * 60 * 1000; // 10 minutes in milliseconds
-        setInterval(() => {
-            const timedModal = document.getElementById('timedBannerModal');
-            if(timedModal) {
-                timedModal.style.display = 'flex';
-                setTimeout(() => {
-                    timedModal.style.opacity = '1';
-                }, 10);
-            }
-        }, tenMinutes);
+        // --- NEW 2 MINUTE BANNER TIMER ---
+const twoMinutes = 2 * 60 * 1000; // 2 minutes in milliseconds
+setInterval(() => {
+    const timedModal = document.getElementById('timedBannerModal');
+    if(timedModal) {
+        timedModal.style.display = 'flex';
+        setTimeout(() => {
+            timedModal.style.opacity = '1';
+        }, 10);
+    }
+}, twoMinutes);
+
     });
 
     // Close Timed Banner Function
