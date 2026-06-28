@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AP MATHEMATICS | WARRIOR PORTAL</title>
+    <title>EXAMEDGE ONLINE | AP MATHEMATICS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -20,8 +20,9 @@
     }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; text-decoration: none !important; -webkit-tap-highlight-color: transparent; }
-    /* Padding bottom added so content doesn't hide behind the new bottom nav */
-    body { background: var(--navy); color: var(--text); overflow-x: hidden; width: 100%; padding-bottom: 75px; }
+    
+    /* Padding bottom 80px kar diya taaki bottom nav content ko na chhupaye */
+    body { background: var(--navy); color: var(--text); overflow-x: hidden; width: 100%; padding-bottom: 80px; }
 
     /* SPLASH SCREEN */
     #splash { position: fixed; inset: 0; background: radial-gradient(circle, var(--navy) 0%, var(--navy-dark) 100%); display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 9999; }
@@ -30,7 +31,10 @@
     .splash-circle img { width: 100%; height: 100%; object-fit: cover; }
     @keyframes splashZoomOut { 0% { transform: scale(1.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     .orbit-track { position: absolute; width: 260px; height: 260px; border-radius: 50%; border: 2px dashed rgba(255, 204, 0, 0.3); animation: spinOrbit 8s linear infinite; z-index: 3; }
-    .orbit-item { position: absolute; width: 50px; height: 50px; background: #1e293b; border-radius: 50%; border: 3px solid var(--primary); overflow: hidden; box-shadow: 0 0 15px rgba(255,0,0,0.5); animation: counterSpin 8s linear infinite; }
+    
+    /* YAHAN BORDER AUR SHADOW KO WHITE KIYA GAYA HAI */
+    .orbit-item { position: absolute; width: 50px; height: 50px; background: #1e293b; border-radius: 50%; border: 3px solid #ffffff; overflow: hidden; box-shadow: 0 0 15px rgba(255,255,255,0.5); animation: counterSpin 8s linear infinite; }
+    
     .orbit-item img { width: 100%; height: 100%; object-fit: cover; }
     .item-top { top: -25px; left: 105px; } .item-bottom { bottom: -25px; left: 105px; } .item-left { left: -25px; top: 105px; } .item-right { right: -25px; top: 105px; }
     @keyframes spinOrbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -40,7 +44,7 @@
     #main { display: none; opacity: 0; transition: 1s ease; }
 
     /* TOPBAR */
-    .topbar { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(15, 23, 42, 0.98); display: flex; align-items: center; padding: 0 20px; z-index: 2000; border-bottom: 2px solid var(--primary); transition: 0.3s; }
+    .topbar { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(15, 23, 42, 0.98); display: flex; align-items: center; padding: 0 20px; z-index: 2000; border-bottom: 2px solid var(--primary); transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
     .menu-btn { font-size: 24px; color: var(--primary); cursor: pointer; transition: 0.2s; }
     .header-logo { width: 45px; height: 45px; background: #fff; border-radius: 50%; margin-left: auto; overflow: hidden; border: 2px solid #fff; cursor: pointer; }
     #headerToast { position: fixed; top: 85px; right: -400px; background: #fff; color: #000; padding: 15px 25px; border-radius: 12px; font-weight: 800; z-index: 9999; border-left: 6px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 13px; transition: 0.5s; }
@@ -58,8 +62,9 @@
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; z-index: 2500; backdrop-filter: blur(5px); }
 
     /* CONTENT */
-    .content { margin-top: 85px; padding: 15px; max-width: 650px; margin-left: auto; margin-right: auto; padding-bottom: 5px; }
-    .slider-box { position: relative; border-radius: 15px; overflow: hidden; width: 100%; aspect-ratio: 800 / 400; border: 2px solid rgba(255,255,255,0.1); touch-action: pan-x; }
+    .content { margin-top: 85px; padding: 15px; max-width: 650px; margin-left: auto; margin-right: auto; padding-bottom: 25px; }
+
+    .slider-box { position: relative; border-radius: 15px; overflow: hidden; width: 100%; aspect-ratio: 800 / 400; border: 2px solid rgba(255,255,255,0.1); touch-action: pan-x; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .banner-track { display: flex; transition: 0.5s; height: 100%; }
     .banner-track a { flex-shrink: 0; width: 100%; height: 100%; display: block; }
     .banner-track a img { width: 100%; height: 100%; object-fit: fill; }
@@ -68,84 +73,122 @@
     .dot.active { background: var(--dot-blue); width: 30px; border-radius: 6px; }
 
     /* CARDS */
-    .card { background: var(--card-bg); border-radius: 15px; overflow: hidden; margin-top: 15px; border: 2px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+    .card { background: var(--card-bg); border-radius: 15px; overflow: hidden; margin-top: 25px; border: 2px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: transform 0.3s; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(255, 204, 0, 0.2); }
     .card-img-box { width: 100%; aspect-ratio: 800 / 400; overflow: hidden; }
     .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
-    .card-body { padding: 18px; }
-    .card-body h3 { font-size: 19px; font-weight: 800; color: #fff; }
-    .btn-group { display: flex; gap: 10px; margin-top: 15px; }
-    .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: white; text-align: center; font-size: 13px; transition: 0.3s;}
+    .card-body { padding: 20px; }
+    .card-body h3 { font-size: 19px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+    .card-body p { color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: none;}
+    .btn-group { display: flex; gap: 12px; margin-top: 18px; }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; color: white; text-align: center; font-size: 13px; transition: 0.3s; letter-spacing: 0.5px;}
     .btn:active { transform: scale(0.95); }
-    .btn-f { background: var(--btn-blue); }
-    .btn-e { background: var(--primary); }
+    .btn-f { background: var(--btn-blue); box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3); }
+    .btn-e { background: var(--primary); box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); }
 
     /* --- SECTION TITLES --- */
-    .section-title { text-align: center; font-size: 18px; font-weight: 800; color: var(--gold); margin: 35px 0 15px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-    .section-subtitle { text-align: center; font-size: 12px; color: #cbd5e1; margin-top: -10px; margin-bottom: 20px; font-weight: 600; }
+    .section-title { text-align: center; font-size: 22px; font-weight: 800; color: var(--gold); margin: 45px 0 10px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); letter-spacing: 1px; }
+    .section-subtitle { text-align: center; font-size: 13px; color: #94a3b8; margin-bottom: 25px; font-weight: 600; letter-spacing: 0.5px; }
 
-    /* --- STUDENT REVIEWS SECTION --- */
-    .reviews-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; }
-    .reviews-container::-webkit-scrollbar { height: 5px; }
-    .reviews-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
-    .reviews-container::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
-    .review-card { min-width: 280px; max-width: 280px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; scroll-snap-align: start; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-left: 4px solid var(--primary); display: flex; flex-direction: column; justify-content: space-between; }
-    .review-stars { color: var(--gold); font-size: 14px; margin-bottom: 10px; }
-    .review-text { font-size: 13px; color: #e2e8f0; text-transform: none; line-height: 1.5; font-style: italic; margin-bottom: 15px; }
-    .review-user { display: flex; align-items: center; gap: 10px; }
-    .review-avatar { width: 35px; height: 35px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
-    .review-name { font-size: 13px; font-weight: 700; color: #fff; }
-    .review-batch { font-size: 10px; color: var(--gold); }
+    /* --- ENHANCED STUDENT REVIEWS SECTION --- */
+    .reviews-container { display: flex; gap: 20px; overflow-x: auto; padding: 10px 10px 25px 10px; scroll-snap-type: x mandatory; }
+    .reviews-container::-webkit-scrollbar { height: 6px; }
+    .reviews-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+    .reviews-container::-webkit-scrollbar-thumb { background: linear-gradient(90deg, var(--primary), var(--gold)); border-radius: 10px; }
+    
+    .review-card { 
+        min-width: 320px; 
+        max-width: 320px; 
+        background: linear-gradient(145deg, #1e293b, #0f172a); 
+        border: 1px solid rgba(255,255,255,0.05); 
+        padding: 25px; 
+        border-radius: 20px; 
+        scroll-snap-align: start; 
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4); 
+        border-top: 4px solid var(--primary); 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: space-between; 
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .review-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(255, 0, 0, 0.2);
+        border-color: var(--gold);
+    }
+    .review-quote-icon {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 45px;
+        color: rgba(255, 204, 0, 0.08);
+        z-index: 0;
+    }
+    .review-stars { color: var(--gold); font-size: 15px; margin-bottom: 15px; position: relative; z-index: 1; }
+    .review-text { font-size: 14px; color: #e2e8f0; text-transform: none; line-height: 1.6; font-style: italic; margin-bottom: 20px; position: relative; z-index: 1; }
+    .review-user { display: flex; align-items: center; gap: 15px; position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+    .review-avatar { width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary), #ff2e63); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(255,0,0,0.3); }
+    .review-name { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.5px;}
+    .review-batch { font-size: 11px; color: var(--gold); font-weight: 700; margin-top: 3px; }
 
     /* --- SLIM SCROLLABLE + AUTO-PLAY RIBBON --- */
-    .marquee-wrapper { width: 100%; overflow-x: auto; background: #070b14; padding: 12px 0; border-top: 1px solid rgba(255,204,0,0.3); border-bottom: 1px solid rgba(255,204,0,0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.8); scroll-behavior: auto; -webkit-overflow-scrolling: touch; cursor: grab; }
+    .marquee-wrapper { width: 100%; overflow-x: auto; background: #070b14; padding: 15px 0; border-top: 1px solid rgba(255,204,0,0.3); border-bottom: 1px solid rgba(255,204,0,0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.8); scroll-behavior: auto; -webkit-overflow-scrolling: touch; cursor: grab; margin-top: 20px; }
     .marquee-wrapper:active { cursor: grabbing; }
     .marquee-wrapper::-webkit-scrollbar { display: none; }
     .marquee-track { display: inline-flex; width: max-content; padding-left: 10px; }
-    .marquee-item { height: 65px; margin-right: 15px; border-radius: 8px; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); transition: 0.3s; flex-shrink: 0; }
-    .marquee-item:hover { border-color: var(--gold); transform: scale(1.05); }
-    .marquee-item img { height: 100%; width: auto; object-fit: cover; border-radius: 6px; }
+    .marquee-item { height: 75px; margin-right: 18px; border-radius: 10px; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); transition: 0.3s; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    .marquee-item:hover { border-color: var(--gold); transform: scale(1.08); z-index: 2; position: relative;}
+    .marquee-item img { height: 100%; width: auto; object-fit: cover; border-radius: 8px; }
 
     /* TICKER */
-    .news-ticker { width: 100%; background: rgba(0,0,0,0.8); padding: 14px 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--gold); margin-top: 25px; margin-bottom: 20px;}
-    .news-ticker p { display: inline-block; padding-left: 100%; font-size: 14px; font-weight: 800; color: var(--gold); animation: ticker 25s linear infinite; }
+    .news-ticker { width: 100%; background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(15,23,42,0.9), rgba(0,0,0,0.9)); padding: 16px 0; overflow: hidden; white-space: nowrap; border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); margin-top: 25px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
+    .news-ticker p { display: inline-block; padding-left: 100%; font-size: 15px; font-weight: 800; color: var(--gold); letter-spacing: 1px; animation: ticker 25s linear infinite; }
     @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
     /* FOOTER */
-    .footer { background: var(--navy-dark); padding: 25px 10px 40px; text-align: center; }
-    .social-icons { display: flex; justify-content: center; gap: 30px; margin-bottom: 15px; }
-    .social-icons a { font-size: 22px; color: #64748b; transition: 0.3s; }
-    .social-icons a:hover { color: #fff; transform: translateY(-3px); }
-    .footer-branding { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.2); letter-spacing: 1px; }
+    .footer { background: var(--navy-dark); padding: 30px 15px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px;}
+    .footer-branding { font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.4); letter-spacing: 2px; }
 
     /* MODALS & CHAT */
-    .chat-modal, .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 15px; }
-    .chat-box { background: #fff; color: #000; width: 100%; max-width: 400px; height: 500px; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 2px solid var(--gold); }
-    .chat-head { background: var(--navy); color: #fff; padding: 15px; font-weight: 800; display: flex; justify-content: space-between; }
-    .chat-body { flex: 1; padding: 15px; overflow-y: auto; background: #f1f5f9; display: flex; flex-direction: column; gap: 10px; }
-    .chat-msg { padding: 10px 15px; border-radius: 12px; max-width: 80%; font-size: 14px; text-transform: none; }
-    .ai-msg { background: #e2e8f0; align-self: flex-start; }
-    .user-msg { background: #2563eb; color: #fff; align-self: flex-end; }
-    .chat-foot { padding: 12px; display: flex; gap: 10px; background: #fff; border-top: 1px solid #ddd; }
-    .chat-foot input { flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 20px; outline: none; text-transform: none; }
+    .chat-modal, .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 15px; backdrop-filter: blur(5px); }
+    .chat-box { background: #fff; color: #000; width: 100%; max-width: 400px; height: 500px; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 2px solid var(--gold); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .chat-head { background: var(--navy); color: #fff; padding: 18px; font-weight: 800; display: flex; justify-content: space-between; font-size: 15px; letter-spacing: 1px;}
+    .chat-body { flex: 1; padding: 15px; overflow-y: auto; background: #f1f5f9; display: flex; flex-direction: column; gap: 12px; }
+    .chat-msg { padding: 12px 18px; border-radius: 15px; max-width: 80%; font-size: 14px; text-transform: none; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .ai-msg { background: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 2px; }
+    .user-msg { background: #2563eb; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+    .chat-foot { padding: 15px; display: flex; gap: 10px; background: #fff; border-top: 1px solid #ddd; }
+    .chat-foot input { flex: 1; border: 2px solid #e2e8f0; padding: 12px 15px; border-radius: 25px; outline: none; text-transform: none; font-size: 14px; transition: 0.3s; }
+    .chat-foot input:focus { border-color: #2563eb; }
 
-    /* FLOATING BUTTONS (Shifted up to not overlap with bottom nav) */
-    .fab-group { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 4000; }
-    .fab { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
-    .fab-call { background: var(--pink-call); }
-    .fab-wa { background: #25d366; }
+    /* FIX: FLOATING CONTACT BUTTONS */
+    .fab-group { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 6000; }
+    .fab { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; transition: transform 0.3s; text-decoration: none; }
+    .fab:hover { transform: scale(1.1); }
+    .fab-call { background: linear-gradient(135deg, #0061ff, #60efff); box-shadow: 0 4px 15px rgba(0, 97, 255, 0.4); }
+    .fab-wa { background: linear-gradient(135deg, #25d366, #128c7e); box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); animation: pulseWa 2s infinite; }
+    
+    @keyframes pulseWa {
+        0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+        70% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
 
-    .modal-content { background: #1e293b; width: 100%; max-width: 400px; padding: 20px; border-radius: 20px; border: 2px solid var(--gold); }
-    .feat-line { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; }
+    .modal-content { background: #1e293b; width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; border: 2px solid var(--gold); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+    .feat-line { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; font-weight: 600; color: #f8fafc; }
+    .feat-line i { font-size: 18px; }
 
     /* URL NOT AVAILABLE TOAST */
-    #urlToast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0; background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; padding: 25px 35px; border-radius: 20px; font-weight: 800; font-size: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); z-index: 100000; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center; gap: 12px; width: 85%; max-width: 320px; }
+    #urlToast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0; background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; padding: 30px 35px; border-radius: 20px; font-weight: 800; font-size: 18px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); z-index: 100000; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center; gap: 15px; width: 85%; max-width: 320px; }
     #urlToast.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    #urlToast .icon-box { width: 60px; height: 60px; background: rgba(255,0,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
-    #urlToast i { font-size: 30px; color: var(--primary); animation: shake 0.5s ease-in-out infinite alternate; }
-    @keyframes shake { 0% { transform: translateX(-3px) rotate(-5deg); } 100% { transform: translateX(3px) rotate(5deg); } }
+    #urlToast .icon-box { width: 70px; height: 70px; background: rgba(255,0,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; border: 2px solid rgba(255,0,0,0.2); }
+    #urlToast i { font-size: 35px; color: var(--primary); animation: shake 0.5s ease-in-out infinite alternate; }
+    @keyframes shake { 0% { transform: translateX(-4px) rotate(-5deg); } 100% { transform: translateX(4px) rotate(5deg); } }
 
     /* ========================================== */
-    /* NAYA: BOTTOM NAVIGATION BAR APP STYLE      */
+    /* BOTTOM NAVIGATION BAR APP STYLE      */
     /* ========================================== */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: rgba(15, 23, 42, 0.98); border-top: 2px solid var(--primary); display: flex; justify-content: space-around; align-items: center; z-index: 5000; box-shadow: 0 -5px 20px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
     .bottom-nav a { color: #64748b; text-align: center; font-size: 10px; font-weight: 800; display: flex; flex-direction: column; gap: 5px; flex: 1; transition: 0.3s; padding: 5px 0; }
@@ -175,7 +218,7 @@
 <div id="main">
     <div class="topbar" id="navbar">
         <div class="menu-btn" id="menuBtn" onclick="openSidebar()"><i class="fas fa-bars-staggered"></i></div>
-        <div style="font-weight: 800; font-size: 17px; margin-left: 15px; letter-spacing: 1px;">EXAMEDGE ONLINE</div>
+        <div style="font-weight: 800; font-size: 18px; margin-left: 15px; letter-spacing: 1px;">EXAMEDGE ONLINE</div>
         <div class="header-logo" onclick="toggleToast()"><img src="logo.png" style="width:100%" onerror="this.style.display='none'"></div>
     </div>
 
@@ -190,7 +233,7 @@
         <a href="student.html"><i class="fas fa-user-graduate"></i>STUDENT PANEL</a>
         <a href="ent.html"><i class="fas fa-pen-nib"></i>ENTRENCE TEST</a>
         <a href=""><i class="fas fa-shield-alt"></i>AP TRUST</a> 
-        <a href="mer.html"><i class="fas fa-book-open"></i>Notes</a>
+        <a href="mer.html"><i class="fas fa-book-open"></i>NOTES</a>
         <a href="r.html"><i class="fas fa-trophy"></i>OUR RESULT</a>
         <a href="s.html"><i class="fas fa-share-alt"></i>SOCIAL LINKS</a>
         <a href="live.html"><i class="fas fa-video"></i>LECTURE</a>
@@ -204,6 +247,7 @@
     </div>
 
     <div class="content">
+
         <!-- TOP BANNER SLIDER -->
         <div class="slider-box" id="bannerBox">
             <div class="banner-track" id="bannerTrack">
@@ -235,7 +279,7 @@
         
         <div class="card">
             <div class="card-img-box"><img src="p.png" onerror="this.src='https://via.placeholder.com/800x400/1e293b/ffcc00?text=Prakram+Batch'"></div>
-            <div class="card-body"><h3>Prakram Foundation Batch</h3><p>!!पराक्रम की पहचान  सिलेक्शन की भरमार!!</p>
+            <div class="card-body"><h3>PRAKRAM FOUNDATION BATCH</h3><p>!!पराक्रम की पहचान  सिलेक्शन की भरमार!!</p>
                 <div class="btn-group">
                     <button class="btn btn-f" onclick="showFeats('ENTRENCE')">FEATURES</button>
                     <a href="student.html" class="btn btn-e">ENROLL NOW</a>
@@ -272,13 +316,44 @@
                 </div>
             </div>
         </div>
+        
+        <div class="card">
+            <div class="card-img-box"><img src="pbatch.png" onerror="this.src='https://via.placeholder.com/800x400/1e293b/ffcc00?text=Physics+Batch'"></div>
+            <div class="card-body"><h3>PHYSICS SPECIAL BATCH</h3><p>भौतिक विज्ञान के हर कांसेप्ट पर मजबूत पकड़</p>
+                <div class="btn-group">
+                    <button class="btn btn-f" onclick="showFeats('PHYSICS')">FEATURES</button>
+                    <a href="student.html" class="btn btn-e">ENROLL NOW</a>
+                </div>
+            </div>
+        </div>
 
-        <!-- REVIEWS -->
+        <div class="card">
+            <div class="card-img-box"><img src="chbatch.png" onerror="this.src='https://via.placeholder.com/800x400/1e293b/ffcc00?text=Chemistry+Batch'"></div>
+            <div class="card-body"><h3>CHEMISTRY SPECIAL BATCH</h3><p>रसायन विज्ञान अब और भी आसान</p>
+                <div class="btn-group">
+                    <button class="btn btn-f" onclick="showFeats('CHEMISTRY')">FEATURES</button>
+                    <a href="student.html" class="btn btn-e">ENROLL NOW</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img-box"><img src="batch.png" onerror="this.src='https://via.placeholder.com/800x400/1e293b/ffcc00?text=English+Batch'"></div>
+            <div class="card-body"><h3>ENGLISH MASTERY BATCH</h3><p>"अंग्रेजी का डर अब खत्म"</p>
+                <div class="btn-group">
+                    <button class="btn btn-f" onclick="showFeats('ENGLISH')">FEATURES</button>
+                    <a href="student.html" class="btn btn-e">ENROLL NOW</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ENHANCED REVIEWS SECTION -->
         <h2 class="section-title">STUDENT FEEDBACK</h2>
-        <p class="section-subtitle">What our selected students say</p>
+        <p class="section-subtitle">What our selected students say about AP Mathematics</p>
 
         <div class="reviews-container">
             <div class="review-card">
+                <i class="fas fa-quote-right review-quote-icon"></i>
                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <div class="review-text">"Abhinay Sir ki wajah se UP Board mein maths ka darr khatam ho gaya. 100/100 ki tyaari yahin se hogi!"</div>
                 <div class="review-user">
@@ -290,6 +365,7 @@
                 </div>
             </div>
             <div class="review-card">
+                <i class="fas fa-quote-right review-quote-icon"></i>
                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
                 <div class="review-text">"board level tak ka foundation bhaiya bahut mast clear karte hain. mini tests ne bahut help ki hai."</div>
                 <div class="review-user">
@@ -301,6 +377,7 @@
                 </div>
             </div>
             <div class="review-card">
+                <i class="fas fa-quote-right review-quote-icon"></i>
                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <div class="review-text">"Live chat aur doubt classes bilkul offline coaching jaisa feel deti hain. Notes ekdum top class hain."</div>
                 <div class="review-user">
@@ -312,6 +389,7 @@
                 </div>
             </div>
             <div class="review-card">
+                <i class="fas fa-quote-right review-quote-icon"></i>
                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <div class="review-text">"Maths Mystic Abhinay Sir ki speed tricks exam mein bahut time bachati hain. Arithmetic ab halwa lagta hai!"</div>
                 <div class="review-user">
@@ -323,6 +401,7 @@
                 </div>
             </div>
             <div class="review-card">
+                <i class="fas fa-quote-right review-quote-icon"></i>
                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <div class="review-text">"Maths ke sath Bholu Sir ka GS batch bhi bahut badhiya hai. Content ekdum UP exams oriented hai."</div>
                 <div class="review-user">
@@ -334,6 +413,7 @@
                 </div>
             </div>
             <div class="review-card">
+                <i class="fas fa-quote-right review-quote-icon"></i>
                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
                 <div class="review-text">"Class 10th board ke liye best platform. Sir ka padhane ka style sabse alag aur best hai. Excellent App!"</div>
                 <div class="review-user">
@@ -345,6 +425,7 @@
                 </div>
             </div>
             <div class="review-card">
+                <i class="fas fa-quote-right review-quote-icon"></i>
                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <div class="review-text">"Homework PDF aur Sunday tests se preparation daily track hoti hai. Thank you AP Maths Team!"</div>
                 <div class="review-user">
@@ -356,6 +437,7 @@
                 </div>
             </div>
             <div class="review-card">
+                <i class="fas fa-quote-right review-quote-icon"></i>
                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <div class="review-text">"Railway aur SSC exams ke liye best batch. Formula mastery class se bahut confidence aaya."</div>
                 <div class="review-user">
@@ -363,28 +445,6 @@
                     <div>
                         <div class="review-name">Sneha Chaurasia</div>
                         <div class="review-batch">PRAKRAM FOUNDATION BATCH</div>
-                    </div>
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-                <div class="review-text">"Zero to Hero series sach mein zero se hero banati hai. Basic se advance tak sab samajh aata hai."</div>
-                <div class="review-user">
-                    <div class="review-avatar">D</div>
-                    <div>
-                        <div class="review-name">Deepak Mishra</div>
-                        <div class="review-batch">MATHEMATICS FOUNDATION</div>
-                    </div>
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <div class="review-text">"Sir bahut patience ke sath padhate hain. Jo bacche maths mein weak hain, unhe zaroor join karna chahiye."</div>
-                <div class="review-user">
-                    <div class="review-avatar">P</div>
-                    <div>
-                        <div class="review-name">Pooja Patel</div>
-                        <div class="review-batch">LAKSHYA FOUNDATION BATCH</div>
                     </div>
                 </div>
             </div>
@@ -422,22 +482,16 @@
     </div>
 
     <div class="news-ticker">
-        <p>NAYA LAKSHYA BATCH SHURU HO CHUKA HAI... ADMIT CARDS FOR BOARDS ARE OUT... JOIN EXAMEDGE ONLINE FOR 100/100 MISSION! LEARN MATHS LIKE A WARRIOR BY ABHINAY PRATAP SIR!</p>
+        <p>!!NAYA LAKSHYA BATCH SHURU HO CHUKA HAI... ADMIT CARDS FOR BOARDS ARE OUT... JOIN EXAMEDGE ONLINE FOR 100/100 MISSION! LEARN MATHS LIKE A WARRIOR BY ABHINAY PRATAP!!</p>
     </div>
 
     <footer class="footer">
-        <div class="social-icons">
-            <a href="https://www.youtube.com/@abhinaypratapmaths" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://t.me/abhinaypratapmaths" target="_blank"><i class="fab fa-telegram"></i></a>
-            <a href="https://www.instagram.com/abhinaypratapmaths" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://whatsapp.com/channel/0029VbDNYxp72WTvUU6uut0u" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        </div>
-        <div class="footer-branding">© EXAMEDGE ONLINE 2026 BY AP MATHEMATICS</div>
+        <div class="footer-branding">EXAMEDGE ONLINE @ 2026 BY ABHINAY CHAUBEY</div>
     </footer>
 </div>
 
 <!-- ========================================== -->
-<!-- NAYA: APP STYLE BOTTOM NAVIGATION BAR      -->
+<!-- BOTTOM NAVIGATION BAR APP STYLE      -->
 <!-- ========================================== -->
 <div class="bottom-nav">
     <a href="tr.html">
@@ -466,25 +520,26 @@
 <div id="urlToast">
     <div class="icon-box"><i class="fas fa-link-slash"></i></div>
     <span>LINK NOT AVAILABLE!</span>
-    <span style="font-size: 11px; color: #94a3b8; font-weight: 600;">Link abhi active nahi hai. Kripya baad mein try karein.</span>
+    <span style="font-size: 13px; color: #cbd5e1; font-weight: 600; margin-top: -5px;">Link abhi active nahi hai. Kripya baad mein try karein.</span>
 </div>
 
 <div class="chat-modal" id="chatWin">
     <div class="chat-box">
-        <div class="chat-head"><span>EXAMEDGE ONLINE AI</span><i class="fas fa-times" onclick="toggleChat()" style="cursor:pointer"></i></div>
+        <div class="chat-head"><span>EXAMEDGE ONLINE AI</span><i class="fas fa-times" onclick="toggleChat()" style="cursor:pointer; font-size:18px;"></i></div>
         <div class="chat-body" id="chatBody"><div class="chat-msg ai-msg">Hi! I'm your assistant. How can I help you today?</div></div>
-        <div class="chat-foot"><input type="text" id="chatInput" placeholder="Sawal likhein..."><button onclick="sendMsg()" style="color:#1d4ed8; font-weight:800; border:none; background:none; cursor:pointer;">SEND</button></div>
+        <div class="chat-foot"><input type="text" id="chatInput" placeholder="Sawal likhein..."><button onclick="sendMsg()" style="color:#1d4ed8; font-weight:800; border:none; background:none; cursor:pointer; font-size:15px;">SEND</button></div>
     </div>
 </div>
 
 <div class="modal" id="featModal">
     <div class="modal-content">
-        <h2 id="modalTitle" style="color:var(--gold); margin-bottom:15px; text-align:center; font-size:17px;"></h2>
+        <h2 id="modalTitle" style="color:var(--gold); margin-bottom:20px; text-align:center; font-size:18px; letter-spacing: 1px;"></h2>
         <div id="modalBody"></div>
-        <button class="btn btn-e" style="width:100%; margin-top:20px;" onclick="closeFeats()">CLOSE</button>
+        <button class="btn btn-e" style="width:100%; margin-top:25px; font-size:15px; padding: 14px;" onclick="closeFeats()">CLOSE</button>
     </div>
 </div>
 
+<!-- FIX: FLOATING CONTACT BUTTONS (WITH PULSE EFFECT) -->
 <div class="fab-group">
     <a href="tel:9670078465" class="fab fab-call"><i class="fas fa-phone"></i></a>
     <a href="https://wa.me/919670078465" class="fab fab-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -492,7 +547,7 @@
 
 <!-- FIXED JAVASCRIPT SYSTEM -->
 <script>
-    // Startup System (1.5 Seconds delay for splash screen)
+    // FIX: Startup System (5 Seconds delay for splash screen)
     window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             const splash = document.getElementById('splash');
@@ -503,9 +558,9 @@
                     splash.style.display = 'none'; 
                     main.style.display = 'block'; 
                     setTimeout(() => main.style.opacity = '1', 50); 
-                }, 500);
+                }, 500); // 500ms for smooth fade out
             }
-        }, 1500);
+        }, 5000); // 5000ms = 5 seconds wait time
     });
 
     // Empty Link Error Handler 
@@ -595,13 +650,16 @@
         i.value = "";
     }
     
-    // Batch Features Modals
+    // Batch Features Modals Updated
     const courseFeatures = {
         'SANKALP': ["9th Math Foundation", "Weekly Homework PDF", "Live Doubt Groups", "NCERT Solutions", "Bilingual Concepts", "Video Backup", "Progress Track", "Personal Mentor", "Board Strategy", "Sunday Tests"],
         'ENTRENCE': ["FOR KVS NVS", "10 Years PYQs", "Full Mock Tests", "Formula Mastery", "Faculty Direct Access", "Last Minute Notes", "Step Marking", "Time Mastery", "Question Bank", "Parent Meet"],
         'LAKSHYA': ["10TH", "10 Years PYQs", "Full Mock Tests", "Formula Mastery", "Faculty Direct Access", "Last Minute Notes", "Step Marking", "Time Mastery", "Question Bank", "Parent Meet"],
         'SPECIAL': ["Arithmetic Mastery", "Speed Math Tricks", "Competitive PYQs", "Zero to Hero Series", "1 Year Validity", "DPP Daily", "Digital Notes", "Sunday Doubts", "Topic Backups", "Shortcut MCQ"],
-        'GS': ["Complete History", "Indian Polity", "Geography & Maps", "Economics Basics", "Current Affairs", "Science & Tech", "PYQ Analysis", "Weekly Mock Tests", "PDF Notes", "Live Doubts"]
+        'GS': ["Complete History", "Indian Polity", "Geography & Maps", "Economics Basics", "Current Affairs", "Science & Tech", "PYQ Analysis", "Weekly Mock Tests", "PDF Notes", "Live Doubts"],
+        'PHYSICS': ["Kinematics & Dynamics", "Electrostatics Focus", "Live Experiments Video", "Numerical Solvers", "NCERT Line by Line", "Formula Sheet PDF", "Doubt Sessions", "Previous Year Papers", "Weekly Mock Tests", "1 Year Validity"],
+        'CHEMISTRY': ["Organic Reactions", "Inorganic Concepts", "Physical Chem Numericals", "Periodic Table Tricks", "NCERT Based", "Live Doubt Classes", "Digital Notes", "Daily Practice Paper", "PYQ Series", "Board Strategy"],
+        'ENGLISH': ["Grammar Rules", "Vocab Building", "Comprehension", "Daily Quiz", "Error Detection", "Previous Year Papers", "Digital Notes", "Live Classes", "Doubt Group", "Mock Mock Tests"]
     };
 
     function showFeats(batch) {
